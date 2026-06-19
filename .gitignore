@@ -1,0 +1,24 @@
+# MkDocs build output (site/, plus any site_* verification builds)
+site/
+site*/
+.cache/
+
+# Python
+__pycache__/
+*.pyc
+
+# Screenshot pipeline secrets
+scripts/.env
+
+# Local-only WIP navigation (never deployed)
+mkdocs.local.yml
+
+# Archived content (retired lessons/exercises) — never deployed
+Archive/
+
+# Knowledge base must NEVER be published. It lives outside this repo
+# (../knowledge-base). This entry is a safety net in case a copy ends up here.
+knowledge-base/
+
+# OS
+.DS_Store
