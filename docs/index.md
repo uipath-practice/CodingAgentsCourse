@@ -15,12 +15,13 @@ The course has two parts:
 
 **Part 2 · Agentic Orchestration** — build Coded Apps, then orchestrate agents and apps into Maestro solutions: Case Management, BPMN, and Flow.
 
-!!! info "Coming soon"
-    Lessons are being authored. Published exercises will appear in the navigation as they're released.
+[**Getting Started with Coding Agents**](getting-started/index.md) — Install the `uip` CLI and UiPath skills, explore the CLI, then build and publish your first agent with Claude Code.
+
+More exercises are being authored and will appear here as they are released.
 
 ## Key concepts
 
-- **Coding agent** — an AI assistant (e.g., Claude Code) that builds UiPath components from your instructions, using the `uip` CLI and UiPath skills.
+- **Coding agent** — an AI assistant (e.g., Claude Code) that builds UiPath components from your instructions, using the `uip` CLI and UiPath skills. UiPath is the automation platform that coding agents operate natively.
 - **`uip` CLI** — the command-line interface coding agents use to talk to the UiPath platform.
 - **UiPath skills** — curated instruction packs that teach a coding agent how to build UiPath automations correctly.
 - **Maestro** — UiPath's orchestration platform for coordinating humans, robots, and AI agents across long-running processes.

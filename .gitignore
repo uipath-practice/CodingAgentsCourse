@@ -20,5 +20,10 @@ Archive/
 # (../knowledge-base). This entry is a safety net in case a copy ends up here.
 knowledge-base/
 
+# Stray zip-build artifacts (delete locally; the sandbox mount couldn't remove them)
+**/_pack/
+**/exercise-pack.zip
+**/assets/zidU8Ip3
+
 # OS
 .DS_Store

@@ -2,32 +2,33 @@
 
 !!! tip "Congratulations!"
 
-    You've set up the UiPath CLI and skills, and you've driven the platform from your terminal.
+    You've set up the UiPath CLI and skills, driven the platform from your terminal, and built and published your first agent.
 
 ## What you built
 
-You have a working coding-agent environment: the `uip` CLI authenticated to your tenant, the UiPath skills loaded into Claude Code, and a feel for the commands the agent will use on your behalf.
+You have a working coding-agent environment — the `uip` CLI authenticated to your tenant and the UiPath skills loaded into your agent — and you've completed the full **build → publish → run** loop once with a simple Claims Eligibility agent.
 
 | Component | Role |
 |-----------|------|
 | **UiPath CLI** (`uip`) | The interface your coding agent uses to talk to the platform |
 | **UiPath skills** | Instruction packs that teach the agent when and how to use the CLI |
 | **docsai** | Answers UiPath questions from the terminal, grounded in the docs |
+| **Your first agent** | A low-code agent you generated, published, and ran in Studio Web |
 
 ## Next steps
 
 ### 1. Keep your setup current
 
-During preview, skills and tools change often. Refresh them now and then:
+During preview, skills and tools change often, probably daily. Refresh them now and then:
 
 ```bash
 uip skills update --agent claude
 uip tools update
 ```
 
-### 2. Build your first agent
+### 2. Build a real agent
 
-With the environment ready, you're set to build. In the next exercise you'll create your first low-code agent and watch the coding agent scaffold it end to end.
+You've done the loop once with a simple agent. In the next exercise you'll build a richer one — adding context and tools so the agent can reason over grounded data and take real actions.
 
 ## Keep iterating
 

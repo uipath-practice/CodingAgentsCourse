@@ -28,8 +28,9 @@ The overview page is the entry point for an exercise. It should be short and sca
 # Title                           ← Exercise name (noun phrase)
 **Headline**                      ← One sentence: what the learner builds
 ## Overview                       ← 2–3 sentences + platform features used
+Prerequisites callout             ← Standard info admonition (omit if no setup needed)
 Step table                        ← Table with links to each lesson
-Training environment callout      ← Standard tip admonition
+Training environment callout      ← Standard tip admonition (always use macros)
 ```
 
 ### Content rules
@@ -51,6 +52,13 @@ Training environment callout      ← Standard tip admonition
 
 Two to three sentences about the business process and what platform features are used. Bold platform names on first appearance: **Agent Builder**, **Maestro**, **IXP** (Intelligent eXtraction & Processing), **Action Center**.
 
+!!! info "Before you begin: prerequisites"
+    Have these ready **before** the session:
+
+    - **Prerequisite one** — brief explanation.
+    - **Prerequisite two** — brief explanation.
+    - **A UiPath Cloud account**. In this workshop we will use: `{{ training_url }}/{{ training_tenant }}`. Talk to your trainer if you are not invited.
+
 | Step | Focus |
 | ---: | :--- |
 | [**Lesson One Title**](1-verb-noun.md) | Brief description of what the learner does |
@@ -58,7 +66,7 @@ Two to three sentences about the business process and what platform features are
 | [**Lesson Three Title**](3-verb-noun.md) | Brief description |
 
 !!! tip "Training Environment"
-    Log in at **[cloud.uipath.com/tpenlabs](https://cloud.uipath.com/tpenlabs)** and remember using tenant **AgenticPractice** for this exercise.
+    Log in at **[{{ training_url }}]({{ training_url }})** and remember using tenant **{{ training_tenant }}** for this exercise.
 ````
 
 ### Real example (Invoice Matching with IXP)
@@ -81,7 +89,7 @@ Two to three sentences about the business process and what platform features are
 | [**Configure API Integration**](5-configure-api.md) | Send rejection emails and store approved invoices for payment processing |
 
 !!! tip "Training Environment"
-    Log in at **[cloud.uipath.com/tpenlabs](https://cloud.uipath.com/tpenlabs)** and remember using tenant **AgenticPractice** for this exercise.
+    Log in at **[{{ training_url }}]({{ training_url }})** and remember using tenant **{{ training_tenant }}** for this exercise.
 ````
 
 ---

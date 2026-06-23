@@ -346,14 +346,52 @@ Use `???` instead of `!!!` for content that is optional to read:
     Collapsible content here — learner clicks to expand.
 ```
 
+### Collapsible blocks with complex nested markdown
+
+When collapsible content includes nested code blocks or other deeply indented markdown (e.g., a sample agent transcript with fenced code inside), use the HTML `<details>` element with the `markdown="1"` attribute instead of `???`. The `md_in_html` extension (enabled in `mkdocs.yml`) processes markdown inside it correctly:
+
+```markdown
+<details markdown="1">
+<summary>Here is what the output will look like</summary>
+
+Regular markdown here, including:
+
+```bash
+uip agent validate my-agent --output json
+```
+
+And bullet lists, bold text, etc.
+
+</details>
+```
+
+Use `???` for simple collapsible text. Use `<details markdown="1">` when the content contains fenced code blocks — nested fences inside `???` require 4-space indentation on every line, which breaks syntax highlighting.
+
 ### Standard training environment callout
 
-Use this exact text in exercise overview pages:
+Use this exact text in exercise overview pages. Always use macros — never hardcode URLs or tenant names:
 
 ```markdown
 !!! tip "Training Environment"
-    Log in at **[cloud.uipath.com/tpenlabs](https://cloud.uipath.com/tpenlabs)** and remember using tenant **AgenticPractice** for this exercise.
+    Log in at **[{{ training_url }}]({{ training_url }})** and remember using tenant **{{ training_tenant }}** for this exercise.
 ```
+
+Values resolve from the `COURSE_ENV` environment variable via `main.py`. Author with `COURSE_ENV=staging`; CI deploys with `COURSE_ENV=prod`.
+
+### Standard prerequisites callout
+
+Use this pattern at the top of setup or first-exercise overview pages, between the `## Overview` text and the step table:
+
+```markdown
+!!! info "Before you begin: prerequisites"
+    Have these ready **before** the session:
+
+    - **Prerequisite one** — brief explanation.
+    - **Prerequisite two** — brief explanation.
+    - **A UiPath Cloud account**. In this workshop we will use: `{{ training_url }}/{{ training_tenant }}`. Talk to your trainer if you are not invited.
+```
+
+Omit this callout for exercises where no setup is needed before starting.
 
 ### Admonitions inside content
 
