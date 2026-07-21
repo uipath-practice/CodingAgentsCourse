@@ -65,6 +65,16 @@ nav:
     - 2. Practicing the CLI: getting-started/2-practice-the-cli.md
     - 3. Build Your First Agent: getting-started/3-build-your-first-agent.md
     - You did it!: getting-started/you-did-it.md
+  - Loan Application Underwriting:
+    - What's a Coding Agent?: loan-application-underwriting/what-is-a-coding-agent.md
+    - Overview: loan-application-underwriting/index.md
+    - Installation Guides: loan-application-underwriting/installation-guides.md
+    - Install UiPath Skills: loan-application-underwriting/install-skills.md
+    - 1. AI Underwriting Assessment: loan-application-underwriting/1-underwriting-agent.md
+    - 2. Loan Officer Review Dashboard: loan-application-underwriting/2-loan-officer-app.md
+    - 3. Orchestrating with Maestro Flow: loan-application-underwriting/3-maestro-flow.md
+    - 4. Application Intake & Enrichment: loan-application-underwriting/4-intake-enrichment.md
+    - You did it!: loan-application-underwriting/you-did-it.md
   - Next Steps: next-steps.md
 
 extra_css:
