@@ -121,7 +121,7 @@ uip codedapp deploy -n {yourname}loanofficerdashboard --folder-key <CodingAgents
 For example:
 
 ```bash
-uip codedapp deploy -n {yourname}loanofficerdashboard --folder-key 6a80fc2e-2d7e-41dd-b307-2752acab8690
+uip codedapp deploy -n {yourname}loanofficerdashboard --folder-key c30345cd-5543-46a9-b42b-0354e60b4f15
 ```
 
 To find the folder key for AgenticPractice:
