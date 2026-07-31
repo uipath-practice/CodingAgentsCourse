@@ -181,13 +181,13 @@ uip or packages upload /tmp/dist/{YourName}LoanUnderwritingProcess.flow.Flow.1.0
 Then create the process:
 
 ```bash
-uip or processes create --name "{YourName}LoanUnderwritingProcess" --package-key "{YourName}LoanUnderwritingProcess.flow.Flow" --package-version "1.0.0" --folder-key "6a80fc2e-2d7e-41dd-b307-2752acab8690" --output json
+uip or processes create --name "{YourName}LoanUnderwritingProcess" --package-key "{YourName}LoanUnderwritingProcess.flow.Flow" --package-version "1.0.0" --folder-key "c30345cd-5543-46a9-b42b-0354e60b4f15" --output json
 ```
 
 For example:
 
 ```bash
-uip or processes create --name "MadalinaLoanUnderwritingProcess" --package-key "MadalinaLoanUnderwritingProcess.flow.Flow" --package-version "1.0.0" --folder-key "6a80fc2e-2d7e-41dd-b307-2752acab8690" --output json
+uip or processes create --name "MadalinaLoanUnderwritingProcess" --package-key "MadalinaLoanUnderwritingProcess.flow.Flow" --package-version "1.0.0" --folder-key "c30345cd-5543-46a9-b42b-0354e60b4f15" --output json
 ```
 
 ## 6. Test the Full Flow
