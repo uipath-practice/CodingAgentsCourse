@@ -124,13 +124,13 @@ For example:
 uip codedapp deploy -n {yourname}loanofficerdashboard --folder-key c30345cd-5543-46a9-b42b-0354e60b4f15
 ```
 
-To find the folder key for AgenticPractice:
+To find the folder key for CodingAgentsILT:
 
 ```bash
 uip or folders list --output json
 ```
 
-Look for the entry where `Name` is `AgenticPractice` and copy its `Key` value.
+Look for the entry where `Name` is `CodingAgentsILT` and copy its `Key` value.
 
 The app is now live. In Lesson 3, Maestro pauses at the human review step and renders this app for the loan officer to complete.
 
