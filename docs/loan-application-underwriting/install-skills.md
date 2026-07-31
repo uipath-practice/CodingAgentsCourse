@@ -102,7 +102,7 @@ uip tools list
 ## 4. Authenticate with Your Tenant
 
 ```bash
-uip login --authority https://cloud.uipath.com --organization tpenlabs -t AgenticPractice
+uip login --authority https://cloud.uipath.com --organization tpenlabs -t CodingAgentsPractice
 ```
 
 ## 5. Open Your Project and Start a Session
