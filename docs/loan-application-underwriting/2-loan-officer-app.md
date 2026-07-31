@@ -115,7 +115,7 @@ The `-t Action` flag is required — it registers the app as a Coded Action App 
 ## 6. Deploy to Orchestrator
 
 ```bash
-uip codedapp deploy -n {yourname}loanofficerdashboard --folder-key <AgenticPractice-folder-key>
+uip codedapp deploy -n {yourname}loanofficerdashboard --folder-key <CodingAgentsILT-folder-key>
 ```
 
 For example:
