@@ -179,7 +179,7 @@ uip login tenant set CodingAgentsPractice --output json
   "Code": "TenantSet",
   "Data": {
     "Name": "CodingAgentsPractice",
-    "Id": "ef96660c-6e95-4f8f-b8b6-b1c42f06edf1"
+    "Id": "30231678-ca53-438f-8258-4ef8c6cfa266"
   }
 }
 ```
