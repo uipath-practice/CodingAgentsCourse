@@ -26,7 +26,7 @@ Build a UiPath Studio automation called {YourName}LoanApplicationDispatcher that
 3. If the application is accepted, writes a row to results.csv with loan_id
    (the quoteid from the response), status "Loan Submitted", and all applicant
    fields — then starts the flow process {YourName}LoanUnderwritingProcess in the
-   CodingAgentsPractice folder, passing loan_id, applicant_first_name, applicant_last_name,
+   CodingAgentsILT folder, passing loan_id, applicant_first_name, applicant_last_name,
    loan_amount, loan_term, and income as inputs. Once it completes,
    updates the status in results.csv to "Loan Approved" or "Loan Rejected"
    based on final_decision
@@ -35,7 +35,7 @@ Build a UiPath Studio automation called {YourName}LoanApplicationDispatcher that
 5. Wraps each row in a Try/Catch — on exception, writes a row to results.csv
    with empty loan_id, status "Failed", and the exception message
 6. After all rows are processed, uploads results.csv to the LoanUnderwriting
-   storage bucket in the CodingAgentsPractice folder in Orchestrator
+   storage bucket in the CodingAgentsILT folder in Orchestrator
 
 Create this as a cross-platform project (not Windows). Only generate the
 project files.
@@ -123,5 +123,5 @@ uip or packages upload "<working-folder>\Package\{YourName}LoanApplicationDispat
 Then create a process from the uploaded package:
 
 ```bash
-uip or processes create --folder-path "CodingAgentsPractice" --name "{YourName}LoanApplicationDispatcher" --package-key {YourName}LoanApplicationDispatcher --package-version 1.0.0
+uip or processes create --folder-path "CodingAgentsILT" --name "{YourName}LoanApplicationDispatcher" --package-key {YourName}LoanApplicationDispatcher --package-version 1.0.0
 ```
