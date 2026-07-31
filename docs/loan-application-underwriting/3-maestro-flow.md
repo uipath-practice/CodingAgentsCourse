@@ -19,13 +19,13 @@ Build a UiPath Flow process using the uipath-maestro-flow skill called
 
 1. Receive six inputs: loan_id, applicant_first_name, applicant_last_name,
    loan_amount, loan_term, income
-2. Call the agent {YourName}LoanUnderwritingAgent (in the CodingAgentsPractice
+2. Call the agent {YourName}LoanUnderwritingAgent (in the CodingAgentsILT
    folder), passing loan_id and storing the returned values as process
    variables: credit_score, risk_band, assessment_summary,
    monthly_repayment, debt_to_income_ratio, loan_to_market_ratio
 3. Auto-approve the application and end the process if risk_band is "Low"
 4. For Medium or High risk, open the app {yourname}loanofficerdashboard (in the
-   CodingAgentsPractice folder), passing all twelve inputs: LoanId,
+   CodingAgentsILT folder), passing all twelve inputs: LoanId,
    ApplicantFirstName, ApplicantLastName, LoanAmount, LoanTerm, YearlyIncome,
    CreditScore, RiskBand, AssessmentSummary, MonthlyRepayment,
    DebtToIncomeRatio, LoanToMarketRatio — and capturing officer_decision
@@ -150,7 +150,7 @@ For example:
 uip maestro flow pack "/path/to/{YourName}LoanUnderwritingProcess/{YourName}LoanUnderwritingProcess" /tmp/dist --version 1.0.0 --output json
 ```
 
-Upload the package to Orchestrator and create a process in the `CodingAgentsPractice` folder:
+Upload the package to Orchestrator and create a process in the `CodingAgentsILT` folder:
 
 ```bash
 uip or packages upload /tmp/dist/{YourName}LoanUnderwritingProcess.flow.Flow.1.0.0.nupkg --output json
