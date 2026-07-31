@@ -170,7 +170,7 @@ PackageVersion   | 2.11.14
 Set your tenant and verify you're logged in:
 
 ```bash
-uip login tenant set AgenticPractice --output json
+uip login tenant set CodingAgentsPractice --output json
 ```
 
 ```json
@@ -178,7 +178,7 @@ uip login tenant set AgenticPractice --output json
   "Result": "Success",
   "Code": "TenantSet",
   "Data": {
-    "Name": "AgenticPractice",
+    "Name": "CodingAgentsPractice",
     "Id": "ef96660c-6e95-4f8f-b8b6-b1c42f06edf1"
   }
 }
@@ -195,7 +195,7 @@ uip login status --output json
   "Data": {
     "Status": "Logged in",
     "Organization": "tpenlabs",
-    "Tenant": "AgenticPractice",
+    "Tenant": "CodingAgentsPractice",
     "Expiration Date": "2026-06-29T14:08:47.000Z"
   }
 }
