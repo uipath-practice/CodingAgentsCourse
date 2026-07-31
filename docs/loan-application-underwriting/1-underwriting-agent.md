@@ -279,7 +279,7 @@ Then create the process:
       --package-key "{YourName}LoanUnderwritingAgent" \
       --package-version "0.0.1" \
       --entry-point "agent" \
-      --folder-key "6a80fc2e-2d7e-41dd-b307-2752acab8690" \
+      --folder-key "c30345cd-5543-46a9-b42b-0354e60b4f15" \
       --output json
     ```
 
@@ -290,6 +290,6 @@ Then create the process:
       --package-key "{YourName}LoanUnderwritingAgent" `
       --package-version "0.0.1" `
       --entry-point "agent" `
-      --folder-key "6a80fc2e-2d7e-41dd-b307-2752acab8690" `
+      --folder-key "c30345cd-5543-46a9-b42b-0354e60b4f15" `
       --output json
     ```
