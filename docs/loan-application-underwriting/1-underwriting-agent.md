@@ -27,21 +27,20 @@ Include an eval set with 5 cases. The name of the agent should be {YourName}Loan
 
 Your coding agent reads the `uipath-agents` skill context and generates a complete agent project:
 
-- `main.py` — the agent entry point with the LangGraph graph definition
-- `tools.py` — the three tool functions
+- `main.py` — the agent entry point with the LangGraph graph definition (tools may be here or in a separate `tools.py`)
 - `pyproject.toml` — project configuration with `uipath-langgraph` dependency
 - `evals/` — a folder with 5 evaluation cases
 
 ## 3. Review the Generated Code
 
-Open the project in your IDE. You should see:
+Open the project in your IDE. Every coding agent generates slightly different code — the structure varies. What matters is that the essentials are there.
 
-- **`main.py`** — the agent entry point named `{YourName}LoanUnderwritingAgent`, with a `SYSTEM_PROMPT` instructing the LLM to interpret financial metrics holistically, a `create_react_agent` call, and a `run(...)` entry function
-- **`tools.py`** — three `@tool`-decorated functions:
-  - `verify_quote` — calls the UiBank API to confirm the quote exists and retrieve the applicant's financial profile
-  - `get_average_loan_amount` — calls the UiBank API and returns the average loan amount across all applications, used as a market benchmark
-  - `compute_financial_metrics` — pure Python calculation returning monthly repayment, DTI ratio, and loan-to-market-average ratio for the LLM to interpret
-- **`evals/`** — 5 test cases covering a range of risk profiles, used to validate the agent's scoring behaviour with `uipath eval`
+**What to look for:**
+
+- **Three `@tool`-decorated functions** — one each for `verify_quote`, `get_average_loan_amount`, and `compute_financial_metrics`. These may live in a separate `tools.py` or all inside `main.py` — either is fine.
+- **A system prompt** — a `SYSTEM_PROMPT` string instructing the LLM to interpret the financial metrics holistically and produce a credit score, risk band, and assessment summary.
+- **An agent entry point** — the agent may use `create_react_agent` with a `run(...)` function, or a different LangGraph pattern. As long as it wires the tools to the LLM and returns structured output, it will work.
+- **`evals/`** — 5 test cases covering a range of risk profiles, used to validate the agent's scoring behaviour with `uipath eval`.
 
 Check the system prompt. It should instruct the LLM to reason about the combination of metrics and produce a natural language explanation — not map thresholds to a fixed score. If the prompt is too mechanical, ask your coding agent:
 
