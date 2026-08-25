@@ -50,13 +50,6 @@ Open the project in your IDE. You should see:
 - **`action-schema.json`** — `inputs` section with `LoanId`, `CreditScore`, `RiskBand`, `AssessmentSummary`, and `outcomes` section with `Approve` and `Reject`
 - **`App.tsx`** — two-panel layout, progress bar for the credit score, colour-coded risk badge, inputs read directly from the action schema context
 
-Check that the risk badge colours match the bands. If anything looks off, ask your coding agent to fix it:
-
-```text
-The credit score progress bar doesn't change colour — make it green
-below 40, yellow between 40 and 70, and red above 70
-```
-
 ## 4. Run Locally
 
 !!! note
@@ -133,4 +126,8 @@ uip or folders list --output json
 Look for the entry where `Name` is `CodingAgentsILT` and copy its `Key` value.
 
 The app is now live. In Lesson 3, Maestro pauses at the human review step and renders this app for the loan officer to complete.
+
+### Verify the Deployment
+
+In **Orchestrator**, go to your **CodingAgentsILT** folder → **Apps**, and check that `{yourname}loanofficerdashboard` shows up there as successfully deployed.
 
