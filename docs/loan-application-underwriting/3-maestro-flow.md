@@ -85,7 +85,7 @@ Requirements:
 - loan_term represents years and must be one of: 1, 3, 5, or 10.
 - Map the record's yearly income to income.
 - Use applicant names from the record when available. If the API does not provide
-  applicant names, use the workshop-safe values Madalina and Popescu.
+  applicant names, use the workshop-safe values John and Doe.
 - Return exactly one valid JSON object.
 - Do not include Markdown, explanations, comments, or a PowerShell command.
 
@@ -106,8 +106,8 @@ Your coding agent should return something like:
 ```json
 {
   "loan_id": "6a4203a1f4865600481c657b",
-  "applicant_first_name": "Madalina",
-  "applicant_last_name": "Popescu",
+  "applicant_first_name": "John",
+  "applicant_last_name": "Doe",
   "loan_amount": 15000,
   "loan_term": 3,
   "income": 48000
@@ -116,83 +116,121 @@ Your coding agent should return something like:
 
 ## 5. Validate and Pack
 
-Validate the flow before packing:
+=== "Manually"
 
-```bash
-uip maestro flow validate {YourName}LoanUnderwritingProcess.flow
-```
+    Navigate to the parent folder of the generated `.flow` file:
 
-If you get a command not found error, the maestro tool may not be installed or on your PATH:
+    ```bash
+    cd "parent-folder-path/to/{YourName}LoanUnderwritingProcess"
+    ```
 
-```bash
-# 1. Install maestro-tool (only needed once)
-npm install -g @uipath/maestro-tool --prefix "$HOME/.npm-global"
+    Replace the path with the actual location on your machine.
 
-# 2. Add it to PATH (needed each new terminal, or add to ~/.zshrc permanently)
-export PATH="$HOME/.npm-global/bin:$PATH"
+    Validate the flow before packing:
 
-# To avoid step 2 every time, run this once:
-echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> ~/.zshrc
+    ```bash
+    uip maestro flow validate {YourName}LoanUnderwritingProcess.flow
+    ```
 
-# 3. Validate
-uip maestro flow validate {YourName}LoanUnderwritingProcess.flow
-```
+    If you get a command not found error, the maestro tool may not be installed or on your PATH:
 
-Fix any warnings, then pack:
+    ```bash
+    # 1. Install maestro-tool (only needed once)
+    npm install -g @uipath/maestro-tool --prefix "$HOME/.npm-global"
 
-```bash
-uip maestro flow pack "<path-to-your-flow-folder>/{YourName}LoanUnderwritingProcess" /tmp/dist --version 1.0.0 --output json
-```
+    # 2. Add it to PATH (needed each new terminal, or add to ~/.zshrc permanently)
+    export PATH="$HOME/.npm-global/bin:$PATH"
 
-For example:
+    # To avoid step 2 every time, run this once:
+    echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> ~/.zshrc
 
-```bash
-uip maestro flow pack "/path/to/{YourName}LoanUnderwritingProcess/{YourName}LoanUnderwritingProcess" /tmp/dist --version 1.0.0 --output json
-```
+    # 3. Validate
+    uip maestro flow validate {YourName}LoanUnderwritingProcess.flow
+    ```
 
-Upload the package to Orchestrator and create a process in the `CodingAgentsILT` folder:
+    Fix any warnings, then pack:
 
-```bash
-uip or packages upload /tmp/dist/{YourName}LoanUnderwritingProcess.flow.Flow.1.0.0.nupkg --output json
-```
+    ```bash
+    uip maestro flow pack "<path-to-your-flow-folder>/{YourName}LoanUnderwritingProcess" /tmp/dist --version 1.0.0 --output json
+    ```
 
-For example:
+    For example:
 
-```bash
-uip or packages upload /tmp/dist/MadalinaLoanUnderwritingProcess.flow.Flow.1.0.0.nupkg --output json
-```
+    ```bash
+    uip maestro flow pack "/path/to/{YourName}LoanUnderwritingProcess/{YourName}LoanUnderwritingProcess" /tmp/dist --version 1.0.0 --output json
+    ```
 
-If you get a command not found error, the maestro tool may not be installed or on your PATH:
+    Upload the package to Orchestrator and create a process in the `CodingAgentsILT` folder:
 
-```bash
-# 1. Install maestro-tool (only needed once)
-npm install -g @uipath/maestro-tool --prefix "$HOME/.npm-global"
+    ```bash
+    uip or packages upload /tmp/dist/{YourName}LoanUnderwritingProcess.flow.Flow.1.0.0.nupkg --output json
+    ```
 
-# 2. Add it to PATH (needed each new terminal, or add to ~/.zshrc permanently)
-export PATH="$HOME/.npm-global/bin:$PATH"
+    For example:
 
-# To avoid step 2 every time, run this once:
-echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> ~/.zshrc
+    ```bash
+    uip or packages upload /tmp/dist/MadalinaLoanUnderwritingProcess.flow.Flow.1.0.0.nupkg --output json
+    ```
 
-# 3. Retry the upload
-uip or packages upload /tmp/dist/{YourName}LoanUnderwritingProcess.flow.Flow.1.0.0.nupkg --output json
-```
+    If you get a command not found error, the maestro tool may not be installed or on your PATH:
 
-Then create the process:
+    ```bash
+    # 1. Install maestro-tool (only needed once)
+    npm install -g @uipath/maestro-tool --prefix "$HOME/.npm-global"
 
-```bash
-uip or processes create --name "{YourName}LoanUnderwritingProcess" --package-key "{YourName}LoanUnderwritingProcess.flow.Flow" --package-version "1.0.0" --folder-key "c30345cd-5543-46a9-b42b-0354e60b4f15" --output json
-```
+    # 2. Add it to PATH (needed each new terminal, or add to ~/.zshrc permanently)
+    export PATH="$HOME/.npm-global/bin:$PATH"
 
-For example:
+    # To avoid step 2 every time, run this once:
+    echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> ~/.zshrc
 
-```bash
-uip or processes create --name "MadalinaLoanUnderwritingProcess" --package-key "MadalinaLoanUnderwritingProcess.flow.Flow" --package-version "1.0.0" --folder-key "c30345cd-5543-46a9-b42b-0354e60b4f15" --output json
-```
+    # 3. Retry the upload
+    uip or packages upload /tmp/dist/{YourName}LoanUnderwritingProcess.flow.Flow.1.0.0.nupkg --output json
+    ```
+
+    Then create the process:
+
+    ```bash
+    uip or processes create --name "{YourName}LoanUnderwritingProcess" --package-key "{YourName}LoanUnderwritingProcess.flow.Flow" --package-version "1.0.0" --folder-key "c30345cd-5543-46a9-b42b-0354e60b4f15" --output json
+    ```
+
+    For example:
+
+    ```bash
+    uip or processes create --name "MadalinaLoanUnderwritingProcess" --package-key "MadalinaLoanUnderwritingProcess.flow.Flow" --package-version "1.0.0" --folder-key "c30345cd-5543-46a9-b42b-0354e60b4f15" --output json
+    ```
+
+=== "Using Your Coding Agent"
+
+    Give this prompt to your coding agent — it validates, publishes, and deploys the flow for you:
+
+    ```text
+    Publish and deploy the {YourName}LoanUnderwritingProcess Maestro flow I just built.
+
+    1. Find the generated .flow file and validate it, fixing any warnings it reports.
+    2. Publish it to Orchestrator, into the CodingAgentsILT folder
+       (folder-key c30345cd-5543-46a9-b42b-0354e60b4f15), as version 1.0.0.
+    3. Deploy it by creating a process from the published package in that same folder.
+    4. Report back the process key.
+    ```
 
 ## 6. Test the Full Flow
 
-Trigger the process from Orchestrator three times — once per applicant. Use the `loan_id` values from your verified test data as the process input:
+Trigger the process from Orchestrator three times — once per applicant below. Each `loan_id` is a real, verified record in UiBank (the agent re-fetches and scores off this record, so the amount/term/income below match it exactly):
+
+```json
+{"loan_id": "6a8dabd21feca3004834197a", "applicant_first_name": "Alice", "applicant_last_name": "Nguyen", "loan_amount": 25001, "loan_term": 3, "income": 80000}
+```
+
+```json
+{"loan_id": "6a8c0bb11feca300483416cb", "applicant_first_name": "Ben", "applicant_last_name": "Carter", "loan_amount": 120000, "loan_term": 10, "income": 30000}
+```
+
+```json
+{"loan_id": "6a8db0e11feca30048341981", "applicant_first_name": "Clara", "applicant_last_name": "Osei", "loan_amount": 12000, "loan_term": 10, "income": 1200}
+```
+
+These IDs point to live records in the shared UiBank sandbox — verified to exist at the time this lesson was written, and chosen so the debt-to-income ratio clearly separates each band: Alice ~10% (Low), Ben ~40% (Medium), Clara ~100% (High). If UiBank's data is ever reset, look up 3 fresh records with a similarly clear spread using the swagger lookup from step 4 — since scoring is LLM-driven, always re-run and confirm the resulting `risk_band` before relying on a new record.
 
 | Applicant | Expected path |
 |---|---|
