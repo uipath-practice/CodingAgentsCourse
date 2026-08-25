@@ -71,7 +71,7 @@ Update the activity accordingly.
 
 ## 4. Before You Run
 
-Make sure `loan-applications.csv` is in the project folder. If you haven't created it yet, you can ask your coding agent to generate it using the sample data from the [Overview](index.md):
+Make sure `loan-applications.csv` is in the project folder. If you haven't created it yet, you can ask your coding agent to generate it using this sample data:
 
 ```text
 Create a file called loan-applications.csv in the current folder using this data:

@@ -147,16 +147,3 @@ Four components, built in this order:
 
 !!! tip "Training Environment"
     Log in at **[{{ training_url }}]({{ training_url }})** and use tenant **{{ training_tenant }}** for this exercise.
-
-## Sample Data
-
-Create a file called `loan-applications.csv` in your project folder:
-
-```csv
-first_name,last_name,email,loan_amount,loan_term,yearly_income,age
-Alice,Nguyen,alice.nguyen@example.com,15000,3,48000,34
-Ben,Carter,ben.carter@example.com,50000,5,30000,40
-Clara,Osei,clara.osei@example.com,70000,5,28000,29
-```
-
-Three profiles cover all three risk paths: low, medium, and high. The RPA workflow will submit each row as a loan application to the UiBank API and record the loan ID returned for each accepted application.
