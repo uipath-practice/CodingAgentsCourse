@@ -38,8 +38,8 @@ Open the project in your IDE. Every coding agent generates slightly different co
 **What to look for:**
 
 - **Three `@tool`-decorated functions** — one each for `verify_quote`, `get_average_loan_amount`, and `compute_financial_metrics`. These may live in a separate `tools.py` or all inside `main.py` — either is fine.
-- **A system prompt** — a `SYSTEM_PROMPT` string instructing the LLM to interpret the financial metrics holistically and produce a credit score, risk band, and assessment summary.
-- **An agent entry point** — the agent may use `create_react_agent` with a `run(...)` function, or a different LangGraph pattern. As long as it wires the tools to the LLM and returns structured output, it will work.
+- **A system prompt** — a `SYSTEM_PROMPT` string instructing the LLM to interpret the financial metrics holistically and produce a credit score, risk band, and assessment summary. It's usually inline in `main.py` rather than a separate file — built as a plain prompt string.
+- **An agent entry point** — defined in `langgraph.json`, which points to `main.py:graph` (where `graph = builder.compile()`); this is also registered as the `"agent"` entry point in `entry-points.json`.
 - **`evals/`** — 5 test cases covering a range of risk profiles, used to validate the agent's scoring behaviour with `uipath eval`.
 
 Check the system prompt. It should instruct the LLM to reason about the combination of metrics and produce a natural language explanation — not map thresholds to a fixed score. If the prompt is too mechanical, ask your coding agent:
@@ -62,42 +62,39 @@ cd "/path/to/your/LoanUnderwritingAgent"
 
 Replace the path with the actual location on your machine.
 
-### 2. Authenticate
+### 2. Run and Verify Your Agent
 
-Do this when you first run the agent, or whenever you get a `401` error:
-
-```bash
-uv run uipath auth --force
-```
-
-This opens a browser — log in with your UiPath credentials. Tokens are saved to `.env` automatically.
-
-### 3. Find a test loan ID
-
-Ask your coding agent to find a valid loan ID from UiBank:
+Give this prompt to your coding agent — it finds real loan IDs across a spread of risk profiles, runs the agent against each, and checks the output:
 
 ```text
-Open and inspect the UiBank Swagger documentation:
+Test the LoanUnderwritingAgent I just built.
 
-https://uibank-api.uipath.com/explorer/swagger.json
+1. Open and inspect the UiBank Swagger documentation:
+   https://uibank-api.uipath.com/explorer/swagger.json
 
-Using only endpoints documented by the API, identify the read-only endpoint
-for retrieving loan quotes. Make a GET request and return one loan_id that
-currently exists in UiBank.
+2. Using only documented, read-only endpoints, find 3 existing loan quotes
+   that cover a spread of risk profiles — e.g. a small loan with a healthy
+   income ratio, a large loan with a long term, and an applicant with a
+   tight income-to-loan ratio.
 
-Requirements:
-- Do not create, update, or delete any data.
-- Do not invent or reuse an unverified ID.
-- Verify that the returned record exists.
-- Return the loan_id and a PowerShell command for running the agent.
-- Escape the JSON correctly for PowerShell.
+   Requirements:
+   - Do not create, update, or delete any data.
+   - Do not invent or reuse an unverified loan_id — verify each record exists.
 
-Command format:
+3. For each loan_id, run the coded agent, saving each result to its own output file.
 
-uipath run agent '{\"loan_id\":\"<EXISTING_LOAN_ID>\"}'
+4. Read each out-*.json and confirm it contains:
+   - a credit_score between 0 and 100
+   - a risk_band of Low, Medium, or High
+   - a plain-English assessment summary that actually reasons about the
+     metrics (debt-to-income ratio, market comparison) rather than generic text
+
+5. Report a table: loan_id | loan amount | term | income | age | credit score | risk band.
+   Flag anything suspicious — identical scores across very different profiles,
+   missing fields, or an exception.
 ```
 
-### 4. Run the agent
+## 5. Deploy the Agent
 
 Activate the virtual environment first:
 
@@ -117,40 +114,6 @@ Activate the virtual environment first:
     .\.venv\Scripts\Activate.ps1
     ```
 
-Use the loan ID returned by your coding agent and run:
-
-```bash
-uv run uipath run agent '{"loan_id": "6a4203a1f4865600481c657b"}'
-```
-
-Replace the value with the actual loan ID.
-
-Watch the terminal — you should see the agent call all three tools in sequence: `verify_quote` → `get_average_loan_amount` → `compute_financial_metrics`, then the LLM produces the credit score, risk band, and assessment summary.
-
-To save the full structured output to a file (optional):
-
-```bash
-uv run uipath run agent '{"loan_id": "6a4203a1f4865600481c657b"}' --output-file out.json
-```
-
-### 5. Check results
-
-- **Terminal output** — the agent prints the credit score, risk band, and assessment summary when it finishes
-- **`out.json`** — only present if you used `--output-file`; contains the full structured output
-
-!!! tip "Test all three profiles"
-    Run the agent once for each applicant in the sample data. Verify Alice (small loan, good income ratio) scores Low risk, Ben (large loan, high term) scores Medium, and Clara (young age, tight income ratio) scores High.
-
-### Troubleshooting
-
-| Error | Fix |
-|---|---|
-| `401 Unauthorized` | Run `uv run uipath auth --force` |
-| `Graph 'main.py' not found` | Use `agent` not `main.py` as the entrypoint |
-| `unknown command 'agent'` | Use `uv run uipath run`, not `uip agent run` |
-
-## 5. Deploy the Agent
-
 ### Publish the Agent
 
 Run setup and initialisation:
@@ -159,11 +122,17 @@ Run setup and initialisation:
 uip codedagent setup --force
 ```
 
-```text
-PythonPath       | python3.13
-Package          | uipath
-PackageInstalled | Yes
-PackageVersion   | 2.11.14
+```json
+{
+ "Result": "Success",
+ "Code": "CodedAgentsSetup",
+ "Data": {
+  "PythonPath": "python3.14",
+  "Package": "uipath",
+  "PackageInstalled": "Yes",
+  "PackageVersion": "2.10.73"
+ }
+}
 ```
 
 Set your tenant and verify you're logged in:
@@ -216,29 +185,34 @@ uip codedagent init
   Entrypoint: agent
   ──────────────────────────────────────────────────
 
-                      ┌───────────┐
-                      │ __start__ │
-                      └─────┬─────┘
-                ┌───────────└───────────┐
-                ▼                       ▼
-      ┌ node ────────────┐    ┌ node ─────────────┐
-      │ fetch_loan_quote │    │ fetch_market_data │
-      └─────────┬────────┘    └─────────┬─────────┘
-                └───────────┌───────────┘
-                            ▼
-                   ┌ node ───────────┐
-                   │ compute_metrics │
-                   └────────┬────────┘
-                            │
-                            ▼
-                   ┌ node ──────────┐
-                   │ llm_assessment │
-                   └────────┬───────┘
-                            │
-                            ▼
-                       ┌─────────┐
-                       │ __end__ │
-                       └─────────┘
+      ┌───────────┐
+      │ __start__ │
+      └─────┬─────┘
+         │
+         ▼
+    ┌ node ─────────────┐
+    │ verify_loan_quote │
+    └─────────┬─────────┘
+         │
+         ▼
+   ┌ node ────────────────┐
+   │ get_market_benchmark │
+   └───────────┬──────────┘
+         │
+         ▼
+     ┌ node ───────────┐
+     │ compute_metrics │
+     └────────┬────────┘
+         │
+         ▼
+     ┌ node ─────────┐
+     │ assess_credit │
+     └───────┬───────┘
+         │
+         ▼
+       ┌─────────┐
+       │ __end__ │
+       └─────────┘
 ```
 
 ### Deploy the Agent
@@ -293,3 +267,28 @@ Then create the process:
       --folder-key "c30345cd-5543-46a9-b42b-0354e60b4f15" `
       --output json
     ```
+
+### Find a Test Loan ID
+
+Ask your coding agent to find a valid loan ID from UiBank:
+
+```text
+Open and inspect the UiBank Swagger documentation:
+
+https://uibank-api.uipath.com/explorer/swagger.json
+
+Using only endpoints documented by the API, identify the read-only endpoint
+for retrieving loan quotes. Make a GET request and return one loan_id that
+currently exists in UiBank.
+
+Requirements:
+- Do not create, update, or delete any data.
+- Do not invent or reuse an unverified ID.
+- Verify that the returned record exists.
+- Return the loan_id and a PowerShell command for running the agent.
+- Escape the JSON correctly for PowerShell.
+```
+
+### Run the Deployed Agent from Orchestrator
+
+In **Orchestrator**, navigate to your **CodingAgentsILT** folder, open `{YourName}LoanUnderwritingAgent`, and start a run with the `loan_id` returned by your coding agent as an input argument. Check the job output for the credit score, risk band, and assessment summary.

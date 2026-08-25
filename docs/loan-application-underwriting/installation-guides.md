@@ -30,7 +30,10 @@ Before the main setup, make sure you have these installed:
 
 **.NET SDK 8.0** — required to build and run the UiPath Studio project.
 
-1. Download from **[dotnet.microsoft.com/download/dotnet/8.0](https://dotnet.microsoft.com/download/dotnet/8.0)**
+1. Download from **[dotnet.microsoft.com/download/dotnet/8.0](https://dotnet.microsoft.com/download/dotnet/8.0)** — or on Mac, install via Homebrew:
+   ```bash
+   brew install --cask dotnet-sdk
+   ```
 2. Verify with `dotnet --list-sdks` — you should see `8.x.x` in the output
 
 !!! tip "Windows — make sure .NET is on your PATH"
@@ -40,7 +43,7 @@ Before the main setup, make sure you have these installed:
     dotnet --list-sdks
     ```
 
-**UiPath Studio** — required to open, run, and debug the generated XAML workflow.
+**UiPath Studio** — required to open, run, and debug the generated XAML workflow. Currently supported on Windows only; Mac support is coming soon.
 
 1. Download from **[uipath.com/start-trial](https://www.uipath.com/start-trial)**
 2. Sign in with your UiPath account and verify Studio launches
@@ -49,7 +52,7 @@ Before the main setup, make sure you have these installed:
 
 === "Method 1: winget (quickest)"
 
-    1. Open a Command Prompt and run:
+    1. Open a terminal and run:
        ```bash
        winget install --id Git.Git -e --source winget
        ```

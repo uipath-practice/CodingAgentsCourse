@@ -93,7 +93,7 @@ The Coded Apps skill requires an additional CLI tool:
 uip tools install @uipath/codedapp-tool
 ```
 
-Verify both tools are available:
+Verify coded app tool is available:
 
 ```bash
 uip tools list
