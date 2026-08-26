@@ -101,6 +101,13 @@ can log in with their own email:
    local group — this is what grants them access to the `CodingAgentsPractice`
    tenant and the `CodingAgentsILT` folder.
 
+### Before Each Training
+
+- [ ] Confirm the **LoanUnderwriting** storage bucket exists in the
+      **CodingAgentsILT** folder in Orchestrator — the RPA lesson (Application
+      Intake & Enrichment) uploads results there, and the run fails if it's
+      missing.
+
 ### TODO — fill in before the next cohort
 
 - [ ] Is there a reset/cleanup step needed between cohorts (stale processes,
