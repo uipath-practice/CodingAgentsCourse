@@ -66,6 +66,7 @@ nav:
     - 3. Build Your First Agent: getting-started/3-build-your-first-agent.md
     - You did it!: getting-started/you-did-it.md
   - Loan Application Underwriting:
+    - Agenda: loan-application-underwriting/agenda.md
     - What's a Coding Agent?: loan-application-underwriting/what-is-a-coding-agent.md
     - Overview: loan-application-underwriting/index.md
     - Installation Guides: loan-application-underwriting/installation-guides.md
