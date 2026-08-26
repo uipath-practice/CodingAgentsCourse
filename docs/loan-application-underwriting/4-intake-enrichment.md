@@ -1,5 +1,5 @@
 # Application Intake & Enrichment
-Use the `uipath-rpa` skill to generate a Studio XAML workflow that reads applicant data from a CSV, submits each loan application through the UiBank API, and writes the results to `results.csv`.
+Use the `uipath-rpa` skill to generate a Studio XAML workflow that reads applicant data from a CSV, submits each loan application through the UiBank API, and writes the results to `{yourname}results.csv`.
 
 ## 1. Open Your Project Folder in Your Coding Agent
 
@@ -23,18 +23,18 @@ Build a UiPath Studio automation called {YourName}LoanApplicationDispatcher that
    required) via the newquote endpoint — POST request with Content-Type
    application/x-www-form-urlencoded, mapping: loan_amount → amount,
    loan_term → term, yearly_income → income, age → age, email → email
-3. If the application is accepted, writes a row to results.csv with loan_id
+3. If the application is accepted, writes a row to {yourname}results.csv with loan_id
    (the quoteid from the response), status "Loan Submitted", and all applicant
    fields — then starts the flow process {YourName}LoanUnderwritingProcess in the
    CodingAgentsILT folder, passing loan_id, applicant_first_name, applicant_last_name,
    loan_amount, loan_term, and income as inputs. Once it completes,
-   updates the status in results.csv to "Loan Approved" or "Loan Rejected"
+   updates the status in {yourname}results.csv to "Loan Approved" or "Loan Rejected"
    based on final_decision
-4. If the application is rejected, writes a row to results.csv with an empty
+4. If the application is rejected, writes a row to {yourname}results.csv with an empty
    loan_id, status "Failed", and error "Application rejected"
-5. Wraps each row in a Try/Catch — on exception, writes a row to results.csv
+5. Wraps each row in a Try/Catch — on exception, writes a row to {yourname}results.csv
    with empty loan_id, status "Failed", and the exception message
-6. After all rows are processed, uploads results.csv to the LoanUnderwriting
+6. After all rows are processed, uploads {yourname}results.csv to the LoanUnderwriting
    storage bucket in the CodingAgentsILT folder in Orchestrator
 
 Create this as a cross-platform project (not Windows). Only generate the
@@ -55,7 +55,7 @@ Open `Main.xaml` in Studio. You should see:
   - **HTTP Request** — POST to `/api/quotes/newquote` with form-encoded fields (amount, term, income, age, email)
   - **Deserialize JSON** — parses the response to extract `accepted` and `quoteid`
   - **If** — branches on `accepted`
-  - **Append Line / Write CSV** — appends the result row to `results.csv`
+  - **Append Line / Write CSV** — appends the result row to `{yourname}results.csv`
 - **Try/Catch** — wraps each row to handle failures without stopping the whole run
 
 !!! note "Check the Start Job entry point"
@@ -90,7 +90,7 @@ ones above. Keep loan_amount, loan_term, yearly_income, and age unchanged.
 
 Open the project in Studio and run `Main.xaml`. Watch the Output panel as the workflow authenticates and submits each application via the API. Then verify:
 
-- **`results.csv`** — open the file and confirm three rows appear, each with a `loan_id` and a status of `Loan Approved` or `Loan Rejected`
+- **`{yourname}results.csv`** — open the file and confirm three rows appear, each with a `loan_id` and a status of `Loan Approved` or `Loan Rejected`
 
 ## 6. Publish to Orchestrator
 
