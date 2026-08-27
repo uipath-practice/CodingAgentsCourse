@@ -1,0 +1,1293 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Hands-on learner's handbook for building UiPath agents and Maestro orchestrations with coding agents">
+      
+      
+        <meta name="author" content="Sergey Shumilov">
+      
+      
+        <link rel="canonical" href="https://uipath-practice.github.io/CodingAgentsCourse/loan-application-underwriting/">
+      
+      
+        <link rel="prev" href="what-is-a-coding-agent/">
+      
+      
+        <link rel="next" href="installation-guides/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Overview - UiPath Coding Agents Workshop</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#loan-application-underwriting-studio-rpa-coded-agent-coded-app-maestro" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="UiPath Coding Agents Workshop" class="md-header__button md-logo" aria-label="UiPath Coding Agents Workshop" data-md-component="logo">
+      
+  <img src="../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            UiPath Coding Agents Workshop
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../getting-started/" class="md-tabs__link">
+          
+  
+  
+  Getting Started with Coding Agents
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="agenda/" class="md-tabs__link">
+          
+  
+  
+  Loan Application Underwriting
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../next-steps/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Next Steps
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="UiPath Coding Agents Workshop" class="md-nav__button md-logo" aria-label="UiPath Coding Agents Workshop" data-md-component="logo">
+      
+  <img src="../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    UiPath Coding Agents Workshop
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started with Coding Agents
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started with Coding Agents
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/1-install-the-cli-and-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Installing the CLI and Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/2-practice-the-cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Practicing the CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/3-build-your-first-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Build Your First Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    You did it!
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loan Application Underwriting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Loan Application Underwriting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="agenda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agenda
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="what-is-a-coding-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What's a Coding Agent?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What You'll Build
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you need
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation-guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation Guides
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="install-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install UiPath Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1-underwriting-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. AI Underwriting Assessment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2-loan-officer-app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Loan Officer Review Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="3-maestro-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Orchestrating with Maestro Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="4-intake-enrichment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Application Intake & Enrichment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    You did it!
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../next-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Next Steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="loan-application-underwriting-studio-rpa-coded-agent-coded-app-maestro">Loan Application Underwriting (Studio RPA, Coded Agent, Coded App, Maestro)<a class="headerlink" href="#loan-application-underwriting-studio-rpa-coded-agent-coded-app-maestro" title="Permanent link">&para;</a></h1>
+<p><strong>Use the UiPath coding skills to build a complete code-first underwriting pipeline for UiBank</strong></p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>UiBank receives loan applications every day. Each one needs a credit assessment — income check, spending analysis, debt-to-income ratio — before a loan officer can make a decision. Doing this manually takes time, introduces inconsistency, and doesn't scale.</p>
+<p>This exercise takes a code-first approach to the problem. Instead of configuring low-code workflows, you describe what you want to build in plain English — and your coding agent, equipped with UiPath skills, generates each component for you. You'll see exactly when code beats drag-and-drop, and why.</p>
+<p>You'll build four components in this order: the <strong>coded agent</strong> first, then the <strong>loan officer app</strong>, then the <strong>Maestro flow</strong> that wires them together, and finally the <strong>RPA workflow</strong> that drives the whole process. Each lesson is self-contained — by the end, they all run together.</p>
+<p>The use case: a CSV of loan applicants is processed row by row. For each applicant, the RPA submits a loan application to the UiBank API and immediately starts a Maestro process with the returned loan ID. Maestro runs the AI credit assessment, routes low-risk applications to an automatic approval, and sends medium and high-risk ones to a loan officer for review.</p>
+<h2 id="what-youll-build">What You'll Build<a class="headerlink" href="#what-youll-build" title="Permanent link">&para;</a></h2>
+<p>Four components, built in this order:</p>
+<ol>
+<li><strong>Coded Agent</strong> — a Python LangGraph agent that receives a <code>loan_id</code>, calls the UiBank API to verify the quote and retrieve market data, computes financial metrics, and uses the LLM to produce a credit score, risk band, and assessment summary</li>
+<li><strong>Loan Officer App</strong> — a React Coded Action App that presents the AI assessment to a loan officer and captures an Approve or Reject decision</li>
+<li><strong>Maestro Flow</strong> — a UiPath Flow process that calls the agent, auto-approves low-risk results, and opens the loan officer app for medium and high-risk cases</li>
+<li><strong>RPA Workflow</strong> — a Studio XAML workflow that reads <code>loan-applications.csv</code>, submits each row to the UiBank API, and starts the Maestro Flow process for each accepted application</li>
+</ol>
+<div style="font-family: sans-serif; max-width: 680px; margin: 2rem auto;">
+
+  <div style="text-align: center; margin-bottom: 8px;">
+    <span style="display: inline-block; background: #f5f5f5; border: 2px dashed #bdbdbd; border-radius: 8px; padding: 8px 24px; font-size: 13px; color: #616161; font-family: monospace;">📄 loan-applications.csv</span>
+  </div>
+
+  <div style="text-align: center; color: #bdbdbd; font-size: 20px; margin: 4px 0;">↓</div>
+
+  <div style="background: #e8eaf6; border: 2px solid #3f51b5; border-radius: 10px; padding: 14px 18px; margin-bottom: 8px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+      <div>
+        <div style="font-weight: 700; color: #283593; font-size: 14px;">Studio RPA · LoanApplicationDispatcher</div>
+        <div style="font-size: 12px; color: #5c6bc0; margin-top: 6px;">For each row: <code style="background: #c5cae9; padding: 1px 4px; border-radius: 3px; font-size: 11px;">POST /api/quotes/newquote</code> → UiBank API</div>
+      </div>
+      <span style="background: #3f51b5; color: white; border-radius: 4px; padding: 3px 8px; font-size: 11px; white-space: nowrap; margin-left: 12px;">uipath-rpa</span>
+    </div>
+  </div>
+
+  <div style="text-align: center; color: #bdbdbd; font-size: 20px; margin: 4px 0;">↓</div>
+
+  <div style="text-align: center; margin-bottom: 8px;">
+    <span style="background: #fff8e1; border: 1.5px solid #f9a825; border-radius: 6px; padding: 4px 16px; font-size: 12px; color: #f57f17;">◇ &nbsp;accepted == True?</span>
+  </div>
+
+  <div style="display: flex; gap: 12px; margin-bottom: 8px;">
+    <div style="flex: 1; text-align: center;">
+      <div style="font-size: 11px; color: #888; margin-bottom: 4px;">No</div>
+      <div style="background: #ffebee; border: 1px solid #ef9a9a; border-radius: 6px; padding: 6px; font-size: 11px; color: #c62828;">write "Failed" to results.csv</div>
+    </div>
+    <div style="flex: 1; text-align: center;">
+      <div style="font-size: 11px; color: #888; margin-bottom: 4px;">Yes</div>
+      <div style="background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 6px; padding: 6px; font-size: 11px; color: #2e7d32;">start Maestro Flow with <code style="font-size: 10px; background: #c8e6c9; padding: 1px 3px; border-radius: 2px;">loan_id</code></div>
+    </div>
+  </div>
+
+  <div style="text-align: center; color: #bdbdbd; font-size: 20px; margin: 4px 0;">↓</div>
+
+  <div style="background: #fff3e0; border: 2px solid #e65100; border-radius: 10px; padding: 14px 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+      <div style="font-weight: 700; color: #bf360c; font-size: 14px;">Maestro Flow · LoanUnderwritingProcess</div>
+      <span style="background: #e65100; color: white; border-radius: 4px; padding: 3px 8px; font-size: 11px; white-space: nowrap; margin-left: 12px;">uipath-maestro-flow</span>
+    </div>
+
+    <div style="background: #f3e5f5; border: 2px solid #7b1fa2; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+          <div style="font-weight: 700; color: #4a148c; font-size: 12px;">Coded Agent · LoanUnderwritingAgent</div>
+          <div style="font-size: 11px; color: #8e24aa; margin-top: 4px;">Calls 3 UiBank API tools → returns <code style="background: #e1bee7; padding: 1px 3px; border-radius: 2px; font-size: 10px;">risk_band</code> · <code style="background: #e1bee7; padding: 1px 3px; border-radius: 2px; font-size: 10px;">credit_score</code> · <code style="background: #e1bee7; padding: 1px 3px; border-radius: 2px; font-size: 10px;">assessment_summary</code></div>
+        </div>
+        <span style="background: #7b1fa2; color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; white-space: nowrap; margin-left: 8px;">uipath-agents</span>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 12px;">
+      <span style="background: #ffe0b2; border: 1.5px solid #e65100; border-radius: 6px; padding: 4px 16px; font-size: 12px; color: #bf360c;">◇ &nbsp;risk_band == "Low"?</span>
+    </div>
+
+    <div style="display: flex; gap: 16px;">
+      <div style="flex: 1; text-align: center;">
+        <div style="font-size: 11px; color: #888; margin-bottom: 6px;">Yes</div>
+        <div style="background: #e8f5e9; border: 2px solid #388e3c; border-radius: 8px; padding: 12px; font-size: 13px; font-weight: 600; color: #1b5e20;">✓ Auto-Approved</div>
+      </div>
+      <div style="flex: 2;">
+        <div style="font-size: 11px; color: #888; margin-bottom: 6px; text-align: center;">No (Medium / High)</div>
+        <div style="background: #e0f2f1; border: 2px solid #00796b; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: 700; color: #004d40; font-size: 12px;">Coded App · loan-officer-dashboard</div>
+              <div style="font-size: 11px; color: #00796b; margin-top: 3px;">Loan officer reviews and submits decision</div>
+            </div>
+            <span style="background: #00796b; color: white; border-radius: 4px; padding: 2px 6px; font-size: 10px; white-space: nowrap; margin-left: 8px;">uipath-coded-apps</span>
+          </div>
+        </div>
+        <div style="text-align: center; margin-bottom: 8px;">
+          <span style="background: #ffe0b2; border: 1.5px solid #e65100; border-radius: 6px; padding: 4px 12px; font-size: 11px; color: #bf360c;">◇ &nbsp;officer_decision == "Approve"?</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <div style="flex: 1; text-align: center;">
+            <div style="font-size: 10px; color: #888; margin-bottom: 4px;">Yes</div>
+            <div style="background: #e8f5e9; border: 2px solid #388e3c; border-radius: 8px; padding: 8px; font-size: 12px; font-weight: 600; color: #1b5e20;">✓ Approved</div>
+          </div>
+          <div style="flex: 1; text-align: center;">
+            <div style="font-size: 10px; color: #888; margin-bottom: 4px;">No</div>
+            <div style="background: #ffebee; border: 2px solid #c62828; border-radius: 8px; padding: 8px; font-size: 12px; font-weight: 600; color: #b71c1c;">✗ Rejected</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; color: #bdbdbd; font-size: 20px; margin: 4px 0;">↓</div>
+
+  <div style="text-align: center; margin-bottom: 8px;">
+    <div style="display: inline-block; background: #e8eaf6; border: 2px solid #3f51b5; border-radius: 8px; padding: 8px 20px; font-size: 12px; color: #283593;">
+      <strong>RPA</strong> · write results to <code style="background: #c5cae9; padding: 1px 4px; border-radius: 3px; font-size: 11px;">results.csv</code> → upload to <strong>LoanUnderwriting</strong> storage bucket
+    </div>
+  </div>
+
+</div>
+
+<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;"></th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;"><a href="what-is-a-coding-agent/"><strong>What's a Coding Agent?</strong></a></td>
+<td style="text-align: left;">Understand the mental model, tools, skills, and how UiPath fits in</td>
+</tr>
+<tr>
+<td style="text-align: right;"><a href="installation-guides/"><strong>Installation Guides</strong></a></td>
+<td style="text-align: left;">Install Node.js, Python, .NET SDK, UiPath Studio, Git, and a coding agent</td>
+</tr>
+<tr>
+<td style="text-align: right;"><a href="install-skills/"><strong>Install UiPath Skills</strong></a></td>
+<td style="text-align: left;">Install the UiPath CLI, authenticate, and load the skills into your coding agent</td>
+</tr>
+</tbody>
+</table>
+<h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Step</th>
+<th style="text-align: left;">Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;"><a href="1-underwriting-agent/"><strong>1. AI Underwriting Assessment</strong></a></td>
+<td style="text-align: left;">Use the <code>uipath-agents</code> skill to build a Python LangGraph agent that analyses applications and produces a structured credit assessment</td>
+</tr>
+<tr>
+<td style="text-align: right;"><a href="2-loan-officer-app/"><strong>2. Loan Officer Review Dashboard</strong></a></td>
+<td style="text-align: left;">Use the <code>uipath-coded-apps</code> skill to build a React Coded Action App for loan officers to review AI assessments and approve or reject applications</td>
+</tr>
+<tr>
+<td style="text-align: right;"><a href="3-maestro-flow/"><strong>3. Orchestrating with Maestro Flow</strong></a></td>
+<td style="text-align: left;">Use the <code>uipath-maestro-flow</code> skill to wire the coded agent and loan officer dashboard into a Maestro process with conditional routing by risk band</td>
+</tr>
+<tr>
+<td style="text-align: right;"><a href="4-intake-enrichment/"><strong>4. Application Intake &amp; Enrichment</strong></a></td>
+<td style="text-align: left;">Use the <code>uipath-rpa</code> skill to build a Studio XAML workflow that submits applications to UiBank and writes results to a CSV</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-you-need">What you need<a class="headerlink" href="#what-you-need" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A coding agent installed (Claude Code, Codex CLI, Gemini CLI, etc.)</li>
+<li><code>uip</code> CLI installed (<code>uip --version</code> should return 1.195.1 or later)</li>
+<li>Node.js LTS (for the UiPath CLI and the React app)</li>
+<li>Python 3.10+ (for the coded agent)</li>
+<li>UiPath Studio installed locally (to open and run the generated XAML)</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Training Environment</p>
+<p>Log in at <strong><a href="https://cloud.uipath.com/tpenlabs">https://cloud.uipath.com/tpenlabs</a></strong> and use tenant <strong>CodingAgentsPractice</strong> for this exercise.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="what-is-a-coding-agent/" class="md-footer__link md-footer__link--prev" aria-label="Previous: What&#39;s a Coding Agent?">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                What's a Coding Agent?
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="installation-guides/" class="md-footer__link md-footer__link--next" aria-label="Next: Installation Guides">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Installation Guides
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "search.highlight", "search.suggest", "content.code.copy", "content.tabs.link"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>

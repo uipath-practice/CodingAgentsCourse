@@ -1,0 +1,1439 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Hands-on learner's handbook for building UiPath agents and Maestro orchestrations with coding agents">
+      
+      
+        <meta name="author" content="Sergey Shumilov">
+      
+      
+        <link rel="canonical" href="https://uipath-practice.github.io/CodingAgentsCourse/loan-application-underwriting/1-underwriting-agent/">
+      
+      
+        <link rel="prev" href="../install-skills/">
+      
+      
+        <link rel="next" href="../2-loan-officer-app/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1. AI Underwriting Assessment - UiPath Coding Agents Workshop</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ai-underwriting-assessment" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="UiPath Coding Agents Workshop" class="md-header__button md-logo" aria-label="UiPath Coding Agents Workshop" data-md-component="logo">
+      
+  <img src="../../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            UiPath Coding Agents Workshop
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. AI Underwriting Assessment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/" class="md-tabs__link">
+          
+  
+  
+  Getting Started with Coding Agents
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../agenda/" class="md-tabs__link">
+          
+  
+  
+  Loan Application Underwriting
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../next-steps/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Next Steps
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="UiPath Coding Agents Workshop" class="md-nav__button md-logo" aria-label="UiPath Coding Agents Workshop" data-md-component="logo">
+      
+  <img src="../../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    UiPath Coding Agents Workshop
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started with Coding Agents
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started with Coding Agents
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/1-install-the-cli-and-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Installing the CLI and Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/2-practice-the-cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Practicing the CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/3-build-your-first-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Build Your First Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    You did it!
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loan Application Underwriting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Loan Application Underwriting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agenda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agenda
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../what-is-a-coding-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What's a Coding Agent?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation-guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation Guides
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../install-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install UiPath Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. AI Underwriting Assessment
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. AI Underwriting Assessment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-open-your-project-folder-in-your-coding-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Open Your Project Folder in Your Coding Agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-describe-the-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Describe the Agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-review-the-generated-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Review the Generated Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-test-the-agent-locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Test the Agent Locally
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Test the Agent Locally">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-navigate-to-your-project-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Navigate to your project folder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-run-and-verify-your-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Run and Verify Your Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-deploy-the-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Deploy the Agent
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Deploy the Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#publish-the-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish the Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-the-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy the Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create the Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find-a-test-loan-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Find a Test Loan ID
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-the-deployed-agent-from-orchestrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run the Deployed Agent from Orchestrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2-loan-officer-app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Loan Officer Review Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3-maestro-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Orchestrating with Maestro Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4-intake-enrichment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Application Intake & Enrichment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    You did it!
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../next-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Next Steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ai-underwriting-assessment">AI Underwriting Assessment<a class="headerlink" href="#ai-underwriting-assessment" title="Permanent link">&para;</a></h1>
+<p>Use the <code>uipath-agents</code> skill to generate a Python LangGraph agent that retrieves loan data from the UiBank API, computes financial metrics, and uses the LLM to interpret the results and produce a credit assessment.</p>
+<h2 id="1-open-your-project-folder-in-your-coding-agent">1. Open Your Project Folder in Your Coding Agent<a class="headerlink" href="#1-open-your-project-folder-in-your-coding-agent" title="Permanent link">&para;</a></h2>
+<p>Create an empty folder called <code>LoanUnderwritingAgent</code> and open it in your coding agent (e.g. Claude Code, Codex):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir<span class="w"> </span>LoanUnderwritingAgent
+</code></pre></div>
+<h2 id="2-describe-the-agent">2. Describe the Agent<a class="headerlink" href="#2-describe-the-agent" title="Permanent link">&para;</a></h2>
+<p>Give your coding agent a plain-English description of what to build:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Build a UiPath Coded Agent in LangGraph that:
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>1. Takes a loan_id as input
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>2. Verifies the loan quote by calling the UiBank API (https://uibank-api.uipath.com/explorer/swagger.json, no authentication required) and extracts the applicant's loan amount, loan term, yearly income, and age
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>3. Retrieves the average loan amount across all UiBank applications for market benchmarking
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>4. Computes raw financial metrics and surfaces them to the LLM: monthly repayment amount, debt-to-income ratio (the monthly repayment as a share of monthly income), and how the loan compares to the market average
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>5. Uses the LLM to interpret the metrics, assign a credit score (0–100) and risk band (Low / Medium / High), and generate a plain-English assessment summary
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>Include an eval set with 5 cases. The name of the agent should be {YourName}LoanUnderwritingAgent. Use the UiPath SDK.
+</code></pre></div>
+<p>Your coding agent reads the <code>uipath-agents</code> skill context and generates a complete agent project:</p>
+<ul>
+<li><code>main.py</code> — the agent entry point with the LangGraph graph definition (tools may be here or in a separate <code>tools.py</code>)</li>
+<li><code>pyproject.toml</code> — project configuration with <code>uipath-langgraph</code> dependency</li>
+<li><code>evals/</code> — a folder with 5 evaluation cases</li>
+</ul>
+<h2 id="3-review-the-generated-code">3. Review the Generated Code<a class="headerlink" href="#3-review-the-generated-code" title="Permanent link">&para;</a></h2>
+<p>Open the project in your IDE. Every coding agent generates slightly different code — the structure varies. What matters is that the essentials are there.</p>
+<p><strong>What to look for:</strong></p>
+<ul>
+<li><strong>Three <code>@tool</code>-decorated functions</strong> — one each for <code>verify_quote</code>, <code>get_average_loan_amount</code>, and <code>compute_financial_metrics</code>. These may live in a separate <code>tools.py</code> or all inside <code>main.py</code> — either is fine.</li>
+<li><strong>A system prompt</strong> — a <code>SYSTEM_PROMPT</code> string instructing the LLM to interpret the financial metrics holistically and produce a credit score, risk band, and assessment summary. It's usually inline in <code>main.py</code> rather than a separate file — built as a plain prompt string.</li>
+<li><strong>An agent entry point</strong> — defined in <code>langgraph.json</code>, which points to <code>main.py:graph</code> (where <code>graph = builder.compile()</code>); this is also registered as the <code>"agent"</code> entry point in <code>entry-points.json</code>.</li>
+<li><strong><code>evals/</code></strong> — 5 test cases covering a range of risk profiles, used to validate the agent's scoring behaviour with <code>uipath eval</code>.</li>
+</ul>
+<p>Check the system prompt. It should instruct the LLM to reason about the combination of metrics and produce a natural language explanation — not map thresholds to a fixed score. If the prompt is too mechanical, ask your coding agent:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Update the system prompt so the LLM reasons about the combination of
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>factors rather than applying fixed rules — a high DTI with a small loan
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>amount should be treated differently from the same DTI with a large loan
+</code></pre></div>
+<h2 id="4-test-the-agent-locally">4. Test the Agent Locally<a class="headerlink" href="#4-test-the-agent-locally" title="Permanent link">&para;</a></h2>
+<h3 id="1-navigate-to-your-project-folder">1. Navigate to your project folder<a class="headerlink" href="#1-navigate-to-your-project-folder" title="Permanent link">&para;</a></h3>
+<p>Open a terminal and navigate to the <code>LoanUnderwritingAgent</code> folder you created:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"/path/to/your/LoanUnderwritingAgent"</span>
+</code></pre></div>
+<p>Replace the path with the actual location on your machine.</p>
+<h3 id="2-run-and-verify-your-agent">2. Run and Verify Your Agent<a class="headerlink" href="#2-run-and-verify-your-agent" title="Permanent link">&para;</a></h3>
+<p>Give this prompt to your coding agent — it finds real loan IDs across a spread of risk profiles, runs the agent against each, and checks the output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Test the LoanUnderwritingAgent I just built.
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>1. Open and inspect the UiBank Swagger documentation:
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>   https://uibank-api.uipath.com/explorer/swagger.json
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>2. Using only documented, read-only endpoints, find 3 existing loan quotes
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>   that cover a spread of risk profiles — e.g. a small loan with a healthy
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>   income ratio, a large loan with a long term, and an applicant with a
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>   tight income-to-loan ratio.
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>   Requirements:
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>   - Do not create, update, or delete any data.
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>   - Do not invent or reuse an unverified loan_id — verify each record exists.
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>3. For each loan_id, run the coded agent, saving each result to its own output file.
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>4. Read each out-*.json and confirm it contains:
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>   - a credit_score between 0 and 100
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>   - a risk_band of Low, Medium, or High
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>   - a plain-English assessment summary that actually reasons about the
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>     metrics (debt-to-income ratio, market comparison) rather than generic text
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>5. Report a table: loan_id | loan amount | term | income | age | credit score | risk band.
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>   Flag anything suspicious — identical scores across very different profiles,
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>   missing fields, or an exception.
+</code></pre></div>
+<h2 id="5-deploy-the-agent">5. Deploy the Agent<a class="headerlink" href="#5-deploy-the-agent" title="Permanent link">&para;</a></h2>
+<p>Activate the virtual environment first:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Mac / Linux</label><label for="__tabbed_1_2">Windows</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>Command Prompt:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>.venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+</code></pre></div>
+<strong>PowerShell</strong> (allow scripts first if needed):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Set-ExecutionPolicy<span class="w"> </span>-ExecutionPolicy<span class="w"> </span>RemoteSigned<span class="w"> </span>-Scope<span class="w"> </span>CurrentUser
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>.<span class="se">\.</span>venv<span class="se">\S</span>cripts<span class="se">\A</span>ctivate.ps1
+</code></pre></div></p>
+</div>
+</div>
+</div>
+<h3 id="publish-the-agent">Publish the Agent<a class="headerlink" href="#publish-the-agent" title="Permanent link">&para;</a></h3>
+<p>Run setup and initialisation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>uip<span class="w"> </span>codedagent<span class="w"> </span>setup<span class="w"> </span>--force
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w"> </span><span class="nt">"Result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="p">,</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w"> </span><span class="nt">"Code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CodedAgentsSetup"</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w"> </span><span class="nt">"Data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">"PythonPath"</span><span class="p">:</span><span class="w"> </span><span class="s2">"python3.14"</span><span class="p">,</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nt">"Package"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uipath"</span><span class="p">,</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="nt">"PackageInstalled"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Yes"</span><span class="p">,</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span><span class="nt">"PackageVersion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.10.73"</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>Set your tenant and verify you're logged in:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>uip<span class="w"> </span>login<span class="w"> </span>tenant<span class="w"> </span><span class="nb">set</span><span class="w"> </span>CodingAgentsPractice<span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">"Result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="p">,</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">"Code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TenantSet"</span><span class="p">,</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">"Data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="nt">"Name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CodingAgentsPractice"</span><span class="p">,</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="nt">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"30231678-ca53-438f-8258-4ef8c6cfa266"</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>uip<span class="w"> </span>login<span class="w"> </span>status<span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">"Result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="p">,</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">"Code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LogIn"</span><span class="p">,</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">"Data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Logged in"</span><span class="p">,</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nt">"Organization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tpenlabs"</span><span class="p">,</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="nt">"Tenant"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CodingAgentsPractice"</span><span class="p">,</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="nt">"Expiration Date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-06-29T14:08:47.000Z"</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>Initialise the UiPath project. This generates the entry points, Mermaid diagram, and project manifest:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>uip<span class="w"> </span>codedagent<span class="w"> </span>init
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>'bindings.json' already exists, skipping.
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>✓  Created 'entry-points.json' file with 1 entrypoint(s).
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>✓  Created 1 mermaid diagram file(s).
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>✓  Updated 'project.uiproj' file.
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>✓  Updated: CLAUDE.md, CLI_REFERENCE.md, SDK_REFERENCE.md, AGENTS.md, REQUIRED_STRUCTURE.md
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>  Entrypoint: agent
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>  ──────────────────────────────────────────────────
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>      ┌───────────┐
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>      │ __start__ │
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>      └─────┬─────┘
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>         │
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>         ▼
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>    ┌ node ─────────────┐
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>    │ verify_loan_quote │
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>    └─────────┬─────────┘
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>         │
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>         ▼
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>   ┌ node ────────────────┐
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>   │ get_market_benchmark │
+<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>   └───────────┬──────────┘
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a>         │
+<a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a>         ▼
+<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a>     ┌ node ───────────┐
+<a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a>     │ compute_metrics │
+<a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a>     └────────┬────────┘
+<a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a>         │
+<a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a>         ▼
+<a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a>     ┌ node ─────────┐
+<a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a>     │ assess_credit │
+<a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a>     └───────┬───────┘
+<a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a>         │
+<a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a>         ▼
+<a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a>       ┌─────────┐
+<a id="__codelineno-15-36" name="__codelineno-15-36" href="#__codelineno-15-36"></a>       │ __end__ │
+<a id="__codelineno-15-37" name="__codelineno-15-37" href="#__codelineno-15-37"></a>       └─────────┘
+</code></pre></div>
+<h3 id="deploy-the-agent">Deploy the Agent<a class="headerlink" href="#deploy-the-agent" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>uip<span class="w"> </span>codedagent<span class="w"> </span>deploy<span class="w"> </span>--tenant
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>⠋ Packaging project ...
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>Name       : {YourName}LoanUnderwritingAgent
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>Version    : 0.0.1
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>Description: Loan underwriting agent that assesses UiBank loan quotes with LLM-driven credit scoring
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>Authors    : {YourName}
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>✓  Project successfully packaged.
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>⠋ Publishing most recent package: {YourName}LoanUnderwritingAgent.0.0.1.nupkg ...
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>✓  Package published successfully!
+</code></pre></div>
+<h3 id="create-the-process">Create the Process<a class="headerlink" href="#create-the-process" title="Permanent link">&para;</a></h3>
+<p>First, find the package and its entry point:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>uip<span class="w"> </span>or<span class="w"> </span>packages<span class="w"> </span>list<span class="w"> </span>--search<span class="w"> </span><span class="s2">"{YourName}LoanUnderwritingAgent"</span><span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>uip<span class="w"> </span>or<span class="w"> </span>packages<span class="w"> </span>entry-points<span class="w"> </span><span class="s2">"{YourName}LoanUnderwritingAgent:0.0.1"</span><span class="w"> </span>--output<span class="w"> </span>json
+</code></pre></div>
+<p>Then create the process:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Mac / Linux</label><label for="__tabbed_2_2">Windows (PowerShell)</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>uip<span class="w"> </span>or<span class="w"> </span>processes<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span>--name<span class="w"> </span><span class="s2">"{YourName}LoanUnderwritingAgent"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span>--package-key<span class="w"> </span><span class="s2">"{YourName}LoanUnderwritingAgent"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">  </span>--package-version<span class="w"> </span><span class="s2">"0.0.1"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">  </span>--entry-point<span class="w"> </span><span class="s2">"agent"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">  </span>--folder-key<span class="w"> </span><span class="s2">"c30345cd-5543-46a9-b42b-0354e60b4f15"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">  </span>--output<span class="w"> </span>json
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>uip<span class="w"> </span>or<span class="w"> </span>processes<span class="w"> </span>create<span class="w"> </span><span class="sb">`</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span>--name<span class="w"> </span><span class="s2">"{YourName}LoanUnderwritingAgent"</span><span class="w"> </span><span class="sb">`</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span>--package-key<span class="w"> </span><span class="s2">"{YourName}LoanUnderwritingAgent"</span><span class="w"> </span><span class="sb">`</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">  </span>--package-version<span class="w"> </span><span class="s2">"0.0.1"</span><span class="w"> </span><span class="sb">`</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">  </span>--entry-point<span class="w"> </span><span class="s2">"agent"</span><span class="w"> </span><span class="sb">`</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">  </span>--folder-key<span class="w"> </span><span class="s2">"c30345cd-5543-46a9-b42b-0354e60b4f15"</span><span class="w"> </span><span class="sb">`</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">  </span>--output<span class="w"> </span>json
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="find-a-test-loan-id">Find a Test Loan ID<a class="headerlink" href="#find-a-test-loan-id" title="Permanent link">&para;</a></h3>
+<p>Ask your coding agent to find a valid loan ID from UiBank:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Open and inspect the UiBank Swagger documentation:
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>https://uibank-api.uipath.com/explorer/swagger.json
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>Using only endpoints documented by the API, identify the read-only endpoint
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>for retrieving loan quotes. Make a GET request and return one loan_id that
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>currently exists in UiBank.
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>Requirements:
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>- Do not create, update, or delete any data.
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>- Do not invent or reuse an unverified ID.
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>- Verify that the returned record exists.
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>- Return the loan_id and a PowerShell command for running the agent.
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>- Escape the JSON correctly for PowerShell.
+</code></pre></div>
+<h3 id="run-the-deployed-agent-from-orchestrator">Run the Deployed Agent from Orchestrator<a class="headerlink" href="#run-the-deployed-agent-from-orchestrator" title="Permanent link">&para;</a></h3>
+<p>In <strong>Orchestrator</strong>, navigate to your <strong>CodingAgentsILT</strong> folder, open <code>{YourName}LoanUnderwritingAgent</code>, and start a run with the <code>loan_id</code> returned by your coding agent as an input argument. Check the job output for the credit score, risk band, and assessment summary.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../install-skills/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Install UiPath Skills">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Install UiPath Skills
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../2-loan-officer-app/" class="md-footer__link md-footer__link--next" aria-label="Next: 2. Loan Officer Review Dashboard">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                2. Loan Officer Review Dashboard
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "search.highlight", "search.suggest", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>
