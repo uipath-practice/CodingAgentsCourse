@@ -94,34 +94,58 @@ Open the project in Studio and run `Main.xaml`. Watch the Output panel as the wo
 
 ## 6. Publish to Orchestrator
 
-First, create a `Package` folder next to your project folder — not inside it. Replace `<working-folder>` with the parent folder that contains `{YourName}LoanApplicationDispatcher`:
+=== "Manually"
 
-```bash
-mkdir "<working-folder>\Package"
-```
+    First, create a `Package` folder next to your project folder — not inside it. Replace `<working-folder>` with the parent folder that contains `{YourName}LoanApplicationDispatcher`:
 
-Your folder structure should look like this:
+    ```bash
+    mkdir "<working-folder>\Package"
+    ```
 
-```text
-<working-folder>\
-    {YourName}LoanApplicationDispatcher\   ← the Studio project
-    Package\                    ← where the .nupkg will be saved
-```
+    Your folder structure should look like this:
 
-Then pack the project into a `.nupkg` file:
+    ```text
+    <working-folder>\
+        {YourName}LoanApplicationDispatcher\   ← the Studio project
+        Package\                    ← where the .nupkg will be saved
+    ```
 
-```bash
-uip rpa pack "<working-folder>\{YourName}LoanApplicationDispatcher" "<working-folder>\Package"
-```
+    Then pack the project into a `.nupkg` file:
 
-The packed `.nupkg` file will appear inside the `Package` folder. Upload it to Orchestrator:
+    ```bash
+    uip rpa pack "<working-folder>\{YourName}LoanApplicationDispatcher" "<working-folder>\Package"
+    ```
 
-```bash
-uip or packages upload "<working-folder>\Package\{YourName}LoanApplicationDispatcher.1.0.0.nupkg"
-```
+    The packed `.nupkg` file will appear inside the `Package` folder. Upload it to Orchestrator:
 
-Then create a process from the uploaded package:
+    ```bash
+    uip or packages upload "<working-folder>\Package\{YourName}LoanApplicationDispatcher.1.0.0.nupkg"
+    ```
 
-```bash
-uip or processes create --folder-path "CodingAgentsILT" --name "{YourName}LoanApplicationDispatcher" --package-key {YourName}LoanApplicationDispatcher --package-version 1.0.0
-```
+    Then create a process from the uploaded package:
+
+    ```bash
+    uip or processes create --folder-path "CodingAgentsILT" --name "{YourName}LoanApplicationDispatcher" --package-key {YourName}LoanApplicationDispatcher --package-version 1.0.0
+    ```
+
+=== "Using Your Coding Agent"
+
+    Give this prompt to your coding agent — it packs, uploads, and creates the process for you:
+
+    ```text
+    Publish and create an Orchestrator process for the {YourName}LoanApplicationDispatcher
+    Studio automation I just built.
+
+    1. Pack the project into a .nupkg (using a Package folder next to the project,
+       not inside it).
+    2. Upload the resulting package to Orchestrator.
+    3. Create a process from that package in the CodingAgentsILT folder, using the
+       same name as the project.
+    4. Report back the process key.
+    ```
+
+## 7. Run Your End-to-End Loan Application Underwriting
+
+In **Orchestrator**, navigate to your **CodingAgentsILT** folder, open `{YourName}LoanApplicationDispatcher`, and start a run to trigger it manually.
+
+Watch it submit each application from `loan-applications.csv`, start the Maestro flow for every accepted one, and route results back — for Medium and High-risk applications, open **Action Center** and complete the human review task. Once the run finishes, open `results.csv` and confirm every row shows a final status of Loan Approved or Loan Rejected.
