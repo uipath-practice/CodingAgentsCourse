@@ -1,33 +1,51 @@
-# Build Your First Agent
+# Build, Test and Improve Your First Agent
 
 !!! tip "Here is our plan for this lesson:"
 
-    1. Set up a working folder with the sample files.
-    2. Ask **Claude Code** to generate a simple agent with the UiPath agent skill.
-    3. Watch it scaffold the solution, configure the schema, and validate.
-    4. Publish it to **Studio Web**, run it, and review the result.
+    1. Ask your coding agent to build a small agent from a prompt, then try it on a sample claim.
+    2. Generate test documents and turn them into an evaluation set.
+    3. Run the evaluation, let your coding agent fix what fails, and run it again.
 
 ## Goal
 
-This lesson isn't about building something clever — it's about learning the **build-and-publish workflow** you'll use for every agent after this. You'll generate a small, low-code agent with Claude Code, see how it scaffolds a solution, and get it ready to run. The agent itself is deliberately simple so the focus stays on the loop: describe → generate → validate → publish → run.
+By the end of this lesson you'll have a working agent in **Studio Web** and a set of tests that tell you whether it still works. You'll also have run the loop you'll use for every agent after this one: describe it, build it, test it, fix it, test again.
+
+The agent is deliberately small, so the focus stays on that loop. Later exercises build richer agents with context, tools and structured extraction.
 
 ## What you'll build
 
-A **Claims Eligibility** check. Given a claim (FNOL) PDF and the policy it refers to, the agent runs five quick threshold checks, in order, and stops at the first hard failure:
+An insurer receives a **First Notice of Loss (FNOL)** claim together with the homeowner's policy it refers to. Before anyone assesses the damage, someone checks the basics. Your agent does that check. It reads both PDFs and runs five checks:
 
-1. **Policy status** — is the policy Current/Paid (not Lapsed/Cancelled/Expired)?
-2. **Identity** — does the claimant match the named insured?
-3. **Address** — do the claim and policy addresses match?
-4. **Coverage period** — did the incident happen within the policy dates?
-5. **Filing deadline** — was the claim filed within 60 days of the loss?
+1. **Policy status**: is the policy Current or Paid, rather than Lapsed, Cancelled or Expired?
+2. **Identity**: is the claimant the person named on the policy?
+3. **Address**: do the claim and the policy describe the same property?
+4. **Coverage period**: did the loss happen while the policy was in force?
+5. **Filing deadline**: was the claim filed within 60 days of the loss, or does it explain why not?
 
-It reads the raw PDFs directly — no extra setup. (Later exercises build richer agents with context, tools, and structured extraction.) The validation logic and output structure are below; you'll paste both into Claude Code.
+It returns a yes or no on eligibility, a flag for claims a person should look at, a short summary, and the result of each check as JSON. Other apps and agents in later exercises read that JSON, so the field names are fixed.
+
+## Why test an agent at all?
+
+An LLM doesn't always give the same answer twice. A prompt that works on the two samples you tried can still trip on a date written as `10.10.2026`, on a claimant who shares a surname with the policyholder, or on an explanation hidden in the middle of a paragraph. A small change to the prompt, or a new model, can break a case that used to pass.
+
+An **evaluation set** catches that. It's a list of test cases, each one an input plus the answer you expect. You run the whole set after every change and compare scores. The checks that do the scoring are called evaluators. You'll use three kinds:
+
+| Evaluator | What it checks here |
+| :--- | :--- |
+| Exact match | The decision fields `out_isEligible` and `out_Escalate` are exactly right |
+| JSON similarity | The five check results and the values behind them match |
+| LLM judge | The summary gives the same decision and the same reason, in any wording |
+
+Writing good test cases is the hard part. Here a document generator does it for you: it creates a claim and a policy with one known problem planted in them, so you know what the right answer is.
+
+!!! tip "Training Environment"
+    Log in at **[{{ training_url }}]({{ training_url }})** and use tenant **{{ training_tenant }}** for this exercise.
 
 ## Steps
 
 ### 1. Set up your working folder
 
-Create an empty folder and add the sample claim and policy PDFs (download them from the sample claims below).
+Create an empty folder with a `samples` subfolder:
 
 ```bash
 mkdir first-agent
@@ -35,52 +53,54 @@ cd first-agent
 mkdir samples
 ```
 
+Download the two sample pairs into `samples`. Each claim refers to its policy by number, so always use a claim with its own policy.
+
+| Claim | Policy | Scenario |
+| :--- | :--- | :--- |
+| [CLM-2026-357861-claim.pdf](assets/claim-samples/CLM-2026-357861-claim.pdf) | [HO-5534416561.pdf](assets/claim-samples/HO-5534416561.pdf) | Mumbai (INR), water damage, Rajesh Kumar Sharma |
+| [CLM-2026-896147-claim.pdf](assets/claim-samples/CLM-2026-896147-claim.pdf) | [HO-3883873532.pdf](assets/claim-samples/HO-3883873532.pdf) | Melbourne (AUD), fire damage, Mei Lin Tan |
+
+Open a couple of them. You'll notice the dates are written day first, and that both losses happened on the last day of the policy. Your agent will have to get both of those right.
+
 <details markdown="1">
-<summary>Optional step: define your conventions AGENTS.md)</summary>
+<summary>Optional: define your conventions (AGENTS.md)</summary>
 
-Before you build much, drop a small file in the folder with your conventions: naming, structure, and rules like "*keep workflows small; don't put everything in one folder*". 
+Before you build much, drop a small file in the folder with your conventions: naming, structure, and rules like "*keep workflows small; don't put everything in one folder*".
 
-- Your coding agent reads it automatically and follows it on every new session. 
-- It's not just about the prompt, this markdown file helps to steer the agent, this will keeps output consistent across coding sessions and across agents. 
-- There's no single file name at the moment (**`CLAUDE.md`**/**`AGENTS.md`**/**`GEMINI.md`**/etc). If you plan to use various agents, best practice is to keep one real file and symlink the rest to it if your coding agent has different name.
-- Here is initial sample - expand it as and when needed:
+- Your coding agent reads it automatically and follows it in every new session.
+- It steers the agent beyond a single prompt, which keeps the output consistent across sessions and across coding agents.
+- There's no single file name yet (**`CLAUDE.md`**, **`AGENTS.md`**, **`GEMINI.md`** and so on). If you use several coding agents, keep one real file and symlink the others to it.
+- Here's a starting point. Expand it as you go:
 
 ```markdown
 # Creating new projects
 
-- When I ask to build something this workspace folder, create a new project folder (short, lowercase, hyphenated) instead of working in the workspace root.
+- When I ask to build something in this workspace folder, create a new project folder (short, lowercase, hyphenated) instead of working in the workspace root.
 - Initialize with `git init` unless already inside an existing repo.
 - Add a project-level `AGENTS.md` (like this one) before substantial implementation, so future sessions keep the same behavior.
 - Continue all implementation, validation, and file edits inside the new project folder.
 
 # UiPath projects
 
-- If a request mentions UiPath, RPA, Orchestrator, Maestro, Studio Web, `.xaml`, `.flow`, `.bpmn`, context grounding, queues, assets, robots, jobs, triggers, or `uip`, the installed UiPath agent skills when relevant.
-- Prefer the uip CLI for setup, validation, build, packaging, run, and platform operations. 
+- If a request mentions UiPath, RPA, Orchestrator, Maestro, Studio Web, `.xaml`, `.flow`, `.bpmn`, context grounding, queues, assets, robots, jobs, triggers, or `uip`, use the installed UiPath agent skills when relevant.
+- Prefer the uip CLI for setup, validation, build, packaging, run, and platform operations.
 - Ask before publishing, deploying, deleting, or modifying any UiPath Cloud/Orchestrator resource (package, folder, queue item, etc).
 ```
 </details>
 
-### 2. Open your coding agent to start
+### 2. Build the agent
 
-Download the paired claim and policy files below into folder "samples" of the folder you have created. Each claim references its policy by number, and must be run with its **matching** policy. Have a quick look at input documents.
+Open **Claude Code** (or your coding agent) in the `first-agent` folder and give it this prompt:
 
-| Claim | Policy | Scenario |
-| :--- | :--- | :--- |
-| [CLM-2026-357861-claim.pdf](assets/claim-samples/CLM-2026-357861-claim.pdf) | [HO-5534416561.pdf](assets/claim-samples/HO-5534416561.pdf) | Mumbai (INR) — water damage, Rajesh Kumar Sharma |
-| [CLM-2026-896147-claim.pdf](assets/claim-samples/CLM-2026-896147-claim.pdf) | [HO-3883873532.pdf](assets/claim-samples/HO-3883873532.pdf) | Melbourne (AUD) — fire damage, Mei Lin Tan |
-
-Open your coding agent in that folder. Give it the instruction below:
-
-```text hl_lines="3-5 24-64"
-Using the UiPath agent skill, generate a low-code agent named "claims-eligibility-agent". The agent takes two file input PDF files: claim and policy. It reads both PDFs and validates the claim against the policy.
+```text
+Using the UiPath agent skill, build a low-code agent called "EligibilityCheckAgent" in a solution called "EligibilityCheck" followed by my first name. If you can't tell my first name, use today's date instead. Use Claude Sonnet 5 as the agent's model. The agent takes two PDF files, a claim and a policy, reads both, and checks the claim against the policy.
 
 Inputs:
-- in_ClaimPDF — the First Notice of Loss (FNOL) claim form submitted by the claimant (PDF).
-- in_PolicyPDF — the homeowner's insurance policy referenced by the claim (PDF).
+- in_ClaimPDF: the First Notice of Loss (FNOL) claim form submitted by the claimant (PDF).
+- in_PolicyPDF: the homeowner's insurance policy referenced by the claim (PDF).
 
-Things that agent needs to check between 2 input documents:
-1. Policy Status Check. Find the Payment Status on the policy. Acceptable statuses are "Current" 
+Things the agent needs to check between the two documents:
+1. Policy Status Check. Find the Payment Status on the policy. Acceptable statuses are "Current"
    and "Paid". If it is "Lapsed", "Cancelled", or "Expired", the check fails.
 2. Identity Verification. Compare the Claimant Name on the claim to the Named Insured on the
    policy. Allow minor variations (nicknames, middle names, minor spelling). If they refer to
@@ -89,203 +109,274 @@ Things that agent needs to check between 2 input documents:
    formatting (e.g. "St." vs "Street"). If they differ, the check fails. This exercise has no
    separate incident report, so set report_address to "N/A — no incident report in this exercise".
 4. Coverage Period Check. Confirm the Incident Date falls on or after the policy Effective Date
-   and on or before the Expiration Date. If outside this window, the check fails.
+   and on or before the Expiration Date. A loss on the first or last day passes. If outside this
+   window, the check fails.
 5. Filing Deadline Check. Calculate calendar days between the Incident Date and the Date of
-   Submission. If greater than 60 days, check whether the claim provides any explanation for the
-   delay. No explanation → fail. 
+   Submission. More than 60 days: check whether the claim gives an explicit explanation for the delay.
+   Explanation → pass (and escalate, see below). No explanation → fail. The form's pre-printed
+   60-day notice is not an explanation.
 
-The agent must return output matching this structure, this will be used by downstream apps and agents:
-
+The agent must return output matching this structure. Downstream apps and agents depend on it:
 {
-  "out_isEligible": "boolean — whether the claim is eligible for assessment",
-  "out_EligibilityAnalysisSummary": "string — brief plain-language explanation of the decision",
+  "out_isEligible": "boolean: whether the claim is eligible for assessment",
+  "out_EligibilityAnalysisSummary": "string: brief plain-language explanation of the decision",
+  "out_Escalate": "boolean: true if a person needs to look at the claim (late filing with an explanation, or a document that can't be read)",
   "out_EligibilityChecksJSON": {
     "claim_id": "string",
     "policy_number": "string",
-    "escalate": "boolean - if this claim requires further human review",
     "checks": {
       "policy_status": {
         "result": "pass | fail",
-        "detail": "string"
+        "summary": "string"
       },
       "identity_match": {
         "result": "pass | fail",
         "claimant_name": "string",
         "policyholder_name": "string",
-        "detail": "string"
+        "summary": "string"
       },
       "address_match": {
         "result": "pass | fail",
         "claim_address": "string",
         "policy_address": "string",
-        "detail": "string"
+        "report_address": "string",
+        "summary": "string"
       },
       "coverage_period": {
         "result": "pass | fail",
         "incident_date": "string",
         "effective_date": "string",
         "expiration_date": "string",
-        "detail": "string"
+        "summary": "string"
       },
       "filing_deadline": {
-        "result": "pass | fail ",
+        "result": "pass | fail",
         "incident_date": "string",
         "claim_date": "string",
         "days_elapsed": "number",
-        "detail": "string"
+        "summary": "string"
       }
     }
   }
 }
 
+- All checks pass → out_isEligible = true, otherwise false.
+- Late filing with an explanation → out_isEligible = true, out_Escalate = true.
+- The agent should not infer information that isn't explicitly in the documents.
+- This is the FNOL eligibility step for property claims. Write the prompt with common practice in
+  this area in mind. That can guide how values are read and normalized, but must not add checks,
+  escalation reasons or pass/fail rules beyond the ones above.
+- The decision must follow from the checks: the agent produces the five check results before
+  out_isEligible, and inside each check writes the detail before the result. The summary must
+  agree with the check results.
+- Every output field always gets a value of the right type, even when a document can't be read.
+  In that case the checks fail and out_Escalate = true.
+- The prompt should be well structured and easy for a person to read.
 
-- All checks pass → out_isEligible = true, otherwise false
-- Issue is a late filing with justification → out_isEligible = true, "escalate" = true
-- Clearly mention that agent should not infer information that is not explicitly present in the documents.
-- This is FNOL/Claims eligibility process for property claims, write prompt that would take into account common aspects and industry best practices.
-
-There are a couple of sample documents that the agent will process in the samples subfolder.
+There are a couple of sample documents in the samples folder. When the agent is built, upload it to Studio Web and try it on one of the samples. Don't deploy it.
 ```
 
-### 3. Watch it scaffold
+Approve the steps as they come. In our test runs this took about four minutes, and the coding agent worked through roughly this sequence:
 
-Claude Code will work through roughly this sequence (approve each step as it goes):
+- read the UiPath agent skill and the sample PDFs;
+- create the solution and the agent inside it;
+- write the agent's system prompt, the two file inputs and the output schema, and add the built-in **Analyze Files** tool, which is how a low-code agent reads a PDF;
+- validate the project, upload it to Studio Web, and run the agent once on a sample pair.
 
-- create a **solution**, then initialize the agent inside it;
-- add the agent project to the solution;
-- write the **system prompt** and configure the **input/output schema** (two file inputs, three outputs);
-- run a **validate** step to confirm the configuration is supported by Studio Web.
+Watch the last step. In one of our runs the five checks came back right, but the summary said the claim was eligible and filed after 53 days. The coding agent spotted the contradiction, tightened the prompt so the summary is written last, and ran it again. The checks and the summary come from the same model and can still disagree, which is what the LLM judge in step 4 will catch.
 
 <details markdown="1">
-<summary>Here is what output will look like</summary>
-- I’ll use the uipath-agents skill because this is a UiPath low-code agent authoring task. I’m going to **inspect the skill instructions** and the existing project shape before creating the agent files.
-- The request is explicitly low-code, so I’m treating this as an agent.json **Agent Builder project**. I’m checking whether there is already an agent or solution scaffold so I can preserve any existing structure.
-- There’s no existing project scaffold in the workspace, only sample PDFs. I’m reading the low-code agent guidance next so the generated files match UiPath’s expected schema and lifecycle.
-- The low-code workflow requires probing the local uip solution command before scaffolding, because the CLI renamed solution new to solution init in newer versions. I’m doing that probe now, then I’ll create the project from the supported command path.
-- Ran command: `$ uip solution init --output json`
-- The CLI supports `uip solution init`, so I’ll use the current lifecycle. I’m reading the low-code JSON, prompt, file-attachment, and validation references before writing the scaffolded agent.
-- The key constraint here is that attachment inputs only expose metadata in prompts. I’m going to add UiPath’s built-in Analyze Files tool and explicitly instruct the agent to call it for both PDFs before making any eligibility decision.
-- Because this is an input-to-output eligibility decision, I’m using the autonomous agent variant. I’m checking the autonomous-specific rules before I scaffold and patch the files.
-- The scaffold should not keep the default model blindly, so I’m checking the tenant model list.
-- I’m reading the sample claim/policy text now so the agent prompt can name the fields it should look for and handle the likely document wording.
-- The samples confirm the fields are explicit: claim number, submission date, claimant, policy number, property address, incident date, policy payment status, named insured, policy period, and described property. I’m scaffolding a solution plus a standalone autonomous low-code agent named claims-eligibility now.
-- The solution scaffold was created successfully. I’m adding the low-code agent project inside it so the project is registered with the solution manifest.
-- Ran command: `$ uip agent init claims-eligibility-solution/claims-eligibility --output json`
-- The agent scaffold registered cleanly. I’m reading the generated JSON files before patching them, so I only change the supported source files and let refresh regenerate derived files.
-- I’m going to make two source edits: replace the scaffold prompt/schemas with the claims eligibility contract, and add the Analyze Files built-in tool resource. After that I’ll run uip agent refresh and uip agent validate so derived files are regenerated by the CLI.
-- I’m applying the prompt, attachment schemas, typed output contract, and built-in tool definition now. The prompt explicitly forbids inference beyond the documents and limits the task to eligibility screening rather than final coverage adjudication.
-- The source files are patched. I’m doing a JSON parse check first, then I’ll run UiPath refresh/validation so entry-points.json and bindings_v2.json are generated rather than hand-edited.
-- JSON parsing passed. I’m running uip agent refresh next;
-- Schema parity is exact. I’m running the CLI migration again now
-- Migration completed and generated builder artifacts. I’m running the read-only validation pass now to verify the final project state.
-- Ran command: `$ uip agent validate claims-eligibility-solution/claims-eligibility --output json`
-- Validation passed. I’m doing a final file/status check so I can report exactly what was created and any caveats around testing with PDF attachments.
-- The project is valid locally, and the generated .agent-builder files are present. I’m checking the generated binding once so the Analyze Files resource is definitely included in the build output.
-
-- Implemented the UiPath low-code autonomous agent claims-eligibility.
-
-Created solution and agent files under:
-
-- claims-eligibility-solution/claims-eligibility/**agent.json**
-- claims-eligibility-solution/claims-eligibility/**resources/AnalyzeFiles/resource.json**
-- claims-eligibility-solution/claims-eligibility/**entry-points.json**
-    
-Configured:
-
-- Inputs: in_ClaimPDF, in_PolicyPDF as job-attachment PDF inputs.
-- Built-in Analyze Files tool using toolType: "analyze-attachments".
-- Output schema matching the requested 
-- out_isEligible, out_EligibilityAnalysisSummary, and nested out_EligibilityChecksJSON.
-- System prompt covering policy status, identity, address, coverage period, filing deadline, no unsupported inference, and property-claims eligibility best practices.
-
-</details>
-
-### 4. Upload and open in Studio Web
-
-The agent is built and validated locally. Then ask:
-```text
-Great! Whats the next step to run this agent in Studio Web?
-```
-
-And Agent will recommend:
-```text 
-Upload the solution using:
-
-   $ uip solution upload claims-eligibility-solution --output json
-
-That should return a DesignerUrl. 
-
-Open that URL in Studio Web, open the claims-eligibility agent, and use the run/test experience to provide:
-   in_ClaimPDF: one of the claim PDFs in samples/
-   in_PolicyPDF: the matching policy PDF
-```
-
-Run the command and follow the DesignerURL!
-
-![Claude Code scaffolding the agent: solution created, agent initialized, schema configured](3-build-your-first-agent.images/fresh-from-oven.png){ .screenshot }
-
-
-Try running it against a claim and its policy, and read back a structured decision. After this you've done the whole cycle once — build, publish, run — and you're ready for the richer agents in the exercises that follow.
-
-### 5. Run a sample claim
-
-In Studio Web, click on **Debug** provide the two file inputs and run the agent.
-
-1. Set **in_ClaimPDF** to `CLM-2026-896147-claim.pdf`.
-2. Set **in_PolicyPDF** to `HO-3883873532.pdf`.
-3. Select **Run** (or **Save & Debug**).
-
-When the run finishes, open the output — the three fields from the schema: `out_isEligible`, `out_EligibilityChecksJSON`, and `out_EligibilityAnalysisSummary`.
-
-For claim `CLM-2026-896147`, the agent should land on **ineligible — deny**, because the claim was filed well past the 60-day deadline:
+<summary>Here is the output from one of our runs (claim CLM-2026-896147)</summary>
 
 ```json
 {
-  "out_isEligible": false,
-  "out_EligibilityAnalysisSummary": "Claim CLM-2026-896147 is not eligible for assessment. Four of the five eligibility checks pass: the policy is current and paid in full, the claimant name matches the named insured, the property address matches, and the incident date of 14/04/2026 falls on the policy expiration date which is treated as inclusive. However, the filing deadline check fails: the claim was submitted 83 calendar days after the incident date, exceeding the 60-day filing requirement stated in the policy, and no delay explanation is provided anywhere in the claim form. Because the late filing is unjustified, the claim is ineligible.",
   "out_EligibilityChecksJSON": {
     "claim_id": "CLM-2026-896147",
     "policy_number": "HO-3883873532",
-    "escalate": false,
     "checks": {
       "policy_status": {
-        "result": "pass",
-        "detail": "Policy payment status is explicitly stated as 'Current - Paid in Full'."
+        "summary": "The policy's Payment Status is printed as 'Current - Paid in Full', which qualifies as Current/Paid.",
+        "result": "pass"
       },
       "identity_match": {
-        "result": "pass",
         "claimant_name": "Mei Lin Tan",
         "policyholder_name": "Mei Lin Tan",
-        "detail": "Claimant name 'Mei Lin Tan' matches the named insured 'Mei Lin Tan' exactly."
+        "summary": "The claimant name 'Mei Lin Tan' exactly matches the sole Named Insured 'Mei Lin Tan' on the policy.",
+        "result": "pass"
       },
       "address_match": {
-        "result": "pass",
-        "claim_address": "4/16 Chapel Street, St Kilda, VIC 3182",
+        "claim_address": "4/16 Chapel Street, St Kilda, VIC, 3182",
         "policy_address": "4/16 Chapel Street, St Kilda, VIC 3182",
-        "detail": "Claim property address '4/16 Chapel Street, St Kilda, VIC 3182' matches the policy described property address exactly. report_address=N/A - no incident report in this exercise."
+        "report_address": "N/A — no incident report in this exercise",
+        "summary": "Both addresses are the same unit 4 at 16 Chapel Street, St Kilda, VIC, 3182, after normalizing the unit notation; street number, name, unit, city and postal code all match.",
+        "result": "pass"
       },
       "coverage_period": {
-        "result": "pass",
-        "incident_date": "14/04/2026",
-        "effective_date": "14/04/2025",
-        "expiration_date": "14/04/2026",
-        "detail": "Incident date 14/04/2026 falls on the policy expiration date, which is treated as inclusive. The incident date is within the coverage period of 14/04/2025 to 14/04/2026."
+        "incident_date": "2026-04-14",
+        "effective_date": "2025-04-14",
+        "expiration_date": "2026-04-14",
+        "summary": "The incident date of 2026-04-14 falls on the policy's last day of coverage (expiration date 2026-04-14), which is within the effective period 2025-04-14 to 2026-04-14 inclusive.",
+        "result": "pass"
       },
       "filing_deadline": {
-        "result": "fail",
-        "incident_date": "14/04/2026",
-        "claim_date": "06/07/2026",
-        "days_elapsed": 83,
-        "detail": "83 calendar days elapsed between the incident date (14/04/2026) and the date of submission (06/07/2026), exceeding the 60-day filing deadline stated in Section III, Condition 1 of the policy. No delay explanation is provided in the claim form. Claim is ineligible due to unjustified late filing."
+        "incident_date": "2026-04-14",
+        "claim_date": "2026-07-06",
+        "days_elapsed": 83.0,
+        "summary": "83 calendar days elapsed between the incident date (2026-04-14) and the submission date (2026-07-06), which exceeds the 60-day limit, and the claimant provided no explanation for the delay.",
+        "result": "fail"
       }
     }
-  }
+  },
+  "out_isEligible": false,
+  "out_Escalate": false,
+  "out_EligibilityAnalysisSummary": "This claim is not eligible for assessment. Four of the five checks passed (policy status, identity match, address match, and coverage period), but the filing deadline check failed: 83 days elapsed between the incident date (2026-04-14) and the submission date (2026-07-06), exceeding the 60-day limit, and the claimant provided no explanation for the delay. Because the late filing has no explanation, this does not meet the escalation criteria, so the claim is not escalated."
 }
 ```
 
+</details>
+
 !!! note "Exact wording will vary"
-    Since we are using LLMs, the `detail` and summary text are generated, so your wording won't match character-for-character. What should match is the structure and each check's `result`.
+    The summaries are generated, so yours won't match ours word for word. The structure, each check's `result` and the decision should match. Both samples are filed late without an explanation, so both should come back `out_isEligible: false`.
 
-You can experiment with the other claim samples.
+!!! note "Field names in the terminal"
+    When the coding agent runs the agent from the CLI, the output it prints may show the field names in PascalCase (`OutIsEligible`, `ClaimId`). That's only how the CLI displays them. The agent's real output uses the names from your schema.
 
-Done. You built an agent with Claude Code, published it, and ran it — your first full loop, and the foundation for everything that follows.
+### 3. Add one test case by hand
+
+Before the coding agent builds the evaluation set, give it one working example to copy.
+
+1. Open the solution your coding agent uploaded in Studio Web. It's called **EligibilityCheck** followed by your first name (or today's date).
+2. Open **EligibilityCheckAgent** and select **Debug**.
+3. Set `in_ClaimPDF` and `in_PolicyPDF` to a sample claim and its policy, and run it.
+4. When the run finishes, add it to the **Default Evaluation Set**.
+
+Studio Web now has a test case with real file attachments, stored the way Studio Web stores them. The coding agent can't create file attachments from the CLI on its own yet, so it will copy this one.
+
+### 4. Create the evaluation set
+
+You need seven test cases: one clean claim, one for each check that can fail, and one late claim that explains the delay. Choose the tab that matches your setup. Both give you the same evaluation set.
+
+=== "Run the document generator"
+
+    The **Retrieve Property Claim** process creates a claim and a policy with a planted problem and saves them to storage buckets. Give your coding agent this prompt:
+
+    ```text
+    Using the UiPath agent skill, create an evaluation set for the agent. An evaluation set is a list of test cases: input files plus the answer we expect. Create it and upload it to Studio Web, but don't run it yet.
+
+    To get test documents, run the process "Retrieve Property Claim" in the Orchestrator folder "ClaimCase-Pro" once per test case, setting only in_Scenario and in_Discrepancy. It returns the claim ID and saves the claim form as <ClaimID>-claim.pdf in the storage bucket "Claims" in the same folder. The matching policy is <PolicyNumber>.pdf in the bucket "Insurance Policies Repository".
+
+    Test cases (7, one per line):
+    - in_Scenario = auto-settle: nothing is wrong, so the claim is eligible
+    - in_Scenario = eligibility-fail, with in_Discrepancy =
+      - ELIG_POLICY_LAPSED: premium unpaid from before the loss, so policy_status fails
+      - ELIG_IDENTITY_MISMATCH: policy in a household member's name, so identity_match fails
+      - ELIG_ADDRESS_MISMATCH: the house or unit number differs, so address_match fails
+      - ELIG_COVERAGE_PERIOD: policy ended 5–20 days before the loss, so coverage_period fails
+      - ELIG_LATE_FILING: loss 75–90 days before filing, no explanation, so filing_deadline fails
+    - in_Scenario = review-fail, with in_Discrepancy = REVIEW_LATE_WITH_JUSTIFICATION: filed late,
+      but the claim explains why, so the claim is eligible and escalated
+    Name each test case after its setting, e.g. "ELIG_LATE_FILING". Call the first one "AUTO_SETTLE".
+
+    Work out the expected answers from the PDFs.
+
+    How to score each test case:
+    1) Exact match on out_isEligible and out_Escalate: is the decision right?
+    2) JSON similarity on out_EligibilityChecksJSON: are the check results and values right? Compare
+       only the results and values, not the wording of the summaries.
+    3) LLM judge on out_EligibilityAnalysisSummary: does the summary give the same decision and reason?
+       Use a different model for the judge than the agent uses.
+
+    I added a test case in Studio Web; it runs and reads its files fine. Set up the new test cases and their files exactly the way Studio Web did for that one, including how it stores the files, so the evaluation can open them.
+
+    Put everything in a new evaluation set called "Eligibility Scenarios". Don't change or delete other evaluation sets.
+
+    I'm editing in Studio Web in parallel, so merge with my version before uploading.
+    ```
+
+    The documents are generated fresh each time, so your claims, names and dates will differ from everyone else's.
+
+=== "Use the offline kit"
+
+    No access to the generator? Download [eval-documents.zip](assets/eval-documents.zip) and unzip it into an `eval-documents` folder next to `samples`. It holds seven claim and policy pairs produced by the same generator, plus `cases.csv`, which says which claim goes with which policy and what's wrong with each pair. Then give your coding agent this prompt:
+
+    ```text
+    Using the UiPath agent skill, create an evaluation set for the agent. An evaluation set is a list of test cases: input files plus the answer we expect. Create it and upload it to Studio Web, but don't run it yet.
+
+    The test documents are in the eval-documents folder. cases.csv lists the 7 test cases: which claim and policy go together, and what's wrong with each one. Use one test case per row and name it after the case column, e.g. "ELIG_LATE_FILING".
+
+    Work out the expected answers from the PDFs.
+
+    How to score each test case:
+    1) Exact match on out_isEligible and out_Escalate: is the decision right?
+    2) JSON similarity on out_EligibilityChecksJSON: are the check results and values right? Compare
+       only the results and values, not the wording of the summaries.
+    3) LLM judge on out_EligibilityAnalysisSummary: does the summary give the same decision and reason?
+       Use a different model for the judge than the agent uses.
+
+    I added a test case in Studio Web; it runs and reads its files fine. Set up the new test cases and their files exactly the way Studio Web did for that one, including how it stores the files, so the evaluation can open them.
+
+    Put everything in a new evaluation set called "Eligibility Scenarios". Don't change or delete other evaluation sets.
+
+    I'm editing in Studio Web in parallel, so merge with my version before uploading.
+    ```
+
+You just edited the solution in Studio Web, so the last line of the prompt tells the coding agent to download your version first and keep your test case. In our runs it compared the two copies, kept the Studio Web changes, and checked again right before uploading.
+
+When it's done, open **Eligibility Scenarios** in Studio Web. You should see seven test cases, each with a claim and a policy attached. Check a couple of expected answers against the PDFs yourself: the coding agent worked them out by reading the documents, and so can you.
+
+### 5. Test and fix
+
+Now the loop. Give your coding agent this prompt:
+
+```text
+Next, I want to make sure the agent's prompt works on all known test cases. I'll start each evaluation run in Studio Web; tell me when it's ready, then read the results yourself and see which test cases fail. If one fails, find out why, fix the prompt and run again. Repeat until the decisions are right on every case, the summary scores 95 or more and the JSON similarity 80 or more. Call it done only after two clean runs in a row. At most 3 fix iterations.
+
+Rules
+- Improve the agent, not the test. Only change an expected answer if it's clearly wrong, and ask me first.
+- Fix it with general rules, not with details from the test files.
+- Look at every test case. A case that didn't run counts as failed.
+- If the judge itself errors, rerun it; don't change the agent for that.
+- Don't change the output format: same field names and types, because other apps depend on them.
+- While you debug, don't change the model or add other evaluation sets. Ask me first.
+- Don't deploy to Orchestrator.
+
+At the end, show me
+- a before-and-after table of scores
+- each prompt change and the problem it fixed
+```
+
+When the coding agent says it's ready, open **Eligibility Scenarios** in Studio Web and start the run there. It takes about a minute. Tell the coding agent when it's finished; it reads the scores itself.
+
+!!! note "Start evaluation runs from Studio Web"
+    Right now, evaluation runs with file inputs only work when you start them in Studio Web. Started from the CLI, every test case fails with `INVALID_ATTACHMENT_ID`. That's why the prompt asks the coding agent to hand the run over to you.
+
+In one of our runs the first baseline looked fine. A second run of the same prompt missed the late claim with an explanation: the agent said it wasn't eligible. The PDF explains the delay in the third person, in the middle of the incident description ("The claim is late because the claimant was admitted to hospital the day after the loss..."). The agent's prompt told it to look for an explanation "written by the claimant", and the model sometimes read past it.
+
+The coding agent fixed it with general rules: read every free-text field on the claim, and count an explanation wherever it appears, in first or third person. After that fix:
+
+| Evaluator | Baseline (run 1 / run 2) | After the fix | Target |
+| :--- | ---: | ---: | ---: |
+| `out_isEligible` exact match | 100 / 85.7 | 100 | 100 |
+| `out_Escalate` exact match | 100 / 85.7 | 100 | 100 |
+| JSON similarity | 99.98 / 98.3 | 99.98 | 80 |
+| Summary LLM judge | 83.6 / 83.0 | 99.86 | 95 |
+
+The low judge scores in the baseline aren't all the agent's fault. The judge model crashed on one case per run and scored it 0, which is why the prompt says to rerun when the judge itself errors, and why the judge uses a different model from the agent.
+
+Notice that one passing run didn't settle it. The late claim passed once, failed once, then passed after the fix. That's why the prompt asks for two clean runs in a row.
+
+### 6. Optional: try another model
+
+How much does the result depend on the model? Ask your coding agent:
+
+```text
+Now change the agent's model to gpt-5.6-luna, run the evaluation once, and show the scores next to the previous run. If any case fails, tell me why.
+```
+
+Start the run in Studio Web again. In our run, four of the seven cases failed outright: the new model left out three of the four output fields, so Studio Web rejected the output. The three cases that did run got the decisions right.
+
+The run's overall scores hide this. They still read 100 for both decisions, 99.4 for JSON similarity and 97 for the summary, because the averages only count the cases that finished. Always read the scores per test case, not just the summary line.
+
+Afterwards, ask your coding agent to switch the model back to Claude Sonnet 5.
+
+Done. You built an agent with a coding agent, gave it a set of tests, and used those tests to find and fix a real problem.
