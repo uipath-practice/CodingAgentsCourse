@@ -250,7 +250,7 @@ Before the coding agent builds the evaluation set, give it one working example t
 3. Set `in_ClaimPDF` and `in_PolicyPDF` to a sample claim and its policy, and run it.
 4. When the run finishes, add it to the **Default Evaluation Set**.
 
-Studio Web now has a test case with real file attachments, stored the way Studio Web stores them. The coding agent can't create file attachments from the CLI on its own yet, so it will copy this one.
+Studio Web now has a test case with real file attachments, stored the way Studio Web stores them. The coding agent can't add file attachments from the CLI yet, so the next prompt explains Studio Web's file format and points at this test case as the example.
 
 ### 4. Create the evaluation set
 
@@ -286,7 +286,7 @@ You need seven test cases: one clean claim, one for each check that can fail, an
     3) LLM judge on out_EligibilityAnalysisSummary: does the summary give the same decision and reason?
        Use a different model for the judge than the agent uses.
 
-    I added a test case in Studio Web; it runs and reads its files fine. Set up the new test cases and their files exactly the way Studio Web did for that one, including how it stores the files, so the evaluation can open them.
+    Until the UiPath skill covers this, here's how evaluation files work. Studio Web keeps them in the agent's evaluationFiles folder as text, not as plain PDFs: the first line is BINARY_FILE:application/pdf:<size>, the next line is ---BASE64---, and then comes the PDF as base64. Files you download from Studio Web are already in that format. Test cases point at them as evaluationFiles/<name>.pdf, like the test case I added in Studio Web.
 
     Put everything in a new evaluation set called "Eligibility Scenarios". Don't change or delete other evaluation sets.
 
@@ -313,7 +313,7 @@ You need seven test cases: one clean claim, one for each check that can fail, an
     3) LLM judge on out_EligibilityAnalysisSummary: does the summary give the same decision and reason?
        Use a different model for the judge than the agent uses.
 
-    I added a test case in Studio Web; it runs and reads its files fine. Set up the new test cases and their files exactly the way Studio Web did for that one, including how it stores the files, so the evaluation can open them.
+    Until the UiPath skill covers this, here's how evaluation files work. Studio Web keeps them in the agent's evaluationFiles folder as text, not as plain PDFs: the first line is BINARY_FILE:application/pdf:<size>, the next line is ---BASE64---, and then comes the PDF as base64. Files you download from Studio Web are already in that format. Test cases point at them as evaluationFiles/<name>.pdf, like the test case I added in Studio Web.
 
     Put everything in a new evaluation set called "Eligibility Scenarios". Don't change or delete other evaluation sets.
 
