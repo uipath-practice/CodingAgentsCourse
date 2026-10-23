@@ -358,7 +358,7 @@ At the end, show me
 
 The coding agent runs the whole loop itself: it starts each evaluation run from the CLI, reads the scores, changes the agent's prompt, uploads it and runs again. A run takes about a minute.
 
-Runs started in Studio Web land on the **Results** tab of the evaluation set, newest at the top, with one score per evaluator. It's a good way to see how the scores move between prompt versions.
+Every run, including the ones the coding agent starts from the CLI, lands on the **Results** tab of the evaluation set in Studio Web, newest at the top, with one score per evaluator. You can watch the scores climb as the coding agent fixes the prompt.
 
 ![The Results tab of the evaluation set with four runs and their scores per evaluator](3-build-your-first-agent.images/evaluation-results-W.png){ .screenshot width="900" }
 
