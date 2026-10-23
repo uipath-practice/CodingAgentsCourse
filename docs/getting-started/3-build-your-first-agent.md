@@ -3,8 +3,8 @@
 !!! tip "Here is our plan for this lesson:"
 
     1. Ask your coding agent to build a small agent from a prompt, then try it on a sample claim.
-    2. Turn few test documents into an evaluation set.
-    3. Run the evaluations in loop, letting your coding agent improve the agent.
+    2. Turn a few test documents into an evaluation set.
+    3. Run the evaluations in a loop, letting your coding agent improve the agent.
 
 ## Goal
 
@@ -24,7 +24,7 @@ It reads both PDFs and runs **five checks**:
 4. **Coverage period**: did the loss happen while the policy was in force?
 5. **Filing deadline**: was the claim filed within 60 days of the loss, or does it explain why not?
 
-It returns a **yes** or **no** on eligibility, a **flag** for claims a person should look at, a short **summary**, and the result of each check as JSON. Other apps and agents could read that JSON, so the field names and output structure is fixed.
+It returns a **yes** or **no** on eligibility, a **flag** for claims a person should look at, a short **summary**, and the result of each check as JSON. Other apps and agents could read that JSON, so the field names and output structure are fixed.
 
 ## Why test an agent at all?
 
@@ -41,7 +41,7 @@ An **evaluation set** run regularly catches that. It's a list of test cases of a
 Writing good test cases is the hard part - we expect business users to provide samples. In this exercise a document generator does it for you: it creates a claim and a policy with one known problem planted in them, so you know what the right answer is.
 
 !!! tip "Training Environment"
-    Log in at **[{{ training_url }}]({{ training_url }})** and use tenant **{{ training_tenant }}** for this exercise.
+    Log in at **[{{ training_url }}]({{ training_url }})** and use tenant **CodingAgentsPractice** for this exercise.
 
 ## Steps
 
@@ -247,14 +247,15 @@ Open the agent in Studio Web to see what the coding agent built: the two file in
 
 ### 3. Test the agent by hand
 
-1. Open the solution your coding agent uploaded in Studio Web. It's called **EligibilityCheck** followed by your name. Agent also show Studio Web project URL.
+1. Open the solution your coding agent uploaded in Studio Web. It's called **EligibilityCheck** followed by your name. The coding agent also shows the Studio Web project URL.
 2. Open **EligibilityCheckAgent** and select **Debug**.
 3. Set `in_ClaimPDF` and `in_PolicyPDF` to the sample claim and its policy, and run it.
 4. Look at the output and validate that all arguments and JSON payload structure is correct.
 5. When the run finishes, add it to the **Default Evaluation Set**.
+
 ### 4. Create the evaluation set
 
-You need seven test cases: one clean claim, one for each check that can fail, and one late claim that explains the delay and could be exception. 
+You need seven test cases: one clean claim, one for each check that can fail, and one late claim that explains the delay, which a person should review.
 
 Choose the tab that matches your setup. Both give you the same evaluation set.
 
