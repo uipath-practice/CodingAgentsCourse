@@ -3,18 +3,20 @@
 !!! tip "Here is our plan for this lesson:"
 
     1. Ask your coding agent to build a small agent from a prompt, then try it on a sample claim.
-    2. Generate test documents and turn them into an evaluation set.
-    3. Run the evaluation, let your coding agent fix what fails, and run it again.
+    2. Turn few test documents into an evaluation set.
+    3. Run the evaluations in loop, letting your coding agent improve the agent.
 
 ## Goal
 
-By the end of this lesson you'll have a working agent in **Studio Web** and a set of tests that tell you whether it still works. You'll also have run the loop you'll use for every agent after this one: describe it, build it, test it, fix it, test again.
+By the end of this lesson you'll have a working low-code agent in **Studio Web** and a set of tests that tell you whether the agent works. You'll also have run the loop you'll use for every agent after this one: describe it, build it, test it, fix it, test again.
 
 The agent is deliberately small, so the focus stays on that loop. Later exercises build richer agents with context, tools and structured extraction.
 
 ## What you'll build
 
-An insurer receives a **First Notice of Loss (FNOL)** claim together with the homeowner's policy it refers to. Before anyone assesses the damage, someone checks the basics. Your agent does that check. It reads both PDFs and runs five checks:
+An insurer receives a **First Notice of Loss (FNOL)** claim together with the **homeowner's policy** it refers to. Before anyone assesses the damage, someone checks the basics. We will build an agent to do that.
+
+It reads both PDFs and runs **five checks**:
 
 1. **Policy status**: is the policy Current or Paid, rather than Lapsed, Cancelled or Expired?
 2. **Identity**: is the claimant the person named on the policy?
@@ -22,21 +24,21 @@ An insurer receives a **First Notice of Loss (FNOL)** claim together with the ho
 4. **Coverage period**: did the loss happen while the policy was in force?
 5. **Filing deadline**: was the claim filed within 60 days of the loss, or does it explain why not?
 
-It returns a yes or no on eligibility, a flag for claims a person should look at, a short summary, and the result of each check as JSON. Other apps and agents in later exercises read that JSON, so the field names are fixed.
+It returns a **yes** or **no** on eligibility, a **flag** for claims a person should look at, a short **summary**, and the result of each check as JSON. Other apps and agents could read that JSON, so the field names and output structure is fixed.
 
 ## Why test an agent at all?
 
-An LLM doesn't always give the same answer twice. A prompt that works on the two samples you tried can still trip on a date written as `10.10.2026`, on a claimant who shares a surname with the policyholder, or on an explanation hidden in the middle of a paragraph. A small change to the prompt, or a new model, can break a case that used to pass.
+An LLM doesn't always give the same answer twice. A prompt that works on the sample you tried can still trip on a date written as `10.10.2026`, on a claimant who shares a surname with the policyholder, or on an explanation hidden in the middle of a paragraph. A small change to the prompt, or a new model, can break a case that used to pass.
 
-An **evaluation set** catches that. It's a list of test cases, each one an input plus the answer you expect. You run the whole set after every change and compare scores. The checks that do the scoring are called evaluators. You'll use three kinds:
+An **evaluation set** run regularly catches that. It's a list of test cases of all business scenarios, each one an input plus the answer you expect. You run the whole set after every change and compare scores. The checks that do the scoring are called evaluators. You'll use three kinds:
 
-| Evaluator | What it checks here |
-| :--- | :--- |
-| Exact match | The decision fields `out_isEligible` and `out_Escalate` are exactly right |
-| JSON similarity | The five check results and the values behind them match |
-| LLM judge | The summary gives the same decision and the same reason, in any wording |
+| Evaluator       | What it checks here                                                                                                      |
+| :-------------- | :----------------------------------------------------------------------------------------------------------------------- |
+| Exact match     | The decision fields `out_isEligible` and `out_Escalate` are exactly right                                                |
+| JSON similarity | The five check results and the values behind them match                                                                  |
+| LLM judge       | The summary gives the same decision and the same reason, in any LLM's wording / language / length, as long as it's valid |
 
-Writing good test cases is the hard part. Here a document generator does it for you: it creates a claim and a policy with one known problem planted in them, so you know what the right answer is.
+Writing good test cases is the hard part - we expect business users to provide samples. In this exercise a document generator does it for you: it creates a claim and a policy with one known problem planted in them, so you know what the right answer is.
 
 !!! tip "Training Environment"
     Log in at **[{{ training_url }}]({{ training_url }})** and use tenant **{{ training_tenant }}** for this exercise.
@@ -53,14 +55,13 @@ cd first-agent
 mkdir samples
 ```
 
-Download the two sample pairs into `samples`. Each claim refers to its policy by number, so always use a claim with its own policy.
+Download the sample claim and its policy into `samples`:
 
 | Claim | Policy | Scenario |
 | :--- | :--- | :--- |
-| [CLM-2026-357861-claim.pdf](assets/claim-samples/CLM-2026-357861-claim.pdf) | [HO-5534416561.pdf](assets/claim-samples/HO-5534416561.pdf) | Mumbai (INR), water damage, Rajesh Kumar Sharma |
-| [CLM-2026-896147-claim.pdf](assets/claim-samples/CLM-2026-896147-claim.pdf) | [HO-3883873532.pdf](assets/claim-samples/HO-3883873532.pdf) | Melbourne (AUD), fire damage, Mei Lin Tan |
+| [CLM-2026-809765-claim.pdf](assets/claim-samples/CLM-2026-809765-claim.pdf) | [HO-81987766.pdf](assets/claim-samples/HO-81987766.pdf) | Melbourne (AUD), fire damage, Mei Lin Tan |
 
-Open a couple of them. You'll notice the dates are written day first, and that both losses happened on the last day of the policy. Your agent will have to get both of those right.
+Open them. The dates are written day first, and the loss happened on the last day of the policy. Your agent will have to get both of those right.
 
 <details markdown="1">
 <summary>Optional: define your conventions (AGENTS.md)</summary>
@@ -93,7 +94,7 @@ Before you build much, drop a small file in the folder with your conventions: na
 Open **Claude Code** (or your coding agent) in the `first-agent` folder and give it this prompt:
 
 ```text
-Using the UiPath agent skill, build a low-code agent called "EligibilityCheckAgent" in a solution called "EligibilityCheck" followed by my first name. If you can't tell my first name, use today's date instead. Use Claude Sonnet 5 as the agent's model. The agent takes two PDF files, a claim and a policy, reads both, and checks the claim against the policy.
+Using the UiPath agent skill, build a low-code agent called "EligibilityCheckAgent" in a solution called "EligibilityCheck" followed by my first or last name. The agent takes two PDF files, a claim and a policy, reads both, and checks the claim against the policy.
 
 Inputs:
 - in_ClaimPDF: the First Notice of Loss (FNOL) claim form submitted by the claimant (PDF).
@@ -166,77 +167,78 @@ The agent must return output matching this structure. Downstream apps and agents
 - This is the FNOL eligibility step for property claims. Write the prompt with common practice in
   this area in mind. That can guide how values are read and normalized, but must not add checks,
   escalation reasons or pass/fail rules beyond the ones above.
-- The decision must follow from the checks: the agent produces the five check results before
-  out_isEligible, and inside each check writes the detail before the result. The summary must
+- The decision must follow from the checks. In the output schema, put out_EligibilityChecksJSON
+  first and out_isEligible, out_Escalate and out_EligibilityAnalysisSummary after it; inside each
+  check, put the details first and result last. Keep the field names and types. The summary must
   agree with the check results.
 - Every output field always gets a value of the right type, even when a document can't be read.
   In that case the checks fail and out_Escalate = true.
 - The prompt should be well structured and easy for a person to read.
 
-There are a couple of sample documents in the samples folder. When the agent is built, upload it to Studio Web and try it on one of the samples. Don't deploy it.
+There's a sample claim and its policy in the samples folder. When the agent is built, upload it to Studio Web and try it on the sample. Don't deploy it.
 ```
 
-Approve the steps as they come. In our test runs this took about four minutes, and the coding agent worked through roughly this sequence:
+Approve the steps if agent asks. In our test runs this took about four minutes, and the coding agent worked through roughly this sequence:
 
 - read the UiPath agent skill and the sample PDFs;
-- create the solution and the agent inside it;
+- create the solution and the agent inside it; local first;
 - write the agent's system prompt, the two file inputs and the output schema, and add the built-in **Analyze Files** tool, which is how a low-code agent reads a PDF;
 - validate the project, upload it to Studio Web, and run the agent once on a sample pair.
 
-Watch the last step. In one of our runs the five checks came back right, but the summary said the claim was eligible and filed after 53 days. The coding agent spotted the contradiction, tightened the prompt so the summary is written last, and ran it again. The checks and the summary come from the same model and can still disagree, which is what the LLM judge in step 4 will catch.
+Check the last step. In one of our runs, on a late claim, the five checks came back right, but the summary said the claim was eligible and filed after 53 days. The coding agent spotted the contradiction, tightened the prompt so the summary is written last, and ran it again. The checks and the summary come from the same model and can still disagree, which is what the LLM judge in step 4 will catch.
 
 <details markdown="1">
-<summary>Here is the output from one of our runs (claim CLM-2026-896147)</summary>
+<summary>Here is the output from one of our runs on the sample (claim CLM-2026-809765)</summary>
 
 ```json
 {
   "out_EligibilityChecksJSON": {
-    "claim_id": "CLM-2026-896147",
-    "policy_number": "HO-3883873532",
+    "claim_id": "CLM-2026-809765",
+    "policy_number": "HO-81987766",
     "checks": {
       "policy_status": {
-        "summary": "The policy's Payment Status is printed as 'Current - Paid in Full', which qualifies as Current/Paid.",
+        "summary": "The policy Payment Status is printed as 'Current - Paid in Full', which qualifies as Current/Paid.",
         "result": "pass"
       },
       "identity_match": {
         "claimant_name": "Mei Lin Tan",
         "policyholder_name": "Mei Lin Tan",
-        "summary": "The claimant name 'Mei Lin Tan' exactly matches the sole Named Insured 'Mei Lin Tan' on the policy.",
+        "summary": "The Claimant Name 'Mei Lin Tan' on the claim exactly matches the Named Insured 'Mei Lin Tan' on the policy.",
         "result": "pass"
       },
       "address_match": {
-        "claim_address": "4/16 Chapel Street, St Kilda, VIC, 3182",
+        "claim_address": "4/16 Chapel Street, St Kilda, VIC 3182",
         "policy_address": "4/16 Chapel Street, St Kilda, VIC 3182",
         "report_address": "N/A — no incident report in this exercise",
-        "summary": "Both addresses are the same unit 4 at 16 Chapel Street, St Kilda, VIC, 3182, after normalizing the unit notation; street number, name, unit, city and postal code all match.",
+        "summary": "The insured property address on the claim and the Described Property address on the policy are identical: 4/16 Chapel Street, St Kilda, VIC 3182.",
         "result": "pass"
       },
       "coverage_period": {
-        "incident_date": "2026-04-14",
-        "effective_date": "2025-04-14",
-        "expiration_date": "2026-04-14",
-        "summary": "The incident date of 2026-04-14 falls on the policy's last day of coverage (expiration date 2026-04-14), which is within the effective period 2025-04-14 to 2026-04-14 inclusive.",
+        "incident_date": "2026-09-17",
+        "effective_date": "2025-09-17",
+        "expiration_date": "2026-09-17",
+        "summary": "The incident date 2026-09-17 falls within the policy period of 2025-09-17 to 2026-09-17, matching the last day of coverage, so the check passes.",
         "result": "pass"
       },
       "filing_deadline": {
-        "incident_date": "2026-04-14",
-        "claim_date": "2026-07-06",
-        "days_elapsed": 83.0,
-        "summary": "83 calendar days elapsed between the incident date (2026-04-14) and the submission date (2026-07-06), which exceeds the 60-day limit, and the claimant provided no explanation for the delay.",
-        "result": "fail"
+        "incident_date": "2026-09-17",
+        "claim_date": "2026-09-19",
+        "days_elapsed": 2.0,
+        "summary": "Only 2 calendar days elapsed between the incident date (2026-09-17) and the submission date (2026-09-19), which is well within the 60-day filing window.",
+        "result": "pass"
       }
     }
   },
-  "out_isEligible": false,
+  "out_isEligible": true,
   "out_Escalate": false,
-  "out_EligibilityAnalysisSummary": "This claim is not eligible for assessment. Four of the five checks passed (policy status, identity match, address match, and coverage period), but the filing deadline check failed: 83 days elapsed between the incident date (2026-04-14) and the submission date (2026-07-06), exceeding the 60-day limit, and the claimant provided no explanation for the delay. Because the late filing has no explanation, this does not meet the escalation criteria, so the claim is not escalated."
+  "out_EligibilityAnalysisSummary": "This claim is eligible for assessment: all five eligibility checks passed. The policy is Current - Paid in Full, the claimant Mei Lin Tan matches the Named Insured, the claim and policy property addresses both match at 4/16 Chapel Street, St Kilda, VIC 3182, the incident date (2026-09-17) falls within the policy period (2025-09-17 to 2026-09-17), and the claim was filed only 2 days after the incident, well within the 60-day deadline. No escalation is required since there was no late filing and both documents were fully legible."
 }
 ```
 
 </details>
 
 !!! note "Exact wording will vary"
-    The summaries are generated, so yours won't match ours word for word. The structure, each check's `result` and the decision should match. Both samples are filed late without an explanation, so both should come back `out_isEligible: false`.
+    The summaries are generated, so yours won't match ours word for word. The structure, each check's `result` and the decision should match. Nothing is wrong with the sample claim, so it should come back `out_isEligible: true` and `out_Escalate: false`. The claims with problems come in step 4.
 
 !!! note "Field names in the terminal"
     When the coding agent runs the agent from the CLI, the output it prints may show the field names in PascalCase (`OutIsEligible`, `ClaimId`). That's only how the CLI displays them. The agent's real output uses the names from your schema.
@@ -247,7 +249,7 @@ Before the coding agent builds the evaluation set, give it one working example t
 
 1. Open the solution your coding agent uploaded in Studio Web. It's called **EligibilityCheck** followed by your first name (or today's date).
 2. Open **EligibilityCheckAgent** and select **Debug**.
-3. Set `in_ClaimPDF` and `in_PolicyPDF` to a sample claim and its policy, and run it.
+3. Set `in_ClaimPDF` and `in_PolicyPDF` to the sample claim and its policy, and run it.
 4. When the run finishes, add it to the **Default Evaluation Set**.
 
 Studio Web now has a test case with real file attachments, stored the way Studio Web stores them. The coding agent can't add file attachments from the CLI yet, so the next prompt explains Studio Web's file format and points at this test case as the example.
