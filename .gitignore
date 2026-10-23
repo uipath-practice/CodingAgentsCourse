@@ -27,3 +27,6 @@ knowledge-base/
 
 # OS
 .DS_Store
+
+# Obsidian vault settings (local editor config)
+.obsidian/

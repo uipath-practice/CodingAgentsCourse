@@ -185,7 +185,9 @@ Approve the steps if agent asks. In our test runs this took about four minutes, 
 - write the agent's system prompt, the two file inputs and the output schema, and add the built-in **Analyze Files** tool, which is how a low-code agent reads a PDF;
 - validate the project, upload it to Studio Web, and run the agent once on a sample pair.
 
-Check the last step. In one of our runs, on a late claim, the five checks came back right, but the summary said the claim was eligible and filed after 53 days. The coding agent spotted the contradiction, tightened the prompt so the summary is written last, and ran it again. The checks and the summary come from the same model and can still disagree, which is what the LLM judge in step 4 will catch.
+Open the agent in Studio Web to see what the coding agent built: the two file inputs, the output schema, the system and user prompts, and the **Analyze Files** tool on the canvas.
+
+![A low-code agent built by the coding agent, open in Studio Web, with its file inputs, outputs, prompts and the Analyze Files tool](3-build-your-first-agent.images/fresh-from-oven.png){ .screenshot width="900" }
 
 <details markdown="1">
 <summary>Here is the output from one of our runs on the sample (claim CLM-2026-809765)</summary>
@@ -243,20 +245,18 @@ Check the last step. In one of our runs, on a late claim, the five checks came b
 !!! note "Field names in the terminal"
     When the coding agent runs the agent from the CLI, the output it prints may show the field names in PascalCase (`OutIsEligible`, `ClaimId`). That's only how the CLI displays them. The agent's real output uses the names from your schema.
 
-### 3. Add one test case by hand
+### 3. Test the agent by hand
 
-Before the coding agent builds the evaluation set, give it one working example to copy.
-
-1. Open the solution your coding agent uploaded in Studio Web. It's called **EligibilityCheck** followed by your first name (or today's date).
+1. Open the solution your coding agent uploaded in Studio Web. It's called **EligibilityCheck** followed by your name. Agent also show Studio Web project URL.
 2. Open **EligibilityCheckAgent** and select **Debug**.
 3. Set `in_ClaimPDF` and `in_PolicyPDF` to the sample claim and its policy, and run it.
-4. When the run finishes, add it to the **Default Evaluation Set**.
-
-Studio Web now has a test case with real file attachments, stored the way Studio Web stores them. The coding agent can't add file attachments from the CLI yet, so the next prompt explains Studio Web's file format and points at this test case as the example.
-
+4. Look at the output and validate that all arguments and JSON payload structure is correct.
+5. When the run finishes, add it to the **Default Evaluation Set**.
 ### 4. Create the evaluation set
 
-You need seven test cases: one clean claim, one for each check that can fail, and one late claim that explains the delay. Choose the tab that matches your setup. Both give you the same evaluation set.
+You need seven test cases: one clean claim, one for each check that can fail, and one late claim that explains the delay and could be exception. 
+
+Choose the tab that matches your setup. Both give you the same evaluation set.
 
 === "Run the document generator"
 
@@ -326,12 +326,21 @@ You just edited the solution in Studio Web, so the last line of the prompt tells
 
 When it's done, open **Eligibility Scenarios** in Studio Web. You should see seven test cases, each with a claim and a policy attached. Check a couple of expected answers against the PDFs yourself: the coding agent worked them out by reading the documents, and so can you.
 
+![The Eligibility Scenarios evaluation set in Studio Web with seven test cases and the expected output of AUTO_SETTLE open](3-build-your-first-agent.images/evaluation-set-W.png){ .screenshot width="900" }
+*Seven test cases, one per scenario. For AUTO_SETTLE the expected output says eligible and no escalation.*
+
+The **Evaluators** tab shows how each test case gets scored. Each evaluator looks at one output field: the two decisions get an exact match, the checks get JSON similarity, and the summary gets an LLM judge.
+
+![The four evaluators in Studio Web, each with its category, type and target output field](3-build-your-first-agent.images/evaluators.png){ .screenshot width="800" }
+
 ### 5. Test and fix
 
 Now the loop. Give your coding agent this prompt:
 
 ```text
-Next, I want to make sure the agent's prompt works on all known test cases. I'll start each evaluation run in Studio Web; tell me when it's ready, then read the results yourself and see which test cases fail. If one fails, find out why, fix the prompt and run again. Repeat until the decisions are right on every case, the summary scores 95 or more and the JSON similarity 80 or more. Call it done only after two clean runs in a row. At most 3 fix iterations.
+Next, I want to make sure the agent's prompt works on all known test cases. Run the evaluation yourself from the CLI and see which test cases fail. If one fails, find out why, fix the prompt and run again. Repeat until the decisions are right on every case, the summary scores 95 or more and the JSON similarity 80 or more. Call it done only after two clean runs in a row. At most 3 fix iterations.
+
+Until UiPath fixes it, runs started from the CLI can't open the evaluationFiles paths. For CLI runs, upload the test PDFs as attachments and run from a copy of the project whose test cases use those attachment IDs instead. Keep the agent's project ID the same as in Studio Web, and pass the solution ID. Leave the Studio Web evaluation set as it is.
 
 Rules
 - Improve the agent, not the test. Only change an expected answer if it's clearly wrong, and ask me first.
@@ -347,10 +356,14 @@ At the end, show me
 - each prompt change and the problem it fixed
 ```
 
-When the coding agent says it's ready, open **Eligibility Scenarios** in Studio Web and start the run there. It takes about a minute. Tell the coding agent when it's finished; it reads the scores itself.
+The coding agent runs the whole loop itself: it starts each evaluation run from the CLI, reads the scores, changes the agent's prompt, uploads it and runs again. A run takes about a minute.
 
-!!! note "Start evaluation runs from Studio Web"
-    Right now, evaluation runs with file inputs only work when you start them in Studio Web. Started from the CLI, every test case fails with `INVALID_ATTACHMENT_ID`. That's why the prompt asks the coding agent to hand the run over to you.
+Runs started in Studio Web land on the **Results** tab of the evaluation set, newest at the top, with one score per evaluator. It's a good way to see how the scores move between prompt versions.
+
+![The Results tab of the evaluation set with four runs and their scores per evaluator](3-build-your-first-agent.images/evaluation-results-W.png){ .screenshot width="900" }
+
+!!! note "Why the prompt explains attachments"
+    Right now, evaluation runs started from the CLI can't open files referenced as `evaluationFiles/...`, and every test case fails with `INVALID_ATTACHMENT_ID`. Runs started in Studio Web don't have this problem. Until UiPath fixes it, the prompt tells the coding agent how to work around it, so it can run the loop on its own.
 
 In one of our runs the first baseline looked fine. A second run of the same prompt missed the late claim with an explanation: the agent said it wasn't eligible. The PDF explains the delay in the third person, in the middle of the incident description ("The claim is late because the claimant was admitted to hospital the day after the loss..."). The agent's prompt told it to look for an explanation "written by the claimant", and the model sometimes read past it.
 
@@ -375,7 +388,7 @@ How much does the result depend on the model? Ask your coding agent:
 Now change the agent's model to gpt-5.6-luna, run the evaluation once, and show the scores next to the previous run. If any case fails, tell me why.
 ```
 
-Start the run in Studio Web again. In our run, four of the seven cases failed outright: the new model left out three of the four output fields, so Studio Web rejected the output. The three cases that did run got the decisions right.
+In our run, four of the seven cases failed outright: the new model left out three of the four output fields, so Studio Web rejected the output. The three cases that did run got the decisions right.
 
 The run's overall scores hide this. They still read 100 for both decisions, 99.4 for JSON similarity and 97 for the summary, because the averages only count the cases that finished. Always read the scores per test case, not just the summary line.
 
