@@ -1,0 +1,10 @@
+# One owner per exercise folder. On a pull request GitHub asks the owner of every touched path for review.
+# Convention: merge your own folder yourself once the build is green; wait for the owner on theirs;
+# a one-line heads-up in Slack for the shared files at the bottom.
+*                                      @uipath-practice
+docs/getting-started/                  @uipath-practice
+docs/loan-application-underwriting/    @madapopescu24
+mkdocs.yml                             @uipath-practice @madapopescu24
+main.py                                @uipath-practice @madapopescu24
+Master/                                @uipath-practice @madapopescu24
+.github/                               @uipath-practice @madapopescu24

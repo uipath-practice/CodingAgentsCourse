@@ -40,7 +40,7 @@ After creating the files, add the exercise to `mkdocs.local.yml` so it appears i
     - You did it!: <exercise-slug>/you-did-it.md
 ```
 
-Serve locally with: `/Users/sergey/Library/Python/3.9/bin/mkdocs serve -f mkdocs.local.yml`
+Serve locally with: `mkdocs serve -f mkdocs.local.yml`
 - `docs/<exercise-slug>/documentation.txt` — documentation reference file
 
 **`documentation.txt` template:**
@@ -113,7 +113,7 @@ Follow the **Summary Page** template in `Master/CourseStructure.md`.
 After creating all files, run `mkdocs build` to check for errors:
 
 ```bash
-/Users/sergey/Library/Python/3.9/bin/mkdocs build
+mkdocs build
 ```
 
 MkDocs will warn that the new pages are not in the navigation — this is expected and intentional. Report the warning text so the user knows it's normal.

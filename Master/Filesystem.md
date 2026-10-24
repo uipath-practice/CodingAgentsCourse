@@ -243,17 +243,17 @@ Rules:
 
 Preview the site locally:
 ```bash
-/Users/sergey/Library/Python/3.9/bin/mkdocs serve
+mkdocs serve
 ```
 
 Preview locally with draft exercises visible in the navigation:
 ```bash
-/Users/sergey/Library/Python/3.9/bin/mkdocs serve -f mkdocs.local.yml
+mkdocs serve -f mkdocs.local.yml
 ```
 
 Build check before committing:
 ```bash
-/Users/sergey/Library/Python/3.9/bin/mkdocs build
+mkdocs build
 ```
 
 Run metadata extraction for an exercise:
