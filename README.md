@@ -52,7 +52,7 @@ COURSE_ENV=prod mkdocs build
 This repo is scaffolded locally. To create the remote and deploy:
 
 ```bash
-cd coding-agents-course
+cd courses/coding-agents/site
 git init && git add . && git commit -m "Initial scaffold"
 gh repo create uipath-practice/CodingAgentsCourse --public --source=. --push
 # then enable GitHub Pages on the gh-pages branch (created by the deploy workflow)

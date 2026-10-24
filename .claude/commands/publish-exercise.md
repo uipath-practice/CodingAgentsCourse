@@ -86,7 +86,7 @@ If no home page card exists for this exercise, add one. Match the style of exist
 Run `mkdocs build`:
 
 ```bash
-/Users/sergey/Library/Python/3.9/bin/mkdocs build
+mkdocs build
 ```
 
 Report any errors. If the build passes, confirm what was done:

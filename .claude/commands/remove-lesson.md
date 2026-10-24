@@ -119,7 +119,7 @@ In `docs/<exercise-slug>/index.md`:
 Run `mkdocs build`:
 
 ```bash
-/Users/sergey/Library/Python/3.9/bin/mkdocs build
+mkdocs build
 ```
 
 Report any errors. If the build passes, summarize:

@@ -30,3 +30,6 @@ knowledge-base/
 
 # Obsidian vault settings (local editor config)
 .obsidian/
+
+# local virtualenv (uv venv .venv)
+.venv/
