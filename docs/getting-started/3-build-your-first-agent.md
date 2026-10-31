@@ -41,7 +41,7 @@ An **evaluation set** run regularly catches that. It's a list of test cases of a
 Writing good test cases is the hard part - we expect business users to provide samples. In this exercise a document generator does it for you: it creates a claim and a policy with one known problem planted in them, so you know what the right answer is.
 
 !!! tip "Training Environment"
-    Log in at **[{{ training_url }}]({{ training_url }})** and use tenant **CodingAgentsCourse** for this exercise.
+    Log in at **[{{ training_url }}]({{ training_url }})** and use tenant **CodingAgentsCourse** for this exercise, both in the browser and in the `uip` CLI your coding agent uses. Run `uip login status` to check, and switch with `uip login tenant set CodingAgentsCourse` if it shows another tenant.
 
 ## Steps
 
