@@ -41,7 +41,7 @@ An **evaluation set** run regularly catches that. It's a list of test cases of a
 Writing good test cases is the hard part - we expect business users to provide samples. In this exercise a document generator does it for you: it creates a claim and a policy with one known problem planted in them, so you know what the right answer is.
 
 !!! tip "Training Environment"
-    Log in at **[{{ training_url }}]({{ training_url }})** and use tenant **CodingAgentsPractice** for this exercise.
+    Log in at **[{{ training_url }}]({{ training_url }})** and use tenant **CodingAgentsCourse** for this exercise.
 
 ## Steps
 
@@ -251,7 +251,7 @@ Open the agent in Studio Web to see what the coding agent built: the two file in
 2. Open **EligibilityCheckAgent** and select **Debug**.
 3. Set `in_ClaimPDF` and `in_PolicyPDF` to the sample claim and its policy, and run it.
 4. Look at the output and validate that all arguments and JSON payload structure is correct.
-5. When the run finishes, add it to the **Default Evaluation Set**.
+5. Studio Web adds the run to the **Default Evaluation Set** for you. Open the set to check it's there.
 
 ### 4. Create the evaluation set
 
@@ -266,7 +266,7 @@ Choose the tab that matches your setup. Both give you the same evaluation set.
     ```text
     Using the UiPath agent skill, create an evaluation set for the agent. An evaluation set is a list of test cases: input files plus the answer we expect. Create it and upload it to Studio Web, but don't run it yet.
 
-    To get test documents, run the process "Retrieve Property Claim" in the Orchestrator folder "ClaimCase-Pro" once per test case, setting only in_Scenario and in_Discrepancy. It returns the claim ID and saves the claim form as <ClaimID>-claim.pdf in the storage bucket "Claims" in the same folder. The matching policy is <PolicyNumber>.pdf in the bucket "Insurance Policies Repository".
+    To get test documents, run the process "Retrieve Property Claim" in the Orchestrator folder "Tools" once per test case, setting only in_Scenario and in_Discrepancy. It returns the claim ID and saves the claim form as <ClaimID>-claim.pdf in the storage bucket "Claims" in the same folder. The matching policy is <PolicyNumber>.pdf in the bucket "Insurance Policies Repository".
 
     Test cases (7, one per line):
     - in_Scenario = auto-settle: nothing is wrong, so the claim is eligible
@@ -336,12 +336,15 @@ The **Evaluators** tab shows how each test case gets scored. Each evaluator look
 
 ### 5. Test and fix
 
+!!! warning "Check your tenant before you start"
+    Each tenant keeps its own evaluation results, and the **Results** tab only lists runs from the tenant you have open in Studio Web. Ask your coding agent which organization and tenant its `uip` login is using, and make sure it's **CodingAgentsCourse**, the same tenant you have open in Studio Web. If they don't match, the runs still happen, but they never show up on your Results tab.
+
 Now the loop. Give your coding agent this prompt:
 
 ```text
 Next, I want to make sure the agent's prompt works on all known test cases. Run the evaluation yourself from the CLI and see which test cases fail. If one fails, find out why, fix the prompt and run again. Repeat until the decisions are right on every case, the summary scores 95 or more and the JSON similarity 80 or more. Call it done only after two clean runs in a row. At most 3 fix iterations.
 
-Until UiPath fixes it, runs started from the CLI can't open the evaluationFiles paths. For CLI runs, upload the test PDFs as attachments and run from a copy of the project whose test cases use those attachment IDs instead. Keep the agent's project ID the same as in Studio Web, and pass the solution ID. Leave the Studio Web evaluation set as it is.
+Run it against the solution in Studio Web, so I can follow the runs there.
 
 Rules
 - Improve the agent, not the test. Only change an expected answer if it's clearly wrong, and ask me first.
@@ -363,8 +366,8 @@ Every run, including the ones the coding agent starts from the CLI, lands on the
 
 ![The Results tab of the evaluation set with four runs and their scores per evaluator](3-build-your-first-agent.images/evaluation-results-W.png){ .screenshot width="900" }
 
-!!! note "Why the prompt explains attachments"
-    Right now, evaluation runs started from the CLI can't open files referenced as `evaluationFiles/...`, and every test case fails with `INVALID_ATTACHMENT_ID`. Runs started in Studio Web don't have this problem. Until UiPath fixes it, the prompt tells the coding agent how to work around it, so it can run the loop on its own.
+!!! note "Why a case that didn't run counts as failed"
+    Right now, a test case in a run started from the CLI sometimes ends with no output and no error. The rule "A case that didn't run counts as failed" makes the coding agent notice it and run again, instead of counting it as a pass.
 
 In one of our runs the first baseline looked fine. A second run of the same prompt missed the late claim with an explanation: the agent said it wasn't eligible. The PDF explains the delay in the third person, in the middle of the incident description ("The claim is late because the claimant was admitted to hospital the day after the loss..."). The agent's prompt told it to look for an explanation "written by the claimant", and the model sometimes read past it.
 
