@@ -28,7 +28,7 @@ This first exercise is your preparation. You'll get your environment ready, get 
 | [**Install the CLI and Skills**](1-install-the-cli-and-skills.md) | Install `uip`, authenticate, and add the UiPath skills to your coding agent |
 | [**Practice the CLI**](2-practice-the-cli.md) | Explore the CLI, read from the platform, ask the docs with `docsai`, and send feedback |
 | [**Build an RPA Workflow in Studio**](3-build-an-rpa-workflow.md) | Create a process in Studio Desktop and let Autopilot build, test and run an RPA workflow for the RPA Challenge |
-| [**Build Your First Agent**](3-build-your-first-agent.md) | Generate a simple low-code agent with Claude Code, then publish it to Studio Web, run it against sample claims, and review the result |
+| [**Build Your First Agent**](4-build-your-first-agent.md) | Generate a simple low-code agent with Claude Code, then publish it to Studio Web, run it against sample claims, and review the result |
 
 !!! tip "Training Environment"
     Log in at **[{{ training_url }}]({{ training_url }})** using tenant **{{ training_tenant }}**.

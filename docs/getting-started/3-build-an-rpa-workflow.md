@@ -4,7 +4,7 @@
 
     1. Connect **Studio** to the course tenant and create a blank process.
     2. Give **Autopilot** one prompt and let it build and test an RPA workflow for the RPA Challenge.
-    3. Run the workflow yourself from Studio and check the score in the log.
+    3. Run the workflow yourself from Studio with **Run** (not Debug) and check the score in the log.
 
 ## Goal
 
@@ -40,7 +40,7 @@ The dot next to your initials shows that the **UiPath Assistant**, your robot, i
 ### 2. Create a blank process
 
 1. On the **Home** screen, select **New Project** → **Process**.
-2. Give it a name, for example `rpa-challenge`, and keep the defaults: **Cross-platform** and **VB**.
+2. Keep the default name or pick your own; the name doesn't matter. Keep the other defaults: **Cross-platform** and **VB**.
 3. Select **Create**.
 
     ![New Blank Process dialog with the name rpa-challenge-auto, cross-platform compatibility and VB](3-build-an-rpa-workflow.images/2-new-process.png){ .screenshot width="600" }
@@ -123,7 +123,7 @@ Open **Main.xaml** and walk through it: read the Excel file, open the site, star
 Even if the coding assistant already ran a test, run the workflow once more yourself, from Studio. This is the run that counts.
 
 1. Check that the dot at the top right is still green: the UiPath Assistant is connected to **CodingAgentsCourse**.
-2. Select **Run** (or press **F5**), or **Debug**, and keep your hands off the mouse and keyboard.
+2. Select **Run** (or press **F5**), not **Debug**, and keep your hands off the mouse and keyboard. A Debug run keeps its log in Studio; a Run sends the log to the tenant, and that's where your progress is checked.
 3. When it finishes, open the **Output** panel. The last lines show the score copied from the screen, for example: `Your success rate is 100% ( 70 out of 70 fields) in 154172 milliseconds`. The log must contain that sentence exactly as the site shows it. If the coding assistant reworded it, ask it to log the text from the screen as is.
 
     ![The RPA Challenge page showing Congratulations and the success rate, with the same line in Studio's Output panel](3-build-an-rpa-workflow.images/7-final-run-W.png){ .screenshot width="900" }

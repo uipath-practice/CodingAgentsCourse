@@ -15,7 +15,7 @@ The course has two parts:
 
 **Part 2 · Agentic Orchestration** — build Coded Apps, then orchestrate agents and apps into Maestro solutions: Case Management, BPMN, and Flow.
 
-[**Getting Started with Coding Agents**](getting-started/index.md) — Install the `uip` CLI and UiPath skills, explore the CLI, then build and publish your first agent with Claude Code.
+[**Getting Started with Coding Agents**](getting-started/index.md) — Install the `uip` CLI and UiPath skills, explore the CLI, build an RPA workflow in Studio with Autopilot, then build and publish your first agent with Claude Code. A BPMN exercise that follows First Agent is on its way; this page will be updated when it's ready.
 
 [**Loan Application Underwriting**](loan-application-underwriting/index.md) — Build a complete code-first underwriting pipeline: a Python coded agent, a React coded app, a Maestro flow, and an RPA workflow that assess and route loan applications for UiBank.
 
