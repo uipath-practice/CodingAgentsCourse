@@ -1,0 +1,1610 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Hands-on learner's handbook for building UiPath agents and Maestro orchestrations with coding agents">
+      
+      
+        <meta name="author" content="Sergey Shumilov">
+      
+      
+        <link rel="canonical" href="https://uipath-practice.github.io/CodingAgentsCourse/getting-started/4-build-your-first-agent/">
+      
+      
+        <link rel="prev" href="../3-build-an-rpa-workflow/">
+      
+      
+        <link rel="next" href="../you-did-it/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>4. Build Your First Agent - UiPath Coding Agents Workshop</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#build-test-and-improve-your-first-agent" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="UiPath Coding Agents Workshop" class="md-header__button md-logo" aria-label="UiPath Coding Agents Workshop" data-md-component="logo">
+      
+  <img src="../../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            UiPath Coding Agents Workshop
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4. Build Your First Agent
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Getting Started with Coding Agents
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../loan-application-underwriting/agenda/" class="md-tabs__link">
+          
+  
+  
+  Loan Application Underwriting
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../next-steps/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Next Steps
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="UiPath Coding Agents Workshop" class="md-nav__button md-logo" aria-label="UiPath Coding Agents Workshop" data-md-component="logo">
+      
+  <img src="../../assets/images/Partner Success Logo.png" alt="logo">
+
+    </a>
+    UiPath Coding Agents Workshop
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started with Coding Agents
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started with Coding Agents
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1-install-the-cli-and-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Installing the CLI and Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2-practice-the-cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Practicing the CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3-build-an-rpa-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Build an RPA Workflow in Studio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Build Your First Agent
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Build Your First Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you'll build
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-test-an-agent-at-all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why test an agent at all?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-set-up-your-working-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Set up your working folder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-build-the-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Build the agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-test-the-agent-by-hand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Test the agent by hand
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-create-the-evaluation-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Create the evaluation set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-test-and-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Test and fix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-optional-try-another-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Optional: try another model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    You did it!
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loan Application Underwriting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Loan Application Underwriting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/agenda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agenda
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/what-is-a-coding-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What's a Coding Agent?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/installation-guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation Guides
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/install-skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install UiPath Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/1-underwriting-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. AI Underwriting Assessment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/2-loan-officer-app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Loan Officer Review Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/3-maestro-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Orchestrating with Maestro Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/4-intake-enrichment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Application Intake & Enrichment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../loan-application-underwriting/you-did-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    You did it!
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../next-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Next Steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="build-test-and-improve-your-first-agent">Build, Test and Improve Your First Agent<a class="headerlink" href="#build-test-and-improve-your-first-agent" title="Permanent link">&para;</a></h1>
+<div class="admonition tip">
+<p class="admonition-title">Here is our plan for this lesson:</p>
+<ol>
+<li>Ask your coding agent to build a small agent from a prompt, then try it on a sample claim.</li>
+<li>Turn a few test documents into an evaluation set.</li>
+<li>Run the evaluations in a loop, letting your coding agent improve the agent.</li>
+</ol>
+</div>
+<h2 id="goal">Goal<a class="headerlink" href="#goal" title="Permanent link">&para;</a></h2>
+<p>By the end of this lesson you'll have a working low-code agent in <strong>Studio Web</strong> and a set of tests that tell you whether the agent works. You'll also have run the loop you'll use for every agent after this one: describe it, build it, test it, fix it, test again.</p>
+<p>The agent is deliberately small, so the focus stays on that loop. Later exercises build richer agents with context, tools and structured extraction.</p>
+<h2 id="what-youll-build">What you'll build<a class="headerlink" href="#what-youll-build" title="Permanent link">&para;</a></h2>
+<p>An insurer receives a <strong>First Notice of Loss (FNOL)</strong> claim together with the <strong>homeowner's policy</strong> it refers to. Before anyone assesses the damage, someone checks the basics. We will build an agent to do that.</p>
+<p>It reads both PDFs and runs <strong>five checks</strong>:</p>
+<ol>
+<li><strong>Policy status</strong>: is the policy Current or Paid, rather than Lapsed, Cancelled or Expired?</li>
+<li><strong>Identity</strong>: is the claimant the person named on the policy?</li>
+<li><strong>Address</strong>: do the claim and the policy describe the same property?</li>
+<li><strong>Coverage period</strong>: did the loss happen while the policy was in force?</li>
+<li><strong>Filing deadline</strong>: was the claim filed within 60 days of the loss, or does it explain why not?</li>
+</ol>
+<p>It returns a <strong>yes</strong> or <strong>no</strong> on eligibility, a <strong>flag</strong> for claims a person should look at, a short <strong>summary</strong>, and the result of each check as JSON. Other apps and agents could read that JSON, so the field names and output structure are fixed.</p>
+<h2 id="why-test-an-agent-at-all">Why test an agent at all?<a class="headerlink" href="#why-test-an-agent-at-all" title="Permanent link">&para;</a></h2>
+<p>An LLM doesn't always give the same answer twice. A prompt that works on the sample you tried can still trip on a date written as <code>10.10.2026</code>, on a claimant who shares a surname with the policyholder, or on an explanation hidden in the middle of a paragraph. A small change to the prompt, or a new model, can break a case that used to pass.</p>
+<p>An <strong>evaluation set</strong> run regularly catches that. It's a list of test cases of all business scenarios, each one an input plus the answer you expect. You run the whole set after every change and compare scores. The checks that do the scoring are called evaluators. You'll use three kinds:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Evaluator</th>
+<th style="text-align: left;">What it checks here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Exact match</td>
+<td style="text-align: left;">The decision fields <code>out_isEligible</code> and <code>out_Escalate</code> are exactly right</td>
+</tr>
+<tr>
+<td style="text-align: left;">JSON similarity</td>
+<td style="text-align: left;">The five check results and the values behind them match</td>
+</tr>
+<tr>
+<td style="text-align: left;">LLM judge</td>
+<td style="text-align: left;">The summary gives the same decision and the same reason, in any LLM's wording / language / length, as long as it's valid</td>
+</tr>
+</tbody>
+</table>
+<p>Writing good test cases is the hard part - we expect business users to provide samples. In this exercise a document generator does it for you: it creates a claim and a policy with one known problem planted in them, so you know what the right answer is.</p>
+<div class="admonition tip">
+<p class="admonition-title">Training Environment</p>
+<p>Log in at <strong><a href="https://cloud.uipath.com/tpenlabs">https://cloud.uipath.com/tpenlabs</a></strong> and use tenant <strong>CodingAgentsCourse</strong> for this exercise, both in the browser and in the <code>uip</code> CLI your coding agent uses. Run <code>uip login status</code> to check, and switch with <code>uip login tenant set CodingAgentsCourse</code> if it shows another tenant.</p>
+</div>
+<h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
+<h3 id="1-set-up-your-working-folder">1. Set up your working folder<a class="headerlink" href="#1-set-up-your-working-folder" title="Permanent link">&para;</a></h3>
+<p>Create an empty folder with a <code>samples</code> subfolder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir<span class="w"> </span>first-agent
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>first-agent
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>mkdir<span class="w"> </span>samples
+</code></pre></div>
+<p>Download the sample claim and its policy into <code>samples</code>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Claim</th>
+<th style="text-align: left;">Policy</th>
+<th style="text-align: left;">Scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><a href="../assets/claim-samples/CLM-2026-809765-claim.pdf">CLM-2026-809765-claim.pdf</a></td>
+<td style="text-align: left;"><a href="../assets/claim-samples/HO-81987766.pdf">HO-81987766.pdf</a></td>
+<td style="text-align: left;">Melbourne (AUD), fire damage, Mei Lin Tan</td>
+</tr>
+</tbody>
+</table>
+<p>Open them. The dates are written day first, and the loss happened on the last day of the policy. Your agent will have to get both of those right.</p>
+<details>
+<summary>Optional: define your conventions (AGENTS.md)</summary>
+<p>Before you build much, drop a small file in the folder with your conventions: naming, structure, and rules like "<em>keep workflows small; don't put everything in one folder</em>".</p>
+<ul>
+<li>Your coding agent reads it automatically and follows it in every new session.</li>
+<li>It steers the agent beyond a single prompt, which keeps the output consistent across sessions and across coding agents.</li>
+<li>There's no single file name yet (<strong><code>CLAUDE.md</code></strong>, <strong><code>AGENTS.md</code></strong>, <strong><code>GEMINI.md</code></strong> and so on). If you use several coding agents, keep one real file and symlink the others to it.</li>
+<li>Here's a starting point. Expand it as you go:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gh"># Creating new projects</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">-</span><span class="w"> </span>When I ask to build something in this workspace folder, create a new project folder (short, lowercase, hyphenated) instead of working in the workspace root.
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">-</span><span class="w"> </span>Initialize with <span class="sb">`git init`</span> unless already inside an existing repo.
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">-</span><span class="w"> </span>Add a project-level <span class="sb">`AGENTS.md`</span> (like this one) before substantial implementation, so future sessions keep the same behavior.
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="k">-</span><span class="w"> </span>Continue all implementation, validation, and file edits inside the new project folder.
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="gh"># UiPath projects</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">-</span><span class="w"> </span>If a request mentions UiPath, RPA, Orchestrator, Maestro, Studio Web, <span class="sb">`.xaml`</span>, <span class="sb">`.flow`</span>, <span class="sb">`.bpmn`</span>, context grounding, queues, assets, robots, jobs, triggers, or <span class="sb">`uip`</span>, use the installed UiPath agent skills when relevant.
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="k">-</span><span class="w"> </span>Prefer the uip CLI for setup, validation, build, packaging, run, and platform operations.
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">-</span><span class="w"> </span>Ask before publishing, deploying, deleting, or modifying any UiPath Cloud/Orchestrator resource (package, folder, queue item, etc).
+</code></pre></div>
+</details>
+<h3 id="2-build-the-agent">2. Build the agent<a class="headerlink" href="#2-build-the-agent" title="Permanent link">&para;</a></h3>
+<p>Open <strong>Claude Code</strong> (or your coding agent) in the <code>first-agent</code> folder and give it this prompt:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Using the UiPath agent skill, build a low-code agent called "EligibilityCheckAgent" in a solution called "EligibilityCheck" followed by my first or last name. The agent takes two PDF files, a claim and a policy, reads both, and checks the claim against the policy.
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Inputs:
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>- in_ClaimPDF: the First Notice of Loss (FNOL) claim form submitted by the claimant (PDF).
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>- in_PolicyPDF: the homeowner's insurance policy referenced by the claim (PDF).
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>Things the agent needs to check between the two documents:
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>1. Policy Status Check. Find the Payment Status on the policy. Acceptable statuses are "Current"
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>   and "Paid". If it is "Lapsed", "Cancelled", or "Expired", the check fails.
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>2. Identity Verification. Compare the Claimant Name on the claim to the Named Insured on the
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>   policy. Allow minor variations (nicknames, middle names, minor spelling). If they refer to
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>   different people, the check fails.
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>3. Property Address Match. Compare the property address on the claim and the policy. Normalize
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>   formatting (e.g. "St." vs "Street"). If they differ, the check fails. This exercise has no
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>   separate incident report, so set report_address to "N/A — no incident report in this exercise".
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>4. Coverage Period Check. Confirm the Incident Date falls on or after the policy Effective Date
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>   and on or before the Expiration Date. A loss on the first or last day passes. If outside this
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>   window, the check fails.
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>5. Filing Deadline Check. Calculate calendar days between the Incident Date and the Date of
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>   Submission. More than 60 days: check whether the claim gives an explicit explanation for the delay.
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>   Explanation → pass (and escalate, see below). No explanation → fail. The form's pre-printed
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>   60-day notice is not an explanation.
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>The agent must return output matching this structure. Downstream apps and agents depend on it:
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>{
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>  "out_isEligible": "boolean: whether the claim is eligible for assessment",
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>  "out_EligibilityAnalysisSummary": "string: brief plain-language explanation of the decision",
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>  "out_Escalate": "boolean: true if a person needs to look at the claim (late filing with an explanation, or a document that can't be read)",
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>  "out_EligibilityChecksJSON": {
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>    "claim_id": "string",
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>    "policy_number": "string",
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>    "checks": {
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>      "policy_status": {
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>        "result": "pass | fail",
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>        "summary": "string"
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>      },
+<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>      "identity_match": {
+<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>        "result": "pass | fail",
+<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>        "claimant_name": "string",
+<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>        "policyholder_name": "string",
+<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>        "summary": "string"
+<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a>      },
+<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>      "address_match": {
+<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>        "result": "pass | fail",
+<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a>        "claim_address": "string",
+<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a>        "policy_address": "string",
+<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a>        "report_address": "string",
+<a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a>        "summary": "string"
+<a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a>      },
+<a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a>      "coverage_period": {
+<a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a>        "result": "pass | fail",
+<a id="__codelineno-2-52" name="__codelineno-2-52" href="#__codelineno-2-52"></a>        "incident_date": "string",
+<a id="__codelineno-2-53" name="__codelineno-2-53" href="#__codelineno-2-53"></a>        "effective_date": "string",
+<a id="__codelineno-2-54" name="__codelineno-2-54" href="#__codelineno-2-54"></a>        "expiration_date": "string",
+<a id="__codelineno-2-55" name="__codelineno-2-55" href="#__codelineno-2-55"></a>        "summary": "string"
+<a id="__codelineno-2-56" name="__codelineno-2-56" href="#__codelineno-2-56"></a>      },
+<a id="__codelineno-2-57" name="__codelineno-2-57" href="#__codelineno-2-57"></a>      "filing_deadline": {
+<a id="__codelineno-2-58" name="__codelineno-2-58" href="#__codelineno-2-58"></a>        "result": "pass | fail",
+<a id="__codelineno-2-59" name="__codelineno-2-59" href="#__codelineno-2-59"></a>        "incident_date": "string",
+<a id="__codelineno-2-60" name="__codelineno-2-60" href="#__codelineno-2-60"></a>        "claim_date": "string",
+<a id="__codelineno-2-61" name="__codelineno-2-61" href="#__codelineno-2-61"></a>        "days_elapsed": "number",
+<a id="__codelineno-2-62" name="__codelineno-2-62" href="#__codelineno-2-62"></a>        "summary": "string"
+<a id="__codelineno-2-63" name="__codelineno-2-63" href="#__codelineno-2-63"></a>      }
+<a id="__codelineno-2-64" name="__codelineno-2-64" href="#__codelineno-2-64"></a>    }
+<a id="__codelineno-2-65" name="__codelineno-2-65" href="#__codelineno-2-65"></a>  }
+<a id="__codelineno-2-66" name="__codelineno-2-66" href="#__codelineno-2-66"></a>}
+<a id="__codelineno-2-67" name="__codelineno-2-67" href="#__codelineno-2-67"></a>
+<a id="__codelineno-2-68" name="__codelineno-2-68" href="#__codelineno-2-68"></a>- All checks pass → out_isEligible = true, otherwise false.
+<a id="__codelineno-2-69" name="__codelineno-2-69" href="#__codelineno-2-69"></a>- Late filing with an explanation → out_isEligible = true, out_Escalate = true.
+<a id="__codelineno-2-70" name="__codelineno-2-70" href="#__codelineno-2-70"></a>- The agent should not infer information that isn't explicitly in the documents.
+<a id="__codelineno-2-71" name="__codelineno-2-71" href="#__codelineno-2-71"></a>- This is the FNOL eligibility step for property claims. Write the prompt with common practice in
+<a id="__codelineno-2-72" name="__codelineno-2-72" href="#__codelineno-2-72"></a>  this area in mind. That can guide how values are read and normalized, but must not add checks,
+<a id="__codelineno-2-73" name="__codelineno-2-73" href="#__codelineno-2-73"></a>  escalation reasons or pass/fail rules beyond the ones above.
+<a id="__codelineno-2-74" name="__codelineno-2-74" href="#__codelineno-2-74"></a>- The decision must follow from the checks. In the output schema, put out_EligibilityChecksJSON
+<a id="__codelineno-2-75" name="__codelineno-2-75" href="#__codelineno-2-75"></a>  first and out_isEligible, out_Escalate and out_EligibilityAnalysisSummary after it; inside each
+<a id="__codelineno-2-76" name="__codelineno-2-76" href="#__codelineno-2-76"></a>  check, put the details first and result last. Keep the field names and types. The summary must
+<a id="__codelineno-2-77" name="__codelineno-2-77" href="#__codelineno-2-77"></a>  agree with the check results.
+<a id="__codelineno-2-78" name="__codelineno-2-78" href="#__codelineno-2-78"></a>- Every output field always gets a value of the right type, even when a document can't be read.
+<a id="__codelineno-2-79" name="__codelineno-2-79" href="#__codelineno-2-79"></a>  In that case the checks fail and out_Escalate = true.
+<a id="__codelineno-2-80" name="__codelineno-2-80" href="#__codelineno-2-80"></a>- The prompt should be well structured and easy for a person to read.
+<a id="__codelineno-2-81" name="__codelineno-2-81" href="#__codelineno-2-81"></a>
+<a id="__codelineno-2-82" name="__codelineno-2-82" href="#__codelineno-2-82"></a>There's a sample claim and its policy in the samples folder. When the agent is built, upload it to Studio Web and try it on the sample. Don't deploy it.
+</code></pre></div>
+<p>Approve the steps if agent asks. In our test runs this took about four minutes, and the coding agent worked through roughly this sequence:</p>
+<ul>
+<li>read the UiPath agent skill and the sample PDFs;</li>
+<li>create the solution and the agent inside it; local first;</li>
+<li>write the agent's system prompt, the two file inputs and the output schema, and add the built-in <strong>Analyze Files</strong> tool, which is how a low-code agent reads a PDF;</li>
+<li>validate the project, upload it to Studio Web, and run the agent once on a sample pair.</li>
+</ul>
+<p>Open the agent in Studio Web to see what the coding agent built: the two file inputs, the output schema, the system and user prompts, and the <strong>Analyze Files</strong> tool on the canvas.</p>
+<p><img alt="A low-code agent built by the coding agent, open in Studio Web, with its file inputs, outputs, prompts and the Analyze Files tool" class="screenshot" src="../4-build-your-first-agent.images/fresh-from-oven.png" width="900" /></p>
+<details>
+<summary>Here is the output from one of our runs on the sample (claim CLM-2026-809765)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"out_EligibilityChecksJSON"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">"claim_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CLM-2026-809765"</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">"policy_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HO-81987766"</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">"checks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="nt">"policy_status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="nt">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The policy Payment Status is printed as 'Current - Paid in Full', which qualifies as Current/Paid."</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="nt">"identity_match"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">        </span><span class="nt">"claimant_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mei Lin Tan"</span><span class="p">,</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">        </span><span class="nt">"policyholder_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mei Lin Tan"</span><span class="p">,</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">        </span><span class="nt">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Claimant Name 'Mei Lin Tan' on the claim exactly matches the Named Insured 'Mei Lin Tan' on the policy."</span><span class="p">,</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">        </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">      </span><span class="nt">"address_match"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">        </span><span class="nt">"claim_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4/16 Chapel Street, St Kilda, VIC 3182"</span><span class="p">,</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">        </span><span class="nt">"policy_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4/16 Chapel Street, St Kilda, VIC 3182"</span><span class="p">,</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">        </span><span class="nt">"report_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"N/A — no incident report in this exercise"</span><span class="p">,</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">        </span><span class="nt">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The insured property address on the claim and the Described Property address on the policy are identical: 4/16 Chapel Street, St Kilda, VIC 3182."</span><span class="p">,</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">        </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">      </span><span class="nt">"coverage_period"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">        </span><span class="nt">"incident_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-09-17"</span><span class="p">,</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">        </span><span class="nt">"effective_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-09-17"</span><span class="p">,</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">        </span><span class="nt">"expiration_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-09-17"</span><span class="p">,</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">        </span><span class="nt">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The incident date 2026-09-17 falls within the policy period of 2025-09-17 to 2026-09-17, matching the last day of coverage, so the check passes."</span><span class="p">,</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">        </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">      </span><span class="nt">"filing_deadline"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">        </span><span class="nt">"incident_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-09-17"</span><span class="p">,</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">        </span><span class="nt">"claim_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-09-19"</span><span class="p">,</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">        </span><span class="nt">"days_elapsed"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">        </span><span class="nt">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Only 2 calendar days elapsed between the incident date (2026-09-17) and the submission date (2026-09-19), which is well within the 60-day filing window."</span><span class="p">,</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">        </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="w">  </span><span class="nt">"out_isEligible"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">  </span><span class="nt">"out_Escalate"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="w">  </span><span class="nt">"out_EligibilityAnalysisSummary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This claim is eligible for assessment: all five eligibility checks passed. The policy is Current - Paid in Full, the claimant Mei Lin Tan matches the Named Insured, the claim and policy property addresses both match at 4/16 Chapel Street, St Kilda, VIC 3182, the incident date (2026-09-17) falls within the policy period (2025-09-17 to 2026-09-17), and the claim was filed only 2 days after the incident, well within the 60-day deadline. No escalation is required since there was no late filing and both documents were fully legible."</span>
+<a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="p">}</span>
+</code></pre></div>
+</details>
+<div class="admonition note">
+<p class="admonition-title">Exact wording will vary</p>
+<p>The summaries are generated, so yours won't match ours word for word. The structure, each check's <code>result</code> and the decision should match. Nothing is wrong with the sample claim, so it should come back <code>out_isEligible: true</code> and <code>out_Escalate: false</code>. The claims with problems come in step 4.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Field names in the terminal</p>
+<p>When the coding agent runs the agent from the CLI, the output it prints may show the field names in PascalCase (<code>OutIsEligible</code>, <code>ClaimId</code>). That's only how the CLI displays them. The agent's real output uses the names from your schema.</p>
+</div>
+<h3 id="3-test-the-agent-by-hand">3. Test the agent by hand<a class="headerlink" href="#3-test-the-agent-by-hand" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Open the solution your coding agent uploaded in Studio Web. It's called <strong>EligibilityCheck</strong> followed by your name. The coding agent also shows the Studio Web project URL.</li>
+<li>Open <strong>EligibilityCheckAgent</strong> and select <strong>Debug</strong>.</li>
+<li>Set <code>in_ClaimPDF</code> and <code>in_PolicyPDF</code> to the sample claim and its policy, and run it.</li>
+<li>Look at the output and validate that all arguments and JSON payload structure is correct.</li>
+<li>Studio Web adds the run to the <strong>Default Evaluation Set</strong> for you. Open the set to check it's there.</li>
+</ol>
+<h3 id="4-create-the-evaluation-set">4. Create the evaluation set<a class="headerlink" href="#4-create-the-evaluation-set" title="Permanent link">&para;</a></h3>
+<p>You need seven test cases: one clean claim, one for each check that can fail, and one late claim that explains the delay, which a person should review.</p>
+<p>Choose the tab that matches your setup. Both give you the same evaluation set.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Run the document generator</label><label for="__tabbed_1_2">Use the offline kit</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>The <strong>Retrieve Property Claim</strong> process creates a claim and a policy with a planted problem and saves them to storage buckets. Give your coding agent this prompt:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Using the UiPath agent skill, create an evaluation set for the agent. An evaluation set is a list of test cases: input files plus the answer we expect. Create it and upload it to Studio Web, but don't run it yet.
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>To get test documents, run the process "Retrieve Property Claim" in the Orchestrator folder "Tools" once per test case, setting only in_Scenario and in_Discrepancy. It returns the claim ID and saves the claim form as &lt;ClaimID&gt;-claim.pdf in the storage bucket "Claims" in the same folder. The matching policy is &lt;PolicyNumber&gt;.pdf in the bucket "Insurance Policies Repository".
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Test cases (7, one per line):
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>- in_Scenario = auto-settle: nothing is wrong, so the claim is eligible
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>- in_Scenario = eligibility-fail, with in_Discrepancy =
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>  - ELIG_POLICY_LAPSED: premium unpaid from before the loss, so policy_status fails
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>  - ELIG_IDENTITY_MISMATCH: policy in a household member's name, so identity_match fails
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>  - ELIG_ADDRESS_MISMATCH: the house or unit number differs, so address_match fails
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>  - ELIG_COVERAGE_PERIOD: policy ended 5–20 days before the loss, so coverage_period fails
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>  - ELIG_LATE_FILING: loss 75–90 days before filing, no explanation, so filing_deadline fails
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>- in_Scenario = review-fail, with in_Discrepancy = REVIEW_LATE_WITH_JUSTIFICATION: filed late,
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>  but the claim explains why, so the claim is eligible and escalated
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>Name each test case after its setting, e.g. "ELIG_LATE_FILING". Call the first one "AUTO_SETTLE".
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>Work out the expected answers from the PDFs.
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>How to score each test case:
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>1) Exact match on out_isEligible and out_Escalate: is the decision right?
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>2) JSON similarity on out_EligibilityChecksJSON: are the check results and values right? Compare
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>   only the results and values, not the wording of the summaries.
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>3) LLM judge on out_EligibilityAnalysisSummary: does the summary give the same decision and reason?
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>   Use a different model for the judge than the agent uses.
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>Until the UiPath skill covers this, here's how evaluation files work. Studio Web keeps them in the agent's evaluationFiles folder as text, not as plain PDFs: the first line is BINARY_FILE:application/pdf:&lt;size&gt;, the next line is ---BASE64---, and then comes the PDF as base64. Files you download from Studio Web are already in that format. Test cases point at them as evaluationFiles/&lt;name&gt;.pdf, like the test case I added in Studio Web.
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>Put everything in a new evaluation set called "Eligibility Scenarios". Don't change or delete other evaluation sets.
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>I'm editing in Studio Web in parallel, so merge with my version before uploading.
+</code></pre></div>
+<p>The documents are generated fresh each time, so your claims, names and dates will differ from everyone else's.</p>
+</div>
+<div class="tabbed-block">
+<p>No access to the generator? Download <a href="../assets/eval-documents.zip">eval-documents.zip</a> and unzip it into an <code>eval-documents</code> folder next to <code>samples</code>. It holds seven claim and policy pairs produced by the same generator, plus <code>cases.csv</code>, which says which claim goes with which policy and what's wrong with each pair. Then give your coding agent this prompt:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Using the UiPath agent skill, create an evaluation set for the agent. An evaluation set is a list of test cases: input files plus the answer we expect. Create it and upload it to Studio Web, but don't run it yet.
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>The test documents are in the eval-documents folder. cases.csv lists the 7 test cases: which claim and policy go together, and what's wrong with each one. Use one test case per row and name it after the case column, e.g. "ELIG_LATE_FILING".
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Work out the expected answers from the PDFs.
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>How to score each test case:
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>1) Exact match on out_isEligible and out_Escalate: is the decision right?
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>2) JSON similarity on out_EligibilityChecksJSON: are the check results and values right? Compare
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>   only the results and values, not the wording of the summaries.
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>3) LLM judge on out_EligibilityAnalysisSummary: does the summary give the same decision and reason?
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>   Use a different model for the judge than the agent uses.
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>Until the UiPath skill covers this, here's how evaluation files work. Studio Web keeps them in the agent's evaluationFiles folder as text, not as plain PDFs: the first line is BINARY_FILE:application/pdf:&lt;size&gt;, the next line is ---BASE64---, and then comes the PDF as base64. Files you download from Studio Web are already in that format. Test cases point at them as evaluationFiles/&lt;name&gt;.pdf, like the test case I added in Studio Web.
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>Put everything in a new evaluation set called "Eligibility Scenarios". Don't change or delete other evaluation sets.
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>I'm editing in Studio Web in parallel, so merge with my version before uploading.
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>You just edited the solution in Studio Web, so the last line of the prompt tells the coding agent to download your version first and keep your test case. In our runs it compared the two copies, kept the Studio Web changes, and checked again right before uploading.</p>
+<p>When it's done, open <strong>Eligibility Scenarios</strong> in Studio Web. You should see seven test cases, each with a claim and a policy attached. Check a couple of expected answers against the PDFs yourself: the coding agent worked them out by reading the documents, and so can you.</p>
+<p><img alt="The Eligibility Scenarios evaluation set in Studio Web with seven test cases and the expected output of AUTO_SETTLE open" class="screenshot" src="../4-build-your-first-agent.images/evaluation-set-W.png" width="900" />
+<em>Seven test cases, one per scenario. For AUTO_SETTLE the expected output says eligible and no escalation.</em></p>
+<p>The <strong>Evaluators</strong> tab shows how each test case gets scored. Each evaluator looks at one output field: the two decisions get an exact match, the checks get JSON similarity, and the summary gets an LLM judge.</p>
+<p><img alt="The four evaluators in Studio Web, each with its category, type and target output field" class="screenshot" src="../4-build-your-first-agent.images/evaluators.png" width="800" /></p>
+<h3 id="5-test-and-fix">5. Test and fix<a class="headerlink" href="#5-test-and-fix" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Check your tenant before you start</p>
+<p>Each tenant keeps its own evaluation results, and the <strong>Results</strong> tab only lists runs from the tenant you have open in Studio Web. Ask your coding agent which organization and tenant its <code>uip</code> login is using, and make sure it's <strong>CodingAgentsCourse</strong>, the same tenant you have open in Studio Web. If they don't match, the runs still happen, but they never show up on your Results tab.</p>
+</div>
+<p>Now the loop. Give your coding agent this prompt:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Next, I want to make sure the agent's prompt works on all known test cases. Run the evaluation yourself from the CLI and see which test cases fail. If one fails, find out why, fix the prompt and run again. Repeat until the decisions are right on every case, the summary scores 95 or more and the JSON similarity 80 or more. Call it done only after two clean runs in a row. At most 3 fix iterations.
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Run it against the solution in Studio Web, so I can follow the runs there.
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Rules
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>- Improve the agent, not the test. Only change an expected answer if it's clearly wrong, and ask me first.
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>- Fix it with general rules, not with details from the test files.
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>- Look at every test case. A case that didn't run counts as failed.
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>- If the judge itself errors, rerun it; don't change the agent for that.
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>- Don't change the output format: same field names and types, because other apps depend on them.
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>- While you debug, don't change the model or add other evaluation sets. Ask me first.
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>- Don't deploy to Orchestrator.
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>At the end, show me
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>- a before-and-after table of scores
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>- each prompt change and the problem it fixed
+</code></pre></div>
+<p>The coding agent runs the whole loop itself: it starts each evaluation run from the CLI, reads the scores, changes the agent's prompt, uploads it and runs again. A run takes about a minute.</p>
+<p>Every run, including the ones the coding agent starts from the CLI, lands on the <strong>Results</strong> tab of the evaluation set in Studio Web, newest at the top, with one score per evaluator. You can watch the scores climb as the coding agent fixes the prompt.</p>
+<p><img alt="The Results tab of the evaluation set with four runs and their scores per evaluator" class="screenshot" src="../4-build-your-first-agent.images/evaluation-results-W.png" width="900" /></p>
+<div class="admonition note">
+<p class="admonition-title">Why a case that didn't run counts as failed</p>
+<p>Right now, a test case in a run started from the CLI sometimes ends with no output and no error. The rule "A case that didn't run counts as failed" makes the coding agent notice it and run again, instead of counting it as a pass.</p>
+</div>
+<p>In one of our runs the first baseline looked fine. A second run of the same prompt missed the late claim with an explanation: the agent said it wasn't eligible. The PDF explains the delay in the third person, in the middle of the incident description ("The claim is late because the claimant was admitted to hospital the day after the loss..."). The agent's prompt told it to look for an explanation "written by the claimant", and the model sometimes read past it.</p>
+<p>The coding agent fixed it with general rules: read every free-text field on the claim, and count an explanation wherever it appears, in first or third person. After that fix:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Evaluator</th>
+<th style="text-align: right;">Baseline (run 1 / run 2)</th>
+<th style="text-align: right;">After the fix</th>
+<th style="text-align: right;">Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>out_isEligible</code> exact match</td>
+<td style="text-align: right;">100 / 85.7</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>out_Escalate</code> exact match</td>
+<td style="text-align: right;">100 / 85.7</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr>
+<td style="text-align: left;">JSON similarity</td>
+<td style="text-align: right;">99.98 / 98.3</td>
+<td style="text-align: right;">99.98</td>
+<td style="text-align: right;">80</td>
+</tr>
+<tr>
+<td style="text-align: left;">Summary LLM judge</td>
+<td style="text-align: right;">83.6 / 83.0</td>
+<td style="text-align: right;">99.86</td>
+<td style="text-align: right;">95</td>
+</tr>
+</tbody>
+</table>
+<p>The low judge scores in the baseline aren't all the agent's fault. The judge model crashed on one case per run and scored it 0, which is why the prompt says to rerun when the judge itself errors, and why the judge uses a different model from the agent.</p>
+<p>Notice that one passing run didn't settle it. The late claim passed once, failed once, then passed after the fix. That's why the prompt asks for two clean runs in a row.</p>
+<h3 id="6-optional-try-another-model">6. Optional: try another model<a class="headerlink" href="#6-optional-try-another-model" title="Permanent link">&para;</a></h3>
+<p>How much does the result depend on the model? Ask your coding agent:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Now change the agent's model to gpt-5.6-luna, run the evaluation once, and show the scores next to the previous run. If any case fails, tell me why.
+</code></pre></div>
+<p>In our run, four of the seven cases failed outright: the new model left out three of the four output fields, so Studio Web rejected the output. The three cases that did run got the decisions right.</p>
+<p>The run's overall scores hide this. They still read 100 for both decisions, 99.4 for JSON similarity and 97 for the summary, because the averages only count the cases that finished. Always read the scores per test case, not just the summary line.</p>
+<p>Afterwards, ask your coding agent to switch the model back to Claude Sonnet 5.</p>
+<p>Done. You built an agent with a coding agent, gave it a set of tests, and used those tests to find and fix a real problem.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../3-build-an-rpa-workflow/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 3. Build an RPA Workflow in Studio">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                3. Build an RPA Workflow in Studio
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../you-did-it/" class="md-footer__link md-footer__link--next" aria-label="Next: You did it!">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                You did it!
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "toc.integrate", "search.highlight", "search.suggest", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>
