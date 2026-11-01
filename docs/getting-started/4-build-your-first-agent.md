@@ -187,7 +187,7 @@ Approve the steps if agent asks. In our test runs this took about four minutes, 
 
 Open the agent in Studio Web to see what the coding agent built: the two file inputs, the output schema, the system and user prompts, and the **Analyze Files** tool on the canvas.
 
-![A low-code agent built by the coding agent, open in Studio Web, with its file inputs, outputs, prompts and the Analyze Files tool](3-build-your-first-agent.images/fresh-from-oven.png){ .screenshot width="900" }
+![A low-code agent built by the coding agent, open in Studio Web, with its file inputs, outputs, prompts and the Analyze Files tool](4-build-your-first-agent.images/fresh-from-oven.png){ .screenshot width="900" }
 
 <details markdown="1">
 <summary>Here is the output from one of our runs on the sample (claim CLM-2026-809765)</summary>
@@ -327,12 +327,12 @@ You just edited the solution in Studio Web, so the last line of the prompt tells
 
 When it's done, open **Eligibility Scenarios** in Studio Web. You should see seven test cases, each with a claim and a policy attached. Check a couple of expected answers against the PDFs yourself: the coding agent worked them out by reading the documents, and so can you.
 
-![The Eligibility Scenarios evaluation set in Studio Web with seven test cases and the expected output of AUTO_SETTLE open](3-build-your-first-agent.images/evaluation-set-W.png){ .screenshot width="900" }
+![The Eligibility Scenarios evaluation set in Studio Web with seven test cases and the expected output of AUTO_SETTLE open](4-build-your-first-agent.images/evaluation-set-W.png){ .screenshot width="900" }
 *Seven test cases, one per scenario. For AUTO_SETTLE the expected output says eligible and no escalation.*
 
 The **Evaluators** tab shows how each test case gets scored. Each evaluator looks at one output field: the two decisions get an exact match, the checks get JSON similarity, and the summary gets an LLM judge.
 
-![The four evaluators in Studio Web, each with its category, type and target output field](3-build-your-first-agent.images/evaluators.png){ .screenshot width="800" }
+![The four evaluators in Studio Web, each with its category, type and target output field](4-build-your-first-agent.images/evaluators.png){ .screenshot width="800" }
 
 ### 5. Test and fix
 
@@ -364,7 +364,7 @@ The coding agent runs the whole loop itself: it starts each evaluation run from 
 
 Every run, including the ones the coding agent starts from the CLI, lands on the **Results** tab of the evaluation set in Studio Web, newest at the top, with one score per evaluator. You can watch the scores climb as the coding agent fixes the prompt.
 
-![The Results tab of the evaluation set with four runs and their scores per evaluator](3-build-your-first-agent.images/evaluation-results-W.png){ .screenshot width="900" }
+![The Results tab of the evaluation set with four runs and their scores per evaluator](4-build-your-first-agent.images/evaluation-results-W.png){ .screenshot width="900" }
 
 !!! note "Why a case that didn't run counts as failed"
     Right now, a test case in a run started from the CLI sometimes ends with no output and no error. The rule "A case that didn't run counts as failed" makes the coding agent notice it and run again, instead of counting it as a pass.

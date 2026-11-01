@@ -39,6 +39,9 @@ plugins:
   - search
   - macros:
       module_name: main
+  - redirects:
+      redirect_maps:
+        getting-started/3-build-your-first-agent.md: getting-started/4-build-your-first-agent.md
 
 markdown_extensions:
   - admonition
@@ -64,7 +67,7 @@ nav:
     - 1. Installing the CLI and Skills: getting-started/1-install-the-cli-and-skills.md
     - 2. Practicing the CLI: getting-started/2-practice-the-cli.md
     - 3. Build an RPA Workflow in Studio: getting-started/3-build-an-rpa-workflow.md
-    - 4. Build Your First Agent: getting-started/3-build-your-first-agent.md
+    - 4. Build Your First Agent: getting-started/4-build-your-first-agent.md
     - You did it!: getting-started/you-did-it.md
   - Loan Application Underwriting:
     - Agenda: loan-application-underwriting/agenda.md
