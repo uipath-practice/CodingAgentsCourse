@@ -239,3 +239,51 @@ img + em {
 .md-typeset table:not([class]) th {
   background-color: #f0f0f0;
 }
+
+/* Carousel: <div class="carousel" markdown> with one image (+ *caption*) per paragraph; wired up in extra.js */
+.carousel {
+  margin: 1.5rem 0;
+  outline: none;
+}
+
+.carousel__track {
+  min-height: 12rem;
+}
+
+.carousel__slide img.screenshot {
+  max-height: 22rem;
+  width: auto;
+  max-width: 70%;
+}
+
+.carousel__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.carousel__arrow {
+  font-size: 1.6rem;
+  line-height: 1;
+  padding: 0 0.6rem;
+  cursor: pointer;
+  color: var(--md-primary-fg-color);
+}
+
+.carousel__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.carousel__dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  cursor: pointer;
+  background: var(--md-default-fg-color--lightest);
+}
+
+.carousel__dot[aria-current="true"] {
+  background: var(--md-primary-fg-color);
+}

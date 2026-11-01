@@ -63,7 +63,8 @@ nav:
     - Overview: getting-started/index.md
     - 1. Installing the CLI and Skills: getting-started/1-install-the-cli-and-skills.md
     - 2. Practicing the CLI: getting-started/2-practice-the-cli.md
-    - 3. Build Your First Agent: getting-started/3-build-your-first-agent.md
+    - 3. Build an RPA Workflow in Studio: getting-started/3-build-an-rpa-workflow.md
+    - 4. Build Your First Agent: getting-started/3-build-your-first-agent.md
     - You did it!: getting-started/you-did-it.md
   - Loan Application Underwriting:
     - Agenda: loan-application-underwriting/agenda.md
@@ -77,7 +78,6 @@ nav:
     - 4. Application Intake & Enrichment: loan-application-underwriting/4-intake-enrichment.md
     - You did it!: loan-application-underwriting/you-did-it.md
   - Next Steps: next-steps.md
-  - Catalog: https://uipath-practice.github.io/
 
 extra_css:
   - stylesheets/extra.css
