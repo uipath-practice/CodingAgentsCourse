@@ -80,6 +80,10 @@ nav:
     - 3. Orchestrating with Maestro Flow: loan-application-underwriting/3-maestro-flow.md
     - 4. Application Intake & Enrichment: loan-application-underwriting/4-intake-enrichment.md
     - You did it!: loan-application-underwriting/you-did-it.md
+  - Invoice Matching:
+    - Overview: invoice-matching/index.md
+    - Build the Invoice Matching Solution: invoice-matching/1-build-the-solution.md
+    - You did it!: invoice-matching/you-did-it.md
   - Next Steps: next-steps.md
 
 extra_css:
