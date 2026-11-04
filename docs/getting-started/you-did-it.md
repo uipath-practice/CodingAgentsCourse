@@ -31,7 +31,7 @@ uip tools update
 
 You've done the loop once with a simple agent. In the next exercise you'll build a richer one — adding context and tools so the agent can reason over grounded data and take real actions.
 
-A BPMN exercise that comes after First Agent is on its way. This page will be updated when it's ready.
+Next, [**Invoice Matching with a Coding Agent**](../invoice-matching/index.md) puts an agent inside a Maestro process: your coding agent builds the whole solution from one prompt, and you review the invoices it flags in Action Center.
 
 ## Keep iterating
 
