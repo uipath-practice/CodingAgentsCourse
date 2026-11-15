@@ -12,6 +12,8 @@ By the end of this lesson you'll have an invoice matching process in your Studio
 
 ## What you'll build
 
+![The Maestro process and the Invoice Matching Agent you build, on top of the provided blocks and the UiPath Platform](1-build-the-solution.images/0a-building-blocks-W.svg){ width="900" }
+
 The process takes one invoice at a time:
 
 1. A provided process creates a new supplier invoice as a PDF, together with its purchase order. A second provided process reads the PDF with **IXP** (Intelligent eXtraction & Processing) and returns the invoice data.
@@ -29,6 +31,12 @@ The process takes one invoice at a time:
 
 5. Green goes to payment. Yellow and red become a task in **Action Center**, where a reviewer sees the invoice next to the purchase order with the differences highlighted, and approves or rejects it.
 6. Payment is a row in the **PaymentsQueue** table. A rejection sends the e-mail, as the reviewer left it, to you (not to the supplier yet).
+
+### How the data moves
+
+Maestro calls each block and hands its output to the next one. The blue labels are the data it passes along.
+
+![Data passed between the blocks: invoice PDF, invoice JSON, purchase order JSON, differences, match result, and the reviewer's decision](1-build-the-solution.images/0b-data-flow-W.svg){ width="900" }
 
 ## Why a script first and an agent second?
 
@@ -92,7 +100,7 @@ Choose your flavour and give your coding agent this prompt. The tabs differ in t
     3. If anything differs, an agent called "Invoice Matching Agent" looks at both documents and the differences, and rates the invoice. 
     - Green means only cosmetic differences, like "Ltd." and "Limited" or an address written in another order. 
     - Yellow means the same goods presented differently: a line reworded, one line split over several lines or with packaging on its own line, as long as it still adds up to what we ordered, or a partial delivery where every invoiced line matches the order. 
-    - Red means a real problem: another vendor, another tax, something we didn't order, a different item, more than we ordered, or a purchase order we can't find. 
+    - Red means a real problem: another vendor, even if only the tax ID differs by one digit, another tax, something we didn't order, a different item, more than we ordered, or a purchase order we can't find. 
     The agent also writes a short summary for the reviewer and, for yellow and red, a polite draft e-mail to the supplier: for yellow it asks them to confirm the differences, for red it asks for a corrected invoice. Keep the agent's own answer simple, and let the process bring it into the form the app expects.
     4. Green goes to payment. Yellow and red go to the reviewer for now. Once I trust the agent, I'll send yellow straight to payment too. Assign the review task to me, and put the invoice number in its title.
     5. Payment means a row in PaymentsQueue. If the reviewer rejects, send the rejection e-mail, as the reviewer left it, to me (not the supplier yet) through the shared Gmail connection.
@@ -122,7 +130,7 @@ Choose your flavour and give your coding agent this prompt. The tabs differ in t
     3. If anything differs, an agent called "Invoice Matching Agent" looks at both documents and the differences, and rates the invoice. 
     - Green means only cosmetic differences, like "Ltd." and "Limited" or an address written in another order. 
     - Yellow means the same goods presented differently: a line reworded, one line split over several lines or with packaging on its own line, as long as it still adds up to what we ordered, or a partial delivery where every invoiced line matches the order. 
-    - Red means a real problem: another vendor, another tax, something we didn't order, a different item, more than we ordered, or a purchase order we can't find. 
+    - Red means a real problem: another vendor, even if only the tax ID differs by one digit, another tax, something we didn't order, a different item, more than we ordered, or a purchase order we can't find. 
     The agent also writes a short summary for the reviewer and, for yellow and red, a polite draft e-mail to the supplier: for yellow it asks them to confirm the differences, for red it asks for a corrected invoice. Keep the agent's own answer simple, and let the process bring it into the form the app expects.
     4. Green goes to payment. Yellow and red go to the reviewer for now. Once I trust the agent, I'll send yellow straight to payment too. Assign the review task to me, and put the invoice number in its title.
     5. Payment means a row in PaymentsQueue. If the reviewer rejects, send the rejection e-mail, as the reviewer left it, to me (not the supplier yet) through the shared Gmail connection.
@@ -132,38 +140,102 @@ Choose your flavour and give your coding agent this prompt. The tabs differ in t
 
 You can leave `<my name>` as it is: the coding agent takes your name from your login.
 
-Approve the steps when the coding agent asks. In our runs it worked for about an hour and a quarter before handing over, roughly in this order:
+Approve the steps when the coding agent asks. The first thing it does is load the UiPath skill for your flavour:
+
+=== "Maestro BPMN"
+
+    ![Claude Code loads the uipath-maestro-bpmn skill right after the prompt](1-build-the-solution.images/2-skill-bpmn.png){ .screenshot width="700" }
+
+=== "Maestro Flow"
+
+    ![Claude Code loads the uipath-maestro-flow skill right after the prompt](1-build-the-solution.images/2-skill-flow.png){ .screenshot width="700" }
+
+In our latest runs it worked for 15 to 30 minutes before handing over, roughly in this order:
 
 - looked up the two processes, the app, the tables and the connections in the tenant, and read their inputs and outputs;
 - wrote the compare script and tested it on its own machine against real purchase orders;
 - built the agent and the process around it, validated them, and uploaded the solution to Studio Web.
 
-It also asked a question or two where the prompt left a choice open. Answer as the business owner would.
+It may ask a question where the prompt leaves a choice open. Answer as the business owner would.
 
 When it's done, the coding agent tells you how to run the process and where the review task will show up. It doesn't run the whole process itself: the agent step only runs from Studio Web, so that part is yours.
 
-### 3. Run a yellow invoice
+### 3. Run a red invoice
 
-1. Open the solution in Studio Web. It's called **Invoice Matching** followed by your name and the flavour, and the coding agent gives you its link.
-2. Open the process and select **Debug**.
-3. The process asks for its inputs. The coding agent tells you their names; one chooses the problem planted in the invoice, another how often a problem is planted. Pick `EXTRA_LINE_PACKAGING`, or set the probability to `100` if your build has no list.
-4. Run it. The process stops at the review step: the debug view links to the new task.
+1. Open the solution in Studio Web. It's called **Invoice Matching** followed by your name and the flavour, and the coding agent gives you its link. Open the process: the coding agent's work is on the canvas.
 
-### 4. Review it in Action Center
+    === "Maestro BPMN"
 
-1. Open the task in **Action Center**. It's assigned to you, and its title has the invoice number and the rating.
-2. Look at the invoice next to the purchase order. The differences the agent found are highlighted on both sides, with its summary and the draft e-mail to the supplier.
-3. **Approve** it.
+        ![The invoice matching BPMN process on the Studio Web canvas, from New invoice to the payment and rejection ends](1-build-the-solution.images/3-studio-web-bpmn-W.png){ .screenshot width="900" }
+
+    === "Maestro Flow"
+
+        ![The invoice matching flow on the Studio Web canvas, from the manual trigger to the payment and rejection ends](1-build-the-solution.images/3-studio-web-flow-W.png){ .screenshot width="900" }
+
+        The review step may show a warning that its **Reject** outcome has no next step. Leave it as it is: in our builds a decision right after the review step sends Approve and Reject their own ways. Connecting **Reject** as well makes both paths run.
+
+    !!! warning "Red steps on the canvas mean the wrong tenant"
+        Before you run anything, check that Studio Web is on tenant **CodingAgentsCourse**. If any step on the canvas shows in red, Studio Web is looking in another tenant and can't find the provided processes, the app or the connections. Switch to **CodingAgentsCourse** and open the solution again.
+
+2. Select **Debug**. The process asks for its inputs. The coding agent tells you their names; one chooses the problem planted in the invoice, another how often a problem is planted. Pick `DESCRIPTION_DIFFERENT_ITEM`: one line names a different product at the price and quantity you ordered. Then start the run.
+
+    ![Debug configuration in Studio Web with discrepancy set to DESCRIPTION_DIFFERENT_ITEM](1-build-the-solution.images/3-debug-inputs-bpmn.png){ .screenshot width="700" }
+
+3. The run goes through the provided processes and the agent, then stops at the review step and waits for you. The debug view links to the new task.
+
+    === "Maestro BPMN"
+
+        ![Execution trail paused at Review invoice, with Open app task in the step details](1-build-the-solution.images/3-debug-review-bpmn-W.png){ .screenshot width="900" }
+
+        Select **Review invoice** in the execution trail, then **Open app task** in its details.
+
+    === "Maestro Flow"
+
+        ![Execution trace paused at Invoice Validation review, with Action needed on the canvas and a link to the task](1-build-the-solution.images/3-debug-review-flow-W.png){ .screenshot width="900" }
+
+        Select the review step. Its details say the step is waiting for your input and link to the task.
+
+### 4. Review it in Action Center and reject it
+
+1. The task opens in **Action Center** in the **Invoice Validation** app. It's assigned to you, and its title has the invoice number and the rating.
+2. Look through the app. The agent's summary and rating are at the top, and every difference is highlighted on both sides.
+
+    <div class="carousel carousel--wide" markdown>
+
+    ![Invoice Validation app, Compare tab: the extracted invoice next to the purchase order, line 3 highlighted red on both sides](1-build-the-solution.images/4-app-compare-W.png){ .screenshot }
+    *Compare: the invoice data next to the purchase order, with the findings as chips above.*
+
+    ![Invoice Validation app, Invoice PDF tab: the supplier's PDF](1-build-the-solution.images/4-app-invoice-pdf-W.png){ .screenshot }
+    *Invoice PDF: the document the supplier sent.*
+
+    ![Invoice Validation app, Purchase order page tab: the purchase order as an ERP screen](1-build-the-solution.images/4-app-purchase-order-W.png){ .screenshot }
+    *Purchase order page: the order as the ERP shows it.*
+
+    ![Invoice Validation app with the supplier e-mail panel open, showing the agent's draft](1-build-the-solution.images/4-app-supplier-email-W.png){ .screenshot }
+    *Supplier e-mail: the agent's draft, sent only if you reject.*
+
+    </div>
+
+3. Check that the agent rated it red and explains which line is wrong.
+4. Open **Supplier e-mail** and edit the draft if you like, then select **Reject**.
+
+The debug run continues on the rejection path and sends the e-mail, as you left it, to your inbox from the shared Gmail mailbox.
+
+=== "Maestro BPMN"
+
+    ![The finished debug run: the rejection path in green, and Action = Reject in the review step's variables](1-build-the-solution.images/4-rejected-bpmn-W.png){ .screenshot width="900" }
+
+=== "Maestro Flow"
+
+    ![The finished debug run: the Approved? decision took the Reject branch to the rejection e-mail](1-build-the-solution.images/4-rejected-flow-W.png){ .screenshot width="900" }
+
+### 5. Run a yellow invoice and approve it
+
+1. Run **Debug** again, this time with `EXTRA_LINE_PACKAGING`, or set the probability to `100` if your build has no list.
+2. Open the task from the debug view. Check that the agent rated it yellow: the packaging line adds up to what you ordered.
+3. Select **Approve payment**.
 
 The debug run continues and writes a row to **PaymentsQueue**, with your e-mail as the approver.
-
-### 5. Run a red invoice and reject it
-
-1. Run **Debug** again, this time with `DESCRIPTION_DIFFERENT_ITEM`: one line names a different product at the price and quantity you ordered.
-2. In Action Center, check that the agent rated it red and explains which line is wrong.
-3. Edit the e-mail if you like, then **Reject**.
-
-The e-mail arrives in your inbox from the shared Gmail mailbox.
 
 ### 6. Run a clean invoice
 

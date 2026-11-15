@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 640" font-family="AktivGrotesk, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <defs>
+    <filter id="lift" x="-10%" y="-10%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#182126" flood-opacity="0.28"/>
+    </filter>
+    <style>
+      .ptype { font-size:14px; font-weight:700; letter-spacing:1.5px; fill:#FFFFFF; opacity:0.85; }
+      .ptitle { font-size:23px; font-weight:700; fill:#FFFFFF; }
+      .pdesc { font-size:17px; fill:#FFFFFF; }
+      .badge { font-size:13px; font-weight:700; letter-spacing:1.5px; fill:#FA4616; }
+      .chip { font-size:19px; font-weight:700; fill:#FFFFFF; text-anchor:middle; }
+    </style>
+  </defs>
+  <rect width="1600" height="640" fill="#FFFFFF"/>
+
+  <!-- ===== Maestro layer (you build) ===== -->
+  <rect x="60" y="24" width="1480" height="180" rx="16" fill="#FA4616"/>
+  <text x="100" y="82" font-size="34" font-weight="700" fill="#FFFFFF">Maestro process · BPMN or Flow</text>
+  <rect x="1376" y="54" width="136" height="30" rx="15" fill="#FFFFFF"/>
+  <text x="1444" y="74" text-anchor="middle" class="badge">YOU BUILD</text>
+  <g fill="none" stroke="#FFFFFF" stroke-width="2">
+    <rect x="100" y="120" width="250" height="48" rx="24"/>
+    <rect x="370" y="120" width="360" height="48" rx="24"/>
+    <rect x="750" y="120" width="230" height="48" rx="24"/>
+    <rect x="1000" y="120" width="300" height="48" rx="24"/>
+  </g>
+  <text x="225" y="151" class="chip">Compare script</text>
+  <text x="550" y="151" class="chip">Routing: green · yellow · red</text>
+  <text x="865" y="151" class="chip">Review task</text>
+  <text x="1150" y="151" class="chip">Payment or rejection</text>
+
+  <!-- pegs: Maestro plugs into every block below -->
+  <g fill="#FA4616">
+    <rect x="163" y="204" width="24" height="44"/><rect x="413" y="204" width="24" height="44"/>
+    <rect x="663" y="204" width="24" height="44"/><rect x="913" y="204" width="24" height="24"/>
+    <rect x="1163" y="204" width="24" height="44"/><rect x="1413" y="204" width="24" height="44"/>
+  </g>
+
+  <!-- ===== Provided blocks (teal) + agent (orange) ===== -->
+  <!-- 1 generator -->
+  <g fill="#0A8C9B"><rect x="80" y="236" width="36" height="14" rx="3"/><rect x="230" y="236" width="36" height="14" rx="3"/></g>
+  <rect x="60" y="248" width="230" height="236" rx="14" fill="#0BA2B3"/>
+  <text x="80" y="286" class="ptype">RPA PROCESS</text>
+  <text x="80" y="322" class="ptitle">Retrieve Invoice</text><text x="80" y="350" class="ptitle">Document</text>
+  <text x="80" y="390" class="pdesc">Creates a new invoice</text><text x="80" y="414" class="pdesc">PDF and its purchase</text><text x="80" y="438" class="pdesc">order</text>
+
+  <!-- 2 IXP -->
+  <g fill="#0A8C9B"><rect x="330" y="236" width="36" height="14" rx="3"/><rect x="480" y="236" width="36" height="14" rx="3"/></g>
+  <rect x="310" y="248" width="230" height="236" rx="14" fill="#0BA2B3"/>
+  <text x="330" y="286" class="ptype">RPA + IXP</text>
+  <text x="330" y="322" class="ptitle">Extract Invoice</text><text x="330" y="350" class="ptitle">Data</text>
+  <text x="330" y="390" class="pdesc">Reads the PDF and</text><text x="330" y="414" class="pdesc">returns the invoice</text><text x="330" y="438" class="pdesc">as JSON</text>
+
+  <!-- 3 PurchaseOrders -->
+  <g fill="#0A8C9B"><rect x="580" y="236" width="36" height="14" rx="3"/><rect x="730" y="236" width="36" height="14" rx="3"/></g>
+  <rect x="560" y="248" width="230" height="236" rx="14" fill="#0BA2B3"/>
+  <text x="580" y="286" class="ptype">DATA FABRIC</text>
+  <text x="580" y="322" class="ptitle">PurchaseOrders</text>
+  <text x="580" y="362" class="pdesc">The purchase order</text><text x="580" y="386" class="pdesc">behind each invoice</text>
+
+  <!-- 4 agent: empty slot + lifted orange block -->
+  <rect x="810" y="248" width="230" height="236" rx="14" fill="none" stroke="#FA4616" stroke-width="2" stroke-dasharray="8 6"/>
+  <g filter="url(#lift)">
+    <g fill="#D93A0F"><rect x="830" y="216" width="36" height="14" rx="3"/><rect x="980" y="216" width="36" height="14" rx="3"/></g>
+    <rect x="810" y="228" width="230" height="236" rx="14" fill="#FA4616"/>
+  </g>
+  <text x="830" y="266" class="ptype">AGENT</text>
+  <rect x="922" y="248" width="106" height="26" rx="13" fill="#FFFFFF"/>
+  <text x="975" y="266" text-anchor="middle" class="badge">YOU BUILD</text>
+  <text x="830" y="306" class="ptitle">Invoice Matching</text><text x="830" y="334" class="ptitle">Agent</text>
+  <text x="830" y="374" class="pdesc">Rates the differences</text><text x="830" y="398" class="pdesc">green, yellow or red</text><text x="830" y="422" class="pdesc">and drafts the e-mail</text>
+
+  <!-- 5 app -->
+  <g fill="#0A8C9B"><rect x="1080" y="236" width="36" height="14" rx="3"/><rect x="1230" y="236" width="36" height="14" rx="3"/></g>
+  <rect x="1060" y="248" width="230" height="236" rx="14" fill="#0BA2B3"/>
+  <text x="1080" y="286" class="ptype">ACTION APP</text>
+  <text x="1080" y="322" class="ptitle">Invoice Validation</text>
+  <text x="1080" y="362" class="pdesc">The reviewer approves</text><text x="1080" y="386" class="pdesc">or rejects in Action</text><text x="1080" y="410" class="pdesc">Center</text>
+
+  <!-- 6 payments + gmail -->
+  <g fill="#0A8C9B"><rect x="1330" y="236" width="36" height="14" rx="3"/><rect x="1480" y="236" width="36" height="14" rx="3"/></g>
+  <rect x="1310" y="248" width="230" height="236" rx="14" fill="#0BA2B3"/>
+  <text x="1330" y="286" class="ptype">DATA FABRIC · GMAIL</text>
+  <text x="1330" y="322" class="ptitle">PaymentsQueue,</text><text x="1330" y="350" class="ptitle">Shared Gmail</text>
+  <text x="1330" y="390" class="pdesc">A payment row, or</text><text x="1330" y="414" class="pdesc">the rejection e-mail</text>
+
+  <!-- ===== Platform base ===== -->
+  <g fill="#2B363C">
+    <rect x="110" y="488" width="44" height="16" rx="4"/><rect x="250" y="488" width="44" height="16" rx="4"/>
+    <rect x="390" y="488" width="44" height="16" rx="4"/><rect x="530" y="488" width="44" height="16" rx="4"/>
+    <rect x="670" y="488" width="44" height="16" rx="4"/><rect x="810" y="488" width="44" height="16" rx="4"/>
+    <rect x="950" y="488" width="44" height="16" rx="4"/><rect x="1090" y="488" width="44" height="16" rx="4"/>
+    <rect x="1230" y="488" width="44" height="16" rx="4"/><rect x="1370" y="488" width="44" height="16" rx="4"/>
+  </g>
+  <rect x="60" y="500" width="1480" height="110" rx="16" fill="#182126"/>
+  <text x="100" y="567" font-size="34" font-weight="700" fill="#FFFFFF">UiPath Platform</text>
+</svg>

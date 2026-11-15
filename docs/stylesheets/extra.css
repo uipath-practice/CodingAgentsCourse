@@ -256,6 +256,13 @@ img + em {
   max-width: 70%;
 }
 
+/* Wide variant for dense full-screen app shots: <div class="carousel carousel--wide" markdown> */
+.carousel--wide .carousel__slide img.screenshot {
+  max-height: none;
+  width: 100%;
+  max-width: 100%;
+}
+
 .carousel__nav {
   display: flex;
   align-items: center;
